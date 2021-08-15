@@ -6,7 +6,7 @@
 #include "Includes/ORAS4.hpp"
 
 #include "../Helpers.hpp"
-#include "../Helpers/PK6.hpp"
+#include "../Helpers/PK67.hpp"
 #include "../Helpers/HotkeyHelpers.hpp"
 
 using namespace CTRPluginFramework;
