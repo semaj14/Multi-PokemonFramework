@@ -1,0 +1,14 @@
+Author: Jared0714
+
+Version: # Plugin version
+    Major: 0
+    Minor: 1
+    Revision: 0
+
+Targets: 0x00055D00, 0x00055E00, 0x0011C400, 0x0011C500, 0x00164800, 0x00175E00, 0x001B5000, 0x001B5100
+
+Title: "Multi-Pokemon Framework"
+
+Summary: Multi-Pokémon Framework is a Pokémon plugin that is developed by Jared0714 which is based off of Nanquitas' CTRPluginFramework. This plugin is a work in progress as well as a learning exercise.
+
+Description: Without Nanqutas' CTRPluginFramework, this plugin wouldn't even be possible. Nonetheless, special thanks to AnalogMan151 and Hartie95 for their references and help, without them this plugin wouldn't be where it's at, and a special thanks to Kominost and Lukas for helping out with technical issues. Not to mention, old school pkmn collector1 for alpha testing, and the friendly people over on Discord for helping out. And I couldn't have done this without any of them!
