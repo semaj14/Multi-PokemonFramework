@@ -1,1 +1,6 @@
+Build/
+Release/
+.vscode/
+.DS_Store
 *.3gx
+*.zip

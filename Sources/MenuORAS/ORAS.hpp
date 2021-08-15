@@ -1,4 +1,4 @@
-#include "CTRPluginFramework.hpp"
+#include <CTRPluginFramework.hpp>
 
 #include "Includes/ORAS1.hpp"
 #include "Includes/ORAS2.hpp"

@@ -1,4 +1,4 @@
-#include "CTRPluginFramework.hpp"
+#include <CTRPluginFramework.hpp>
 #include <3ds.h>
 
 #include "Backgrounds/TopBackground.hpp"

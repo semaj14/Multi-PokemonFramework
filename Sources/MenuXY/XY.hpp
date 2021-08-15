@@ -1,4 +1,4 @@
-#include "CTRPluginFramework.hpp"
+#include <CTRPluginFramework.hpp>
 
 #include "Includes/XY1.hpp"
 #include "Includes/XY2.hpp"

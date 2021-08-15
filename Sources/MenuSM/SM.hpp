@@ -1,4 +1,4 @@
-#include "CTRPluginFramework.hpp"
+#include <CTRPluginFramework.hpp>
 
 #include "Includes/SM1.hpp"
 #include "Includes/SM2.hpp"

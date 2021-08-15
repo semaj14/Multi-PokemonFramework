@@ -1,7 +1,7 @@
 #ifndef HELPERS_HPP
 #define HELPERS_HPP
 
-#include "CTRPluginFramework.hpp"
+#include <CTRPluginFramework.hpp>
 #include <cmath>
 #include <algorithm>
 

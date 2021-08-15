@@ -1,4 +1,4 @@
-#include "CTRPluginFramework.hpp"
+#include <CTRPluginFramework.hpp>
 
 #include "PK6.hpp"
 #include "KeyboardHelpers.hpp"
