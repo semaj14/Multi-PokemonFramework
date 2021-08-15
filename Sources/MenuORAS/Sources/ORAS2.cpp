@@ -1,9 +1,6 @@
 #include <CTRPluginFramework.hpp>
-
-#include "../../Helpers/KeyboardHelpers.hpp"
-#include "../../Helpers.hpp"
-
 #include <time.h>
+#include "../../Helpers/Includes/Helpers.hpp"
 
 using namespace CTRPluginFramework;
 

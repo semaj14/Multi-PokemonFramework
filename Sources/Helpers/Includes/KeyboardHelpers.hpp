@@ -1,7 +1,7 @@
 #ifndef KEYBOARDHELPERS_HPP
 #define KEYBOARDHELPERS_HPP
 
-#include "CTRPluginFramework/Menu/MenuEntry.hpp"
+#include <CTRPluginFramework/Menu/MenuEntry.hpp>
 
 namespace CTRPluginFramework
 {

@@ -5,6 +5,7 @@ using namespace CTRPluginFramework;
 namespace XY
 {
 	void Cloning(MenuEntry *entry);
+	void B1S1Shiny(MenuEntry *entry);
 	
 	void Pokemon1(MenuEntry *entry);
 	void Pokemon2(MenuEntry *entry);

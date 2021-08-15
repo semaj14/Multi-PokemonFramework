@@ -4,10 +4,12 @@
 #include "Backgrounds/TopBackground.hpp"
 #include "Backgrounds/BottomBackground.hpp"
 
+#include "Helpers/Includes/Helpers.hpp"
 #include "MenuXY/XY.hpp"
 #include "MenuORAS/ORAS.hpp"
 #include "MenuSM/SM.hpp"
 #include "MenuUSUM/USUM.hpp"
+
 
 namespace CTRPluginFramework
 {

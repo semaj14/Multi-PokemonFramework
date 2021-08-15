@@ -1,7 +1,5 @@
 #include <CTRPluginFramework.hpp>
-
-#include "../../Helpers/KeyboardHelpers.hpp"
-#include "../../Helpers.hpp"
+#include "../../Helpers/Includes/Helpers.hpp"
 
 using namespace CTRPluginFramework;
 

@@ -6,9 +6,7 @@
 #include "Includes/SM4.hpp"
 #include "Includes/SM5.hpp"
 
-#include "../Helpers.hpp"
-#include "../Helpers/PK67.hpp"
-#include "../Helpers/HotkeyHelpers.hpp"
+#include "../Helpers/Includes/Helpers.hpp"
 
 using namespace CTRPluginFramework;
 

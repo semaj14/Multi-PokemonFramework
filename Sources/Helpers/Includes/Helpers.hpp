@@ -4,6 +4,8 @@
 #include <CTRPluginFramework.hpp>
 #include <cmath>
 #include <algorithm>
+#include "HotkeyHelpers.hpp"
+#include "KeyboardHelpers.hpp"
 
 #define PkmnX 1
 #define PkmnY 2
@@ -51,6 +53,7 @@ namespace CTRPluginFramework
 	extern bool IsInArray(int Val, const int *Arr, int Size);
 }
 
+#include "PK67.hpp"
 
 // Shortcuts for the standard CTRPluginFramework read and write
 #define WRITE8(Address, Value) Process::Write8(Address, Value)

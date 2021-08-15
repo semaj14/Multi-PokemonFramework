@@ -14,7 +14,7 @@ PLGINFO		:= Multi-PokemonFramework.plgInfo
 
 BUILD		:= Build
 INCLUDES	:= Includes
-SOURCES		:= Sources \ Sources/MenuXY/Sources \ Sources/MenuORAS/Sources \ Sources/MenuSM/Sources \ Sources/MenuUSUM/Sources
+SOURCES		:= Sources Sources/MenuXY/Sources Sources/MenuORAS/Sources Sources/MenuSM/Sources Sources/MenuUSUM/Sources Sources/Helpers
 
 #---------------------------------------------------------------------------------
 # Options for code generation

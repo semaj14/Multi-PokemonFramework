@@ -5,9 +5,7 @@
 #include "Includes/XY3.hpp"
 #include "Includes/XY4.hpp"
 
-#include "../Helpers.hpp"
-#include "../Helpers/PK67.hpp"
-#include "../Helpers/HotkeyHelpers.hpp"
+#include "../Helpers/Includes/Helpers.hpp"
 
 using namespace CTRPluginFramework;
 
