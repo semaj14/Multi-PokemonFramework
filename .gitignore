@@ -1,0 +1,12 @@
+*.o
+*.d
+*.lst
+.vs/
+Build/
+.DS_Store
+*.3gx
+*.elf
+*.lnk
+*.lst
+*.zip
+desktop.ini
