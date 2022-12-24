@@ -6,7 +6,7 @@ namespace CTRPluginFramework {
     u16 spwnSpecies;
     u8 spawnLv;
     u8 spwnForm;
-    int pkmnID;
+    int pkmnID = 0;
 
     int MatchPkmn(Pokemon &output, string &input) {
         int index = 0;
@@ -67,18 +67,13 @@ namespace CTRPluginFramework {
         // If we have only one matches, complete the input
         if (count == 1) {
             pkmnID = matches.choiceNo[0] + 1;
-            input = matches.name[0];
-            return;
-        }
-
-        if (count == 2 && (input == "Mew" || input == "Pidgeot")) {
-            pkmnID = matches.choiceNo[1] + 1;
-            input = matches.name[1];
+            OSD::Notify(Color::LimeGreen << "Success" << Color::White << "! Selected: " << matches.name[0]);
+            keyboard.Close();
             return;
         }
 
         // If we have less than or equal to ten matches, populate a list keyboard
-        if (count > 1 && count <= 10 && (input != "Mew" && input != "Pidgeot")) {
+        if (count > 1 && count <= 10) {
             Keyboard kb(matches.name);
             kb.CanAbort(false);
             kb.DisplayTopScreen = false;
@@ -86,7 +81,8 @@ namespace CTRPluginFramework {
 
             if (choice >= 0) {
                 pkmnID = matches.choiceNo[choice] + 1;
-                input = matches.name[choice];
+                OSD::Notify(Color::LimeGreen << "Success" << Color::White << "! Selected: " << matches.name[choice]);
+                keyboard.Close();
                 return;
             }
         }
@@ -100,8 +96,6 @@ namespace CTRPluginFramework {
 
         if (KB<string>("Pokémon:", true, 11, output, "", PkmnInputChange))
             return;
-
-        pkmnID = 0;
     }
 
     int abilityID;
@@ -297,7 +291,6 @@ namespace CTRPluginFramework {
         int index = 0;
         output.name.clear();
         string lowerCase(input);
-        static const vector<int> ignored = {622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658, 695, 696, 697, 698, 699, 700, 701, 702, 703, 719, 723, 724, 725, 726, 727, 728};
 
         for (char &character : lowerCase)
             character = tolower(character);
@@ -314,11 +307,9 @@ namespace CTRPluginFramework {
             }
 
             if (index < Helpers::AutoRegion(Helpers::GetVersion(617, 621), Helpers::GetVersion(719, 728))) {
-                if (*find(ignored.begin(), ignored.end(), index) != index) {
-                    if (iterator == lowerCase.end()) {
-                        output.name.push_back(moves);
-                        output.choiceNo.push_back(index);
-                    }
+                if (iterator == lowerCase.end()) {
+                    output.name.push_back(moves);
+                    output.choiceNo.push_back(index);
                 }
             }
 
@@ -355,18 +346,13 @@ namespace CTRPluginFramework {
         // If we have only one matches, complete the input
         if (count == 1) {
             moveID = matches.choiceNo[0] + 1;
-            input = matches.name[0];
-            return;
-        }
-
-        if (count == 6 && (input == "Thunder")) {
-            moveID = matches.choiceNo[4] + 1;
-            input = matches.name[4];
+            OSD::Notify(Color::LimeGreen << "Success" << Color::White << "! Applied: " << matches.name[0]);
+            keyboard.Close();
             return;
         }
 
         // If we have less than or equal to ten matches, populate a list keyboard
-        if (count > 1 && count <= 10 && (input != "Thunder")) {
+        if (count > 1 && count <= 10) {
             Keyboard kb(matches.name);
             kb.CanAbort(false);
             kb.DisplayTopScreen = false;
@@ -374,7 +360,8 @@ namespace CTRPluginFramework {
 
             if (choice >= 0) {
                 moveID = matches.choiceNo[choice] + 1;
-                input = matches.name[choice];
+                OSD::Notify(Color::LimeGreen << "Success" << Color::White << "! Applied: " << matches.name[choice]);
+                keyboard.Close();
                 return;
             }
         }
@@ -388,7 +375,5 @@ namespace CTRPluginFramework {
 
         if (KB<string>("Move:", true, 27, output, "", MoveInputChange))
             return;
-
-        moveID = 0;
     }
 }
