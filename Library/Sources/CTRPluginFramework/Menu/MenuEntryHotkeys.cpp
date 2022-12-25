@@ -58,6 +58,8 @@ namespace CTRPluginFramework {
         FONT_ZR
     };
 
+    static const string g_keyNameCitra[16] = {"A", "B", "Select", "Start", "D-Pad Right", "D-Pad Left", "D-Pad Up", "D-Pad Down", "R", "L", "X", "Y", "", "", "ZL", "ZR"};
+
     string KeysToString(u32 keys) {
         string ret;
         bool add = false;
@@ -67,7 +69,7 @@ namespace CTRPluginFramework {
                 if (add)
                     ret += " + ";
 
-                ret += g_keyName[i];
+                ret += (System::IsCitra() ? g_keyNameCitra[i] : g_keyName[i]);
                 add = true;
             }
         }
