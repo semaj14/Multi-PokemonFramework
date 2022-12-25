@@ -103,7 +103,7 @@ void InitMenu(PluginMenu &menu) {
 
     *other += new MenuEntry("Catch Trainer's Pokémon", Helpers::ChooseEntry(Battle::Gen6::CatchTrainersPokemon, Battle::Gen7::CatchTrainersPokemon));
     *battle += other;
-    *battle += new MenuEntry("Music", Battle::Music, Battle::MusicKB);
+    *battle += new MenuEntry("Music", nullptr, Battle::MusicKB);
     menu += battle;
 
     MenuFolder *trainer = new MenuFolder("Trainer");
