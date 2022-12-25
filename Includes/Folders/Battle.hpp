@@ -48,8 +48,8 @@ namespace Battle {
         void CatchTrainersPokemon(MenuEntry *entry);
     }
 
+    void ApplyMusic(MenuEntry *entry);
     void MusicKB(MenuEntry *entry);
-    void Music(MenuEntry *entry);
 }
 
 #endif

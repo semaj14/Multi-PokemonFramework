@@ -858,7 +858,7 @@ namespace Battle {
         }
 
         void RefightTrainer(MenuEntry *entry) {
-            static const u32 address = Helpers::GetVersion<u32>(0x49EFC8, Helpers::PickGame<u32>(0x4BB03C, 0x4BB034));
+            static const u32 address = Helpers::GetVersion<u32>(0x49EFC8, 0x4BB03C);
             static vector<u32> original(2);
             static bool saved = false;
 
@@ -957,39 +957,15 @@ namespace Battle {
     static vector<string> getMusicFiles;
     static bool musicSelected = false;
 
-    void MusicKB(MenuEntry *entry) {
-        static const vector<string> options = {"Wild Encounter", "Trainer"};
-        KeyboardPlus keyboard;
-
-        if (keyboard.SetKeyboard(entry->Name() + ":", true, options, musicType) != -1) {
-            static const vector<Music> fromGame = Helpers::AutoRegion(Helpers::GetVersion(XY::musicFiles, ORAS::musicFiles), Helpers::GetVersion(SM::musicFiles, USUM::musicFiles));
-
-            if (getMusicFiles.empty()) {
-                for (const Music &nickname : fromGame)
-                    getMusicFiles.push_back(nickname.name);
-            }
-
-            if (keyboard.SetKeyboard(entry->Name() + ":\n\nSelect the music file you would like to use.", true, getMusicFiles, music) != -1) {
-                musicSelected = true;
-                Message::Completed();
-                return;
-            }
-
-            else musicSelected = false;
-        }
-
-        else musicSelected = false;
-    }
-
-    void Music(MenuEntry *entry) {
+    void ApplyMusic(MenuEntry *entry) {
         static const vector<u32> address = {
             Helpers::AutoRegion<u32>(Helpers::GetVersion<u32>(0x1615FDA4, 0x16127D6C), Helpers::GetVersion<u32>(0x32F99D88, 0x32EDD178)),
             Helpers::AutoRegion<u32>(Helpers::GetVersion<u32>(0x1615FDC8, 0x16127DA0), Helpers::GetVersion<u32>(0x32F99DEC, 0x32EDD8A0))
         };
 
         static const vector<string> original = {
-            Helpers::GetVersion("bgm_xy_vs_norapoke.aac", "bgm_sg_vs_norapoke_sg.dspadpcm.bcstm"), Helpers::GetVersion("bgm_nj_vs_norapoke.dspadpcm.bcstm", "bgm_mj_vs_norapoke.dspadpcm.bcstm"),
-            Helpers::GetVersion("bgm_xy_vs_trainer.aac", "bgm_sg_vs_trainer_sg.dspadpcm.bcstm"), Helpers::GetVersion("bgm_nj_vs_trainer.dspadpcm.bcstm", "bgm_mj_vs_norapoke.dspadpcm.bcstm")
+            Helpers::AutoRegion<string>(Helpers::GetVersion("bgm_xy_vs_norapoke.aac", "bgm_sg_vs_norapoke_sg.dspadpcm.bcstm"), Helpers::GetVersion("bgm_nj_vs_norapoke.dspadpcm.bcstm", "bgm_mj_vs_norapoke.dspadpcm.bcstm")),
+            Helpers::AutoRegion<string>(Helpers::GetVersion("bgm_xy_vs_trainer.aac", "bgm_sg_vs_trainer_sg.dspadpcm.bcstm"), Helpers::GetVersion("bgm_nj_vs_trainer.dspadpcm.bcstm", "bgm_mj_vs_norapoke.dspadpcm.bcstm"))
         };
 
         static const string extension = Helpers::AutoRegion(Helpers::GetVersion(".aac", ".dspadpcm.bcstm"), ".dspadpcm.bcstm");
@@ -1019,11 +995,36 @@ namespace Battle {
                     for (int j = 0; j < Helpers::AutoRegion(Helpers::GetVersion(0x24, 0x34), 0x30); j++)
                         Process::Write8(address[i] + j, 0);
 
-                    Process::WriteString(address[i], original[i], original[i].size(), StringFormat::Utf8);
+                    Process::WriteString(address[i], original[i], original[i].size() + 1, StringFormat::Utf8);
                 }
             }
 
             return;
         }
+    }
+
+    void MusicKB(MenuEntry *entry) {
+        static const vector<string> options = {"Wild Encounter", "Trainer"};
+        KeyboardPlus keyboard;
+
+        if (keyboard.SetKeyboard(entry->Name() + ":", true, options, musicType) != -1) {
+            static const vector<Music> fromGame = Helpers::AutoRegion(Helpers::GetVersion(XY::musicFiles, ORAS::musicFiles), Helpers::GetVersion(SM::musicFiles, USUM::musicFiles));
+
+            if (getMusicFiles.empty()) {
+                for (const Music &nickname : fromGame)
+                    getMusicFiles.push_back(nickname.name);
+            }
+
+            if (keyboard.SetKeyboard(entry->Name() + ":\n\nSelect the music file you would like to use.", true, getMusicFiles, music) != -1) {
+                musicSelected = true;
+                entry->SetGameFunc(ApplyMusic);
+                Message::Completed();
+                return;
+            }
+
+            else musicSelected = false;
+        }
+
+        else musicSelected = false;
     }
 }
