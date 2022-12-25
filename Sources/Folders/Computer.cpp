@@ -138,6 +138,10 @@ namespace Computer {
 
             if (IsValid(pointer, pkmn)) {
                 FindPkmnKB(entry);
+
+                if (Controller::IsKeyPressed(Key::B))
+                    return;
+
                 species = pkmnID;
 
                 if (species > 0) {
@@ -745,6 +749,10 @@ namespace Computer {
                 start:
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, moveSlot) != -1) {
                     FindMoveKB(entry);
+
+                    if (Controller::IsKeyPressed(Key::B))
+                        goto start;
+
                     moves = moveID;
 
                     if (moves > 0)
@@ -792,6 +800,10 @@ namespace Computer {
                 start:
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, relearnMoveSlot) != -1) {
                     FindMoveKB(entry);
+
+                    if (Controller::IsKeyPressed(Key::B))
+                        goto start;
+
                     relearnMoves = moveID;
 
                     if (relearnMoves > 0)

@@ -33,6 +33,10 @@ namespace PSS {
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, depositConfig) != -1) {
                 if (depositConfig == 0) {
                     FindPkmnKB(entry);
+
+                    if (Controller::IsKeyPressed(Key::B))
+                        goto start;
+
                     settings[0] = pkmnID;
 
                     if (settings[0] != 0)

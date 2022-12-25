@@ -254,6 +254,10 @@ namespace Battle {
                     start:
                     if (keyboard.SetKeyboard(entry->Name() + ":", true, options, attackSlot) != -1) {
                         FindMoveKB(entry);
+
+                        if (Controller::IsKeyPressed(Key::B))
+                            goto start;
+
                         attack = moveID;
 
                         if (attack > 0) {
@@ -542,6 +546,10 @@ namespace Battle {
 
         void Spawner(MenuEntry *entry) {
             FindPkmnKB(entry);
+
+            if (Controller::IsKeyPressed(Key::B))
+                return;
+
             pokemon = pkmnID;
             KeyboardPlus keyboard;
 
@@ -797,6 +805,10 @@ namespace Battle {
 
         void Spawner(MenuEntry *entry) {
             FindPkmnKB(entry);
+
+            if (Controller::IsKeyPressed(Key::B))
+                return;
+
             pokemon = pkmnID;
             KeyboardPlus keyboard;
 
