@@ -1,3 +1,6 @@
+#include <iomanip>
+#include <sstream>
+#include <time.h>
 #include <Headers.hpp>
 
 namespace CTRPluginFramework {
@@ -594,6 +597,45 @@ namespace CTRPluginFramework {
         _menu.Draw();
     }
 
+    string SystemModel() {
+        u8 model = 0;
+        std::stringstream models;
+
+        vector<string> Model = {
+            "Old 3DS",
+            "Old 3DS XL",
+            "New 3DS",
+            "Old 2DS",
+            "New 3DS XL",
+            "New 2DS XL"
+        };
+
+        CFGU_GetSystemModel(&model);
+        models << Model[model];
+        return models.str();
+    }
+
+    string InternetAccess() {
+        std::stringstream netStatus;
+        netStatus << "Wi-Fi: " << (System::IsConnectedToInternet() ? "On" : "Off");
+        return netStatus.str();
+    }
+
+    string CurrentTime() {
+        std::ostringstream currentTime;
+
+        time_t unixTime = time(NULL);
+        struct tm* timeStruct = gmtime((const time_t*)&unixTime);
+
+        int hours = timeStruct->tm_hour;
+        int minutes = timeStruct->tm_min;
+        int seconds = timeStruct->tm_sec;
+
+        currentTime <<  "Time: " << std::setw(2) << std::setfill('0') << hours << ":" << std::setw(2) << minutes << ":" << std::setw(2) << seconds;
+
+        return currentTime.str();
+    }
+
     static const char text1[] = "Brought to you";
     static const char nextText[] = "by semaj14";
 
@@ -607,10 +649,13 @@ namespace CTRPluginFramework {
 
         static const char version[] = "Version: 1.0.0";
         static const char compiled[] = "Compiled: December 12, 2022";
+        const char *info[3] = {SystemModel().c_str(), InternetAccess().c_str(), CurrentTime().c_str()};
 
         {
             int bottom = 205;
-            int posY = 30;
+            int posY1 = 30;
+            int posY2 = 60;
+            int posY3 = 80;
 
             if (timesup)
                 Renderer::DrawString(text1, (320 - Renderer::LinuxFontSize(text1)) / 2, bottom, blank);
@@ -622,8 +667,11 @@ namespace CTRPluginFramework {
                 timesup = !timesup;
             }
 
-            Renderer::DrawString(version, (320 - Renderer::LinuxFontSize(version)) / 2, posY, Color::Gray);
-            Renderer::DrawString(compiled, (320 - Renderer::LinuxFontSize(compiled)) / 2, posY, Color::Gray);
+            Renderer::DrawString(version, (320 - Renderer::LinuxFontSize(version)) / 2, posY1, Color::Gray);
+            Renderer::DrawString(compiled, (320 - Renderer::LinuxFontSize(compiled)) / 2, posY1, Color::Gray);
+
+            for (unsigned int i = 0; i < sizeof(info) / sizeof(info[0]); i ++)
+                Renderer::DrawString(info[i], (320 - Renderer::LinuxFontSize(info[i])) / 2, (i == 0 ? posY2 : posY3), (i == 0 ? Color::Gainsboro : Color::Gray));
         }
 
         Renderer::SetTarget(TOP);
