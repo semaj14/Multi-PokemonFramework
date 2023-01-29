@@ -203,6 +203,12 @@ namespace CTRPluginFramework {
         return *(volatile unsigned short*)(address);
     }
 
+    u16 ProcessPlus::Read16(u32 pointer, u32 offset) {
+        u16 data;
+        Process::Read16(pointer, data);
+        return *(volatile unsigned short*)(data + offset);
+    }
+
     u32 ProcessPlus::Read32(u32 address) {
         return *(volatile unsigned int*)(address);
     }
