@@ -64,7 +64,9 @@ void InitMenu(PluginMenu &menu) {
         new MenuEntry("Invincibility", Battle::Universal::Invincibility, Battle::Universal::InvincibilityKB),
         new MenuEntry("Item", nullptr, Battle::Universal::Item),
         new MenuEntry("Attacks", nullptr, Battle::Universal::Attacks),
-        new MenuEntry("Exp. Multiplier", Battle::Universal::ExpMultiplier, Battle::Universal::ExpMultiplierKB)
+        new MenuEntry("Exp. Multiplier", Battle::Universal::ExpMultiplier, Battle::Universal::ExpMultiplierKB),
+        new MenuEntry(Color::Gray << "Settings"),
+        new MenuEntry("Revert to Default: " << Color::Red << "Off", nullptr, Battle::Universal::RevertDefault)
     }));
 
     *primary += EntryWithHotkey(new MenuEntry("Poké View", nullptr, Battle::Universal::PokeView, note + "press the following hotkey(s) below to see the other information. Be aware that this is experiemental for now."), {Key::X, ""});

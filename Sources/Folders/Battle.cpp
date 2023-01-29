@@ -9,6 +9,7 @@ namespace Battle {
         static vector<u32> pointer(2);
         static u8 slot;
         int valid;
+        static bool isRevert = false;
 
         vector<string> Identifier(vector<string> party) {
             int location, data;
@@ -151,19 +152,78 @@ namespace Battle {
         }
 
         void Statistics(MenuEntry *entry) {
+            static vector<vector<u16>> originalBase(2, vector<u16>(sizeof(baseVal) / sizeof(baseVal[0]), 1000));
+            static vector<vector<u8>> originalBoost(2, vector<u8>(sizeof(boostVal) / sizeof(boostVal[0]), 7));
+            u16 value;
+
+            if (IsInBattle() && entry->WasJustActivated()) {
+                getOriginal:
+                if (pointer[0] != 0 && pointer[1] != 0) {
+                    for (int i = 0; i < pointer.size(); i++) {
+                        Process::Read32(pointer[i], data32);
+
+                        for (int j = 0; j < sizeof(baseVal) / sizeof(baseVal[0]); j++) {
+                            Process::Read16(data32 + Helpers::AutoRegion(0xF6, 0x1DA) + (j * 2), value);
+                            originalBase[i][j] = value;
+                        }
+
+                        for (int k = 0; k < sizeof(boostVal) / sizeof(boostVal[0]); k++) {
+                            Process::Read16(data32 + Helpers::AutoRegion(0x104, 0x1EA) + (k * 1), value);
+                            originalBoost[i][k] = value;
+                        }
+                    }
+                }
+            }
+
+            if (IsInBattle() && entry->IsActivated()) {
+                if (pointer[0] != 0 && pointer[1] != 0) {
+                    for (int i = 0; i < pointer.size(); i++) {
+                        for (int j = 0; j < sizeof(baseVal) / sizeof(baseVal[0]); j++) {
+                            if (originalBase[i][j] == 1000)
+                                goto getOriginal;
+                        }
+
+                        for (int k = 0; k < sizeof(boostVal) / sizeof(boostVal[0]); k++) {
+                            if (originalBoost[i][k] == 7)
+                                goto getOriginal;
+                        }
+                    }
+                }
+            }
+
+            if (!IsInBattle()) {
+                if (pointer[0] != 0 && pointer[1] != 0) {
+                    for (int i = 0; i < pointer.size(); i++) {
+                        fill(originalBase[i].begin(), originalBase[i].end(), 1000);
+                        fill(originalBoost[i].begin(), originalBoost[i].end(), 7);
+                    }
+                }
+            }
+
             if (IsInBattle()) {
                 if (pointer[0] != 0 && pointer[1] != 0) {
                     for (int i = 0; i < pointer.size(); i++) {
                         for (int k = 0; k < sizeof(baseVal) / sizeof(baseVal[0]); k++) {
-                            if (baseVal[k] != 0)
-                                ProcessPlus::Write16(pointer[i], Helpers::AutoRegion(0xF6, 0x1DA) + (k * 2), baseVal[k]);
+                            if (isRevert)
+                                ProcessPlus::Write16(pointer[i], Helpers::AutoRegion(0xF6, 0x1DA) + (k * 2),  originalBase[i][k]);
+
+                            if (!isRevert && baseVal[k] != 0)
+                                ProcessPlus::Write16(pointer[i], Helpers::AutoRegion(0xF6, 0x1DA) + (k * 2),  baseVal[k]);
                         }
 
                         for (int l = 0; l < sizeof(boostVal) / sizeof(boostVal[0]); l++) {
-                            if (boostVal[l] != 0)
+                            if (isRevert)
+                                ProcessPlus::Write8(pointer[i], Helpers::AutoRegion(0x104, 0x1EA) + (l * 1), originalBoost[i][l]);
+
+                            if (!isRevert && boostVal[l] != 0)
                                 ProcessPlus::Write8(pointer[i], Helpers::AutoRegion(0x104, 0x1EA) + (l * 1), boostVal[l]);
                         }
                     }
+                }
+
+                if (isRevert) {
+                    entry->Disable();
+                    return;
                 }
             }
         }
@@ -304,6 +364,18 @@ namespace Battle {
                         return;
                 }
             }
+        }
+
+        void RevertDefault(MenuEntry *entry) {
+            if (MessageBox(CenterAlign("Revert everything?"), DialogType::DialogYesNo, ClearScreen::Both)()) {
+                isRevert = true;
+                entry->Name() = "Revert to Default: " << Color::Green << "On";
+                Message::Completed();
+                return;
+            }
+
+            entry->Name() = "Revert to Default: " << Color::Red << "Off";
+            isRevert = false;
         }
 
         bool IsValid(u32 pointer, PK6 *pkmn) {
