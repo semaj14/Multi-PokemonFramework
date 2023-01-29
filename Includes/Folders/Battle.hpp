@@ -20,6 +20,7 @@ namespace Battle {
         void AlwaysShiny(MenuEntry *entry);
         void ExpMultiplierKB(MenuEntry *entry);
         void ExpMultiplier(MenuEntry *entry);
+        void RevertDefault(MenuEntry *entry);
         void Shiny100(MenuEntry *entry);
         void DisableShinyLock(MenuEntry *entry);
     }
