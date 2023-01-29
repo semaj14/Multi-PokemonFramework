@@ -137,6 +137,7 @@ namespace CTRPluginFramework {
             * \return The value of the address
             */
             static u16 Read16(u32 address);
+            static u16 Read16(u32 pointer, u32 offset);
 
             /**
             * \brief Safely read 32 bits
