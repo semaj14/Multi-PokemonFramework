@@ -278,7 +278,7 @@ namespace Misc {
         ProcessPlus process;
         unsigned int x = stoul(process.Address(s, -5), nullptr, 16);
 
-        if (!ProcessPlus::Write32(x + Helpers::GetVersion(Helpers::PickGame(0x2000, 0), 0), 0xE3B01000, original, entry, saved))
+        if (!ProcessPlus::Write32(x + Helpers::GetVersion(0x2000, 0), 0xE3B01000, original, entry, saved))
             return;
     }
 }
