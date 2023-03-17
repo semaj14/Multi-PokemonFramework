@@ -42,9 +42,22 @@ namespace Trainer {
         string nameVal;
 
         void Name(MenuEntry *entry) {
-            static const u32 address = Helpers::AutoRegion(Helpers::GetVersion(0x8C79C84, 0x8C81388), Helpers::GetVersion(0x330D6808, 0x33012850));
+            static u32 address = Helpers::AutoRegion(Helpers::GetVersion(0x8C79C84, 0x8C81388), Helpers::GetVersion(0x330D6808, 0x33012850));
+            static int length;
 
-            if (KB<string>(entry->Name() + ":", true, false, 16, nameVal, "")) {
+            if (group == Group::XY || group == Group::ORAS) {
+                if (Helpers::TextColorizer(Helpers::GetVersion(0x8C79C84, 0x8C81388))) {
+                    length = 12;
+                    address = Helpers::GetVersion(0x8C79C84, 0x8C81388) + 0x8;
+                }
+
+                else {
+                    length = 16;
+                    address = Helpers::GetVersion(0x8C79C84, 0x8C81388);
+                }
+            }
+
+            if (KB<string>(entry->Name() + ":", true, false, length, nameVal, "")) {
                 if (Process::WriteString(address, nameVal, StringFormat::Utf16))
                     Message::Completed();
             }

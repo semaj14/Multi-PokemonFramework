@@ -273,9 +273,20 @@ namespace PSS {
         static string messageVal;
 
         void Message(MenuEntry *entry) {
-            static const u32 address = Helpers::GetVersion(0x8C79CB8, 0x8C813BC);
+            static u32 address = Helpers::GetVersion(0x8C79CB8, 0x8C813BC);
+            static int length;
 
-            if (KB<string>(entry->Name() + ":", true, false, 16, messageVal, "")) {
+            if (Helpers::TextColorizer(Helpers::GetVersion(0x8C79CB8, 0x8C813BC))) {
+                length = 12;
+                address = Helpers::GetVersion(0x8C79CB8, 0x8C813BC) + 0x8;
+            }
+
+            else {
+                length = 16;
+                address = Helpers::GetVersion(0x8C79CB8, 0x8C813BC);
+            }
+
+            if (KB<string>(entry->Name() + ":", true, false, length, messageVal, "")) {
                 if (Process::WriteString(address, messageVal, StringFormat::Utf16))
                     Message::Completed();
             }
@@ -452,9 +463,20 @@ namespace PSS {
     static string shoutOutVal;
 
     void ShoutOut(MenuEntry *entry) {
-        static const u32 address = Helpers::GetVersion(0x8C79D62, 0x8C81466);
+        static u32 address = Helpers::GetVersion(0x8C79D62, 0x8C81466);
+        static int length;
 
-        if (KB<string>(entry->Name() + ":", true, false, 16, shoutOutVal, "")) {
+        if (Helpers::TextColorizer(Helpers::GetVersion(0x8C79D62, 0x8C81466))) {
+            length = 12;
+            address = Helpers::GetVersion(0x8C79D62, 0x8C81466) + 0x8;
+        }
+
+        else {
+            length = 16;
+            address = Helpers::GetVersion(0x8C79D62, 0x8C81466);
+        }
+
+        if (KB<string>(entry->Name() + ":", true, false, length, shoutOutVal, "")) {
             if (Process::WriteString(address, shoutOutVal, StringFormat::Utf16))
                 Message::Completed();
         }
