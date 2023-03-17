@@ -73,6 +73,46 @@ namespace CTRPluginFramework {
     }
 
     namespace Helpers {
+        ColoredText textColors[7] = {
+            {"Red", 0},
+            {"Green", 1},
+            {"Blue", 2},
+            {"Orange", 3},
+            {"Pink", 4},
+            {"Purple", 5},
+            {"Light Blue", 6}
+        };
+
+        static int isColored = false, chosenColor;
+
+        bool TextColorizer(u32 address) {
+            static const vector<string> options = {"No", "Yes"};
+            KeyboardPlus keyboard;
+
+            if (keyboard.SetKeyboard("Colored?", true, options, isColored) != -1) {
+                if (isColored == 1) {
+                    static vector<string> colors;
+
+                    if (colors.empty()) {
+                        for (const ColoredText &nickname : textColors)
+                            colors.push_back(nickname.name);
+                    }
+
+                    if (keyboard.SetKeyboard("Color:", true, colors, chosenColor) != -1) {
+                        Process::Write32(address, 0x20010);
+                        Process::Write16(address + 0x6, textColors[chosenColor].val);
+                        Process::Write16(address + 0x4, 0xBD00);
+                    }
+
+                    return true;
+                }
+
+                else return false;
+            }
+
+            else return false;
+        }
+
         namespace Battle {
             vector<u32> offset(2);
         }

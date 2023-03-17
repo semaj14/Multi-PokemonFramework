@@ -21,6 +21,14 @@ namespace CTRPluginFramework {
     void Settings(MenuEntry *entry);
 
     namespace Helpers {
+        struct ColoredText {
+            const char *name;
+            int val;
+        };
+
+        extern ColoredText textColors[7];
+        extern bool TextColorizer(u32 address);
+
         namespace Battle {
             extern vector<u32> offset;
         }
