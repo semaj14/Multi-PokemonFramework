@@ -837,6 +837,34 @@ namespace Battle {
             }
         }
 
+        void UltraBurst(MenuEntry *entry) {
+            static const vector<u32> address = {0x80A6878, 0x80A687C, 0x80989E4, 0x8098A68, 0x8098A6C};
+
+            if (IsInBattle()) {
+                if (entry->IsActivated()) {
+                    if (CRO::Read32(address[0]) == 0x3A00001) {
+                        if (!CRO::Write32(address[0], {0xE3A00001, 0xEA000000})) {
+                            if (!CRO::Write32(address[2], 0xA000005)) {
+                                if (!CRO::Write32(address[3], {0xE3A00001, 0xEA000000}))
+                                    return;
+                            }
+                        }
+                    }
+                }
+
+                if (!entry->IsActivated()) {
+                    if (CRO::Read32(address[0]) == 0xE3A00001) {
+                        if (!CRO::Write32(address[0], {0x3A00001, 0xA000000})) {
+                            if (!CRO::Write32(address[2], 0x2401C03)) {
+                                if (!CRO::Write32(address[3], {0x3A00001, 0xA000000}))
+                                    return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         void NoEncounters(MenuEntry *entry) {
             static const u32 address = Helpers::GetVersion(0x807A5E8, 0x807E5B8);
 
