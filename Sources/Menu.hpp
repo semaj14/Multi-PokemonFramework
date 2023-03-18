@@ -77,8 +77,11 @@ void InitMenu(PluginMenu &menu) {
         *primary += new MenuEntry("Always Critical Hit", Battle::Gen7::AlwaysCriticalHit);
         *primary += new MenuEntry("Bypass 1 Mega Restrict.", Battle::Gen7::Bypass1MegaRestrict);
         *primary += new MenuEntry("Infinite Z-Moves", Battle::Gen7::InfiniteZMoves);
-        *primary += EntryWithHotkey(new MenuEntry("Z-Moves Without Crystal", Battle::Gen7::ZMovesWithoutCrystal, note + "activate before intiating a battle! When in battle, hold the hotkey(s) below while pressing on an action when in a battle."), {Key::L, ""});
+        *primary += EntryWithHotkey(new MenuEntry("Z-Moves w/o Crystal", Battle::Gen7::ZMovesWithoutCrystal, note + "activate before intiating a battle! When in battle, hold the hotkey(s) below while pressing on an action when in a battle."), {Key::L, ""});
     }
+
+    if (group == Group::USUM)
+        *primary += new MenuEntry("Ultra Burst w/o Ultranecrozium", Battle::Gen7::UltraBurst);
 
     *battle += primary;
     MenuFolder *other = new MenuFolder("Other");

@@ -39,6 +39,7 @@ namespace Battle {
         void Bypass1MegaRestrict(MenuEntry *entry);
         void InfiniteZMoves(MenuEntry *entry);
         void ZMovesWithoutCrystal(MenuEntry *entry);
+        void UltraBurst(MenuEntry *entry);
         void NoEncounters(MenuEntry *entry);
         void Spawner(MenuEntry *entry);
         void RematchLegendary(MenuEntry *entry);
