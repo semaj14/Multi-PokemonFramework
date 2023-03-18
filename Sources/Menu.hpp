@@ -65,8 +65,6 @@ void InitMenu(PluginMenu &menu) {
         new MenuEntry("Item", nullptr, Battle::Universal::Item),
         new MenuEntry("Attacks", nullptr, Battle::Universal::Attacks),
         new MenuEntry("Exp. Multiplier", Battle::Universal::ExpMultiplier, Battle::Universal::ExpMultiplierKB),
-        // new MenuEntry(Color::Gray << "Settings"),
-        // new MenuEntry("Revert to Default: " << Color::Red << "Off", nullptr, Battle::Universal::RevertDefault)
     }));
 
     *primary += EntryWithHotkey(new MenuEntry("Poké View", nullptr, Battle::Universal::PokeView, note + "press the following hotkey(s) below to see the other information. Be aware that this is experiemental for now."), {Key::X, ""});
@@ -234,6 +232,10 @@ void InitMenu(PluginMenu &menu) {
     menu += movement;
 
     MenuFolder *misc = new MenuFolder("Miscellaneous");
+
+    if (group == Group::ORAS)
+        *misc += new MenuEntry("Weather", Misc::Weather, Misc::WeatherKB);
+
     MenuFolder *pokemon = new MenuFolder("Pokémon");
     *pokemon += new MenuEntry("Is Renamable", Misc::IsRenamable, note + "you will be able to rename any Pokémon despite it not being at your ownership.");
     *pokemon += new MenuEntry("Learn Any Teachables", Misc::LearnAnyTeachables, note + "you will be able to teach your Pokémon any moves.");
