@@ -6,6 +6,9 @@
 using namespace CTRPluginFramework;
 
 namespace Misc {
+    void Weather(MenuEntry *entry);
+    void WeatherKB(MenuEntry *entry);
+
     void IsRenamable(MenuEntry *entry);
     void LearnAnyTeachables(MenuEntry *entry);
     void GetDayCareEgg(MenuEntry *entry);

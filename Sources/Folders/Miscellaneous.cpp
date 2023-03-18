@@ -5,6 +5,33 @@
 using namespace CTRPluginFramework;
 
 namespace Misc {
+    static int weatherLocation, weatherToggle;
+
+    void WeatherKB(MenuEntry *entry) {
+        static const vector<string> options = {"Route 113", "Route 119", "Route 120", "Jagged Pass", "East Hoenn"};
+        static const vector<string> conditions = {"Snow", "Rain", "Rain", "Snow", Helpers::PickGame("Extremely Harsh Sunlight", "Heavy Rain")};
+        KeyboardPlus keyboard;
+
+        if (keyboard.SetKeyboard(entry->Name() + ":", true, options, weatherLocation) != -1) {
+            if (keyboard.SetKeyboard(conditions[weatherLocation] + ":", true, {"On", "Off"}, weatherToggle) != -1)
+                Message::Completed();
+        }
+    }
+
+    static const vector<int> weatherFlags = {1, 4, 1, 1, Helpers::PickGame(2, 4)};
+
+    void Weather(MenuEntry *entry) {
+        static const vector<vector<u32>> address = {{Helpers::PickGame<u32>(0x3FE54C, 0x3FE544)}, {0x8C81B56, 0x8C81B5E, 0x8C81B58, 0x8C81F37, 0x8C81B5A}};
+        static u32 original;
+        static bool saved = false;
+
+        if (ProcessPlus::Write32(address[0][0], 0xE320F000, original, entry, saved)) {
+            if (Bit::Read8(address[1][weatherLocation], data8, true) && data8 != (weatherToggle == 0 ? weatherFlags[weatherLocation] : 0))
+                if (!Bit::Write8(address[1][weatherLocation], (weatherToggle == 0 ? weatherFlags[weatherLocation] : 0), true))
+                    return;
+        }
+    }
+
     void IsRenamable(MenuEntry *entry) {
         static const u32 address = Helpers::AutoRegion(Helpers::GetVersion(0x4B1680, Helpers::PickGame(0x4EA990, 0x4EA998)), Helpers::GetVersion(0x4AA2C0, 0x4C6F64));
         static u32 original;
