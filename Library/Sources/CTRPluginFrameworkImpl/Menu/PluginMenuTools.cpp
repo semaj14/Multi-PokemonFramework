@@ -648,7 +648,7 @@ namespace CTRPluginFramework {
         static bool timesup = true;
 
         static const char version[] = "Version: 1.0.2";
-        static const char compiled[] = "Compiled: March 17, 2023";
+        static const char compiled[] = "Compiled: March 19, 2023";
         const char *info[3] = {SystemModel().c_str(), InternetAccess().c_str(), CurrentTime().c_str()};
 
         {
