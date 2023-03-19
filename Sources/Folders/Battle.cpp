@@ -842,25 +842,42 @@ namespace Battle {
 
             if (IsInBattle()) {
                 if (entry->IsActivated()) {
-                    if (CRO::Read32(address[0]) == 0x3A00001) {
-                        if (!CRO::Write32(address[0], {0xE3A00001, 0xEA000000})) {
-                            if (!CRO::Write32(address[2], 0xA000005)) {
-                                if (!CRO::Write32(address[3], {0xE3A00001, 0xEA000000}))
-                                    return;
-                            }
-                        }
+                    for (int i = 0; i < address.size(); i++)
+                        CRO::Toggle(address[i], true);
+
+                    if (ProcessPlus::Read32(0x8098A6C) == 0xA000000) {
+                        if (ProcessPlus::Read32(0x66902C) == 0)
+                            Process::Write32(0x66902C, 0x10);
+                    }
+
+                    if (ProcessPlus::Read32(0x66902C) != 0) {
+                        Process::Read32(0x66902C, data32);
+                        data32 += 0xFFFFFFFF;
+                        Process::Write32(0x66902C, data32);
+                    }
+
+                    if (ProcessPlus::Read32(0x66902C) == 1) {
+                        ProcessPlus::Write32(address[0], {0xE3A00001, 0xEA000000});
+                        Process::Write32(address[2], 0xA000005);
+                        ProcessPlus::Write32(address[3], {0xE3A00001, 0xEA000000});
+
+                        for (int i = 0; i < address.size(); i++)
+                            CRO::Toggle(address[i], false);
                     }
                 }
 
                 if (!entry->IsActivated()) {
-                    if (CRO::Read32(address[0]) == 0xE3A00001) {
-                        if (!CRO::Write32(address[0], {0x3A00001, 0xA000000})) {
-                            if (!CRO::Write32(address[2], 0x2401C03)) {
-                                if (!CRO::Write32(address[3], {0x3A00001, 0xA000000}))
-                                    return;
-                            }
-                        }
+                    for (int i = 0; i < address.size(); i++)
+                        CRO::Toggle(address[i], true);
+
+                    if (ProcessPlus::Read32(address[0]) == 0xE3A00001) {
+                        ProcessPlus::Write32(address[0], {0x3A00001, 0xA000000});
+                        Process::Write32(address[2], 0x2401C03);
+                        ProcessPlus::Write32(address[3], {0x3A00001, 0xA000000});
                     }
+
+                    for (int i = 0; i < address.size(); i++)
+                        CRO::Toggle(address[i], false);
                 }
             }
         }
