@@ -21,7 +21,7 @@ namespace Misc {
     static const vector<int> weatherFlags = {1, 4, 1, 1, Helpers::PickGame(2, 4)};
 
     void Weather(MenuEntry *entry) {
-        static const vector<vector<u32>> address = {{Helpers::PickGame<u32>(0x3FE54C, 0x3FE544)}, {0x8C81B56, 0x8C81B5E, 0x8C81B58, 0x8C81F37, 0x8C81B5A}};
+        static const vector<vector<u32>> address = {{Helpers::PickGame<u32>(0x3FE54C, 0x3FE544)}, {0x8C81B56, 0x8C81B5E, 0x8C81B58, 0x8C81B5A, 0x8C81F37}};
         static u32 original;
         static bool saved = false;
 
