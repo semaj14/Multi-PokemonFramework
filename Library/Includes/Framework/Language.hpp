@@ -8,7 +8,11 @@
 #include "../CTRPluginFrameworkImpl/System/ProcessImpl.hpp"
 
 namespace CTRPluginFramework {
-    string AutoLanguage(string english, string french);
+    // Define an enumeration for supported languages
+    enum Lang {
+        ENG, // English
+        FRE  // French
+    };
 }
 
 #endif

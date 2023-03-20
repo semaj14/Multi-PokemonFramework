@@ -3,8 +3,30 @@
 #include "Menu.hpp"
 
 namespace CTRPluginFramework {
+    void InitLang(void) {
+        File file(path + "/Lang.txt");
+        string language;
+
+        if (File::Exists(path + "/Lang.txt") == 0)
+            File::Create(path + "/Lang.txt");
+
+        if (File::Exists(path + "/Lang.txt") == 1) {
+            LineReader readFile(file);
+            readFile(language);
+
+            if (language == "English")
+                currLang = Lang::ENG;
+
+            if (language == "Francais")
+                currLang = Lang::FRE;
+        }
+
+        else return;
+    }
+
     void PatchProcess(FwkSettings &settings) {
         IsCompatible();
+        InitLang();
 
         settings.AllowActionReplay = true;
         settings.AllowSearchEngine = true;

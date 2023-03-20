@@ -18,6 +18,9 @@ namespace CTRPluginFramework {
     extern string path;
 
     bool IsCompatible(void);
+
+    extern Lang currLang;
+
     void Settings(MenuEntry *entry);
 
     namespace Helpers {

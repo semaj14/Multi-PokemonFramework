@@ -78,6 +78,7 @@
         "stringextensions.hpp": "c",
         "reent.h": "c",
         "mutex.hpp": "c",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "iostream": "cpp"
     }
 }

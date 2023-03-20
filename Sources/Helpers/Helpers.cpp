@@ -53,21 +53,68 @@ namespace CTRPluginFramework {
         return false;
     }
 
+    Lang currLang = Lang::ENG;
+
+    void LangFile(Lang lang) {
+        File file(path + "/Lang.txt");
+        string language;
+
+        if (File::Exists(path + "/Lang.txt") == 1)
+            File::Remove(path + "/Lang.txt");
+
+        if (File::Exists(path + "/Lang.txt") == 0)
+            File::Create(path + "/Lang.txt");
+
+        if (lang == Lang::ENG)
+            language = "English";
+
+        if (lang == Lang::FRE)
+            language = "Francais";
+
+        if (File::Exists(path + "/Lang.txt") == 1) {
+            LineWriter writeFile(file);
+            writeFile << language;
+            writeFile.Flush();
+            writeFile.Close();
+            Message::Completed();
+            Process::ReturnToHomeMenu();
+        }
+    }
+
     void Settings(MenuEntry *entry) {
-        static const vector<string> options = {"Reset"};
+        static const vector<string> options = {"Language", "Reset"};
         KeyboardPlus keyboard;
         int settings;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, settings) != -1) {
-            if (MessageBox(CenterAlign("Would you like to reset settings?"), DialogType::DialogYesNo, ClearScreen::Both)()) {
-                if (File::Exists("Data.bin")) {
-                    File::Remove("Data.bin");
-                    Message::Completed();
-                    Process::ReturnToHomeMenu();
-                    return;
-                }
+            if (settings == 0) {
+                static const vector<string> langOption = {"English", "French"};
+                int chooseLang;
 
-                Message::Warning();
+                if (keyboard.SetKeyboard("Language:\n\nNote: changing language will require a restart of the game!", true, langOption, chooseLang) != -1) {
+                    if (chooseLang == 0) {
+                        LangFile(Lang::ENG);
+                        return;
+                    }
+
+                    if (chooseLang == 1) {
+                        LangFile(Lang::FRE);
+                        return;
+                    }
+                }
+            }
+
+            if (settings == 1) {
+                if (MessageBox(CenterAlign("Would you like to reset settings?"), DialogType::DialogYesNo, ClearScreen::Both)()) {
+                    if (File::Exists("Data.bin")) {
+                        File::Remove("Data.bin");
+                        Message::Completed();
+                        Process::ReturnToHomeMenu();
+                        return;
+                    }
+
+                    Message::Warning();
+                }
             }
         }
     }

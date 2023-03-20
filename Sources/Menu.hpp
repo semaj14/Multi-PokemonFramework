@@ -12,6 +12,10 @@
 
 using namespace CTRPluginFramework;
 
+string entryName(string english, string french) {
+    return (currLang == Lang::ENG ? english : french);
+}
+
 void InitMenu(PluginMenu &menu) {
     string note = Color::Orange << "Note" << Color::White << ": ";
 
@@ -54,7 +58,7 @@ void InitMenu(PluginMenu &menu) {
     *pss += new MenuEntry("Bypass Gift & Centre Icon", PSS::BypassHackedIcons);
     menu += (group == Group::XY || group == Group::ORAS ? pss : plaza);
 
-    MenuFolder *battle = new MenuFolder("Battle");
+    MenuFolder *battle = new MenuFolder(entryName("Battle", "Combat"));
     MenuFolder *primary = new MenuFolder("Primary");
 
     *primary += new MenuFolder("Active", note + "must be in a battle to use.", vector<MenuEntry*>({
