@@ -5,20 +5,6 @@
 namespace CTRPluginFramework {
     u8 data8; u16 data16; u32 data32;
 
-    namespace Message {
-        void Completed(void) {
-            MessageBox(CenterAlign("Operation has been " << Color::LimeGreen << "completed" << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
-        }
-
-        void Interrupted(void) {
-            MessageBox(CenterAlign("Operation has been " << Color(255, 51, 51) << "interrupted" << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
-        }
-
-        void Warning(void) {
-            MessageBox(CenterAlign("Operation has already been " << Color::Orange << "completed" << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
-        }
-    }
-
     string bin;
     string path;
 
@@ -81,6 +67,10 @@ namespace CTRPluginFramework {
         }
     }
 
+    string language(string english, string french) {
+        return (currLang == Lang::ENG ? english : french);
+    }
+
     void Settings(MenuEntry *entry) {
         static const vector<string> options = {"Language", "Reset"};
         KeyboardPlus keyboard;
@@ -116,6 +106,20 @@ namespace CTRPluginFramework {
                     Message::Warning();
                 }
             }
+        }
+    }
+
+    namespace Message {
+        void Completed(void) {
+            MessageBox(CenterAlign(language("Operation has been ", "L'opération a été ") << Color::LimeGreen << language("completed", "terminée") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
+        }
+
+        void Interrupted(void) {
+            MessageBox(CenterAlign(language("Operation has been ", "L'opération a été ") << Color(255, 51, 51) << language("interrupted", "suspendu") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
+        }
+
+        void Warning(void) {
+            MessageBox(CenterAlign(language("Operation has already been ", "L'opération a déjà été ") << Color::Orange << language("completed", "accomplie") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
         }
     }
 

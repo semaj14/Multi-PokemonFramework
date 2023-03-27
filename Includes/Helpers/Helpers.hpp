@@ -20,6 +20,7 @@ namespace CTRPluginFramework {
     bool IsCompatible(void);
 
     extern Lang currLang;
+    string language(string english, string french);
 
     void Settings(MenuEntry *entry);
 
