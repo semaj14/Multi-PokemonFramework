@@ -903,7 +903,7 @@ namespace CTRPluginFramework {
                     break;
 
                 case 386: // Deoxys
-                    options = {"Normal", "Attack", "Defense", "Speed"};
+                    options = {"Normal", language("Attack", "Attaque"), language("Defense", "Défense"), language("Speed", "Vitesse")};
                     break;
 
                 case 412: // Burmy
@@ -1112,7 +1112,7 @@ namespace CTRPluginFramework {
                     break;
 
                 case 386: // Deoxys
-                    options = {"Normal", "Attack", "Defense", "Speed"};
+                    options = {"Normal", language("Attack", "Attaque"), language("Defense", "Défense"), language("Speed", "Vitesse")};
                     break;
 
                 case 412: // Burmy

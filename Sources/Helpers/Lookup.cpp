@@ -48,26 +48,26 @@ namespace CTRPluginFramework {
         // If the user removed a letter, clear the input and set an error
         if (event.type == KeyboardEvent::CharacterRemoved) {
             input = "";
-            keyboard.SetError("Type a letter to search for a Pokémon.");
+            keyboard.SetError(language("Type a letter to search for a Pokémon.", "Tapez une lettre pour chercher un Pokémon."));
             return;
         }
 
          // Else if input's length is inferior than 3, ask for more letters
         else if (input.size() < 3) {
-            keyboard.SetError("Not enough letters to do the search.");
+            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche."));
             return;
         }
 
         // If we don't have any matches, tell the user
         if (!count) {
-            keyboard.SetError("Nothing matches your input. Please try again.");
+            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer."));
             return;
         }
 
         // If we have only one matches, complete the input
         if (count == 1) {
             pkmnID = matches.choiceNo[0] + 1;
-            OSD::Notify(Color::LimeGreen << "Success" << Color::White << "! Selected: " << matches.name[0]);
+            OSD::Notify(Color::LimeGreen << language("Success", "Succès") << Color::White << language("! Selected: ", "! Sélectionné: ") << matches.name[0]);
             keyboard.Close();
             return;
         }
@@ -81,14 +81,14 @@ namespace CTRPluginFramework {
 
             if (choice >= 0) {
                 pkmnID = matches.choiceNo[choice] + 1;
-                OSD::Notify(Color::LimeGreen << "Success" << Color::White << "! Selected: " << matches.name[choice]);
+                OSD::Notify(Color::LimeGreen << language("Success", "Succès") << Color::White << language("! Selected: ", "! Sélectionné: ") << matches.name[choice]);
                 keyboard.Close();
                 return;
             }
         }
 
         // We have too much results, the user must keep typing letters
-        keyboard.SetError("Too many results: " + to_string(count) + "\nType more letters to narrow down the results.");
+        keyboard.SetError(language("Too many results: ", "Trop de résultats: ") + to_string(count) + language("\nType more letters to narrow down the results.", "\nEntrez plus de lettres pour affiner les résultats."));
     }
 
     void FindPkmnKB(MenuEntry *entry) {
@@ -140,19 +140,19 @@ namespace CTRPluginFramework {
         // If the user removed a letter, clear the input and set an error
         if (event.type == KeyboardEvent::CharacterRemoved) {
             input = "";
-            keyboard.SetError("Type a letter to search for an ability.");
+            keyboard.SetError(language("Type a letter to search for an ability.", "Tapez une lettre pour chercher une capacité."));
             return;
         }
 
          // Else if input's length is inferior than 3, ask for more letters
         else if (input.size() < 3) {
-            keyboard.SetError("Not enough letters to do the search.");
+            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche."));
             return;
         }
 
         // If we don't have any matches, tell the user
         if (!count) {
-            keyboard.SetError("Nothing matches your input. Please try again.");
+            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer."));
             return;
         }
 
@@ -178,13 +178,13 @@ namespace CTRPluginFramework {
         }
 
         // We have too much results, the user must keep typing letters
-        keyboard.SetError("Too many results: " + to_string(count) + "\nType more letters to narrow down the results.");
+        keyboard.SetError(language("Too many results: ", "Trop de résultats: ") + to_string(count) + language("\nType more letters to narrow down the results.", "\nEntrez plus de lettres pour affiner les résultats."));
     }
 
     void FindAbilityKB(MenuEntry *entry) {
         string output;
 
-        if (KB<string>("Ability:", true, 16, output, "", AbilityInputChange))
+        if (KB<string>(language("Ability:", "Capacité:"), true, 16, output, "", AbilityInputChange))
             return;
 
         abilityID = 0;
@@ -234,19 +234,19 @@ namespace CTRPluginFramework {
         // If the user removed a letter, clear the input and set an error
         if (event.type == KeyboardEvent::CharacterRemoved) {
             input = "";
-            keyboard.SetError("Type a letter to search for an item.");
+            keyboard.SetError(language("Type a letter to search for an item.", "Tapez une lettre pour chercher un objet."));
             return;
         }
 
          // Else if input's length is inferior than 3, ask for more letters
         else if (input.size() < 3) {
-            keyboard.SetError("Not enough letters to do the search.");
+            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche."));
             return;
         }
 
         // If we don't have any matches, tell the user
         if (!count) {
-            keyboard.SetError("Nothing matches your input. Please try again.");
+            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer."));
             return;
         }
 
@@ -273,13 +273,13 @@ namespace CTRPluginFramework {
         }
 
         // We have too much results, the user must keep typing letters
-        keyboard.SetError("Too many results: " + to_string(count) + "\nType more letters to narrow down the results.");
+        keyboard.SetError(language("Too many results: ", "Trop de résultats: ") + to_string(count) + language("\nType more letters to narrow down the results.", "\nEntrez plus de lettres pour affiner les résultats."));
     }
 
     void FindItemKB(MenuEntry *entry) {
         string output;
 
-        if (KB<string>("Item:", true, 18, output, "", ItemInputChange))
+        if (KB<string>(language("Item:", "Objet tenu:"), true, 18, output, "", ItemInputChange))
             return;
 
         heldItemID = 0;
@@ -327,26 +327,26 @@ namespace CTRPluginFramework {
         // If the user removed a letter, clear the input and set an error
         if (event.type == KeyboardEvent::CharacterRemoved) {
             input = "";
-            keyboard.SetError("Type a letter to search for a move.");
+            keyboard.SetError(language("Type a letter to search for a move.", "Tapez une lettre pour chercher une attaque."));
             return;
         }
 
          // Else if input's length is inferior than 3, ask for more letters
         else if (input.size() < 3) {
-            keyboard.SetError("Not enough letters to do the search.");
+            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche."));
             return;
         }
 
         // If we don't have any matches, tell the user
         if (!count) {
-            keyboard.SetError("Nothing matches your input. Please try again.");
+            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer."));
             return;
         }
 
         // If we have only one matches, complete the input
         if (count == 1) {
             moveID = matches.choiceNo[0] + 1;
-            OSD::Notify(Color::LimeGreen << "Success" << Color::White << "! Applied: " << matches.name[0]);
+            OSD::Notify(Color::LimeGreen << language("Success", "Succès") << Color::White << "! Applied: " << matches.name[0]);
             keyboard.Close();
             return;
         }
@@ -360,20 +360,20 @@ namespace CTRPluginFramework {
 
             if (choice >= 0) {
                 moveID = matches.choiceNo[choice] + 1;
-                OSD::Notify(Color::LimeGreen << "Success" << Color::White << "! Applied: " << matches.name[choice]);
+                OSD::Notify(Color::LimeGreen << language("Success", "Succès") << Color::White << "! Applied: " << matches.name[choice]);
                 keyboard.Close();
                 return;
             }
         }
 
         // We have too much results, the user must keep typing letters
-        keyboard.SetError("Too many results: " + to_string(count) + "\nType more letters to narrow down the results.");
+        keyboard.SetError(language("Too many results: ", "Trop de résultats: ") + to_string(count) + language("\nType more letters to narrow down the results.", "\nEntrez plus de lettres pour affiner les résultats."));
     }
 
     void FindMoveKB(MenuEntry *entry) {
         string output;
 
-        if (KB<string>("Move:", true, 27, output, "", MoveInputChange))
+        if (KB<string>(language("Move:", "Attaque:"), true, 27, output, "", MoveInputChange))
             return;
     }
 }

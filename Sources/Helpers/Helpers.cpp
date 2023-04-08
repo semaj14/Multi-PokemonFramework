@@ -72,16 +72,16 @@ namespace CTRPluginFramework {
     }
 
     void Settings(MenuEntry *entry) {
-        static const vector<string> options = {"Language", "Reset"};
+        static const vector<string> options = {language("Language", "Langue"), language("Reset", "Réinitialiser")};
         KeyboardPlus keyboard;
         int settings;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, settings) != -1) {
             if (settings == 0) {
-                static const vector<string> langOption = {"English", "French"};
+                static const vector<string> langOption = {language("English", "Anglais"), language("French", "Français")};
                 int chooseLang;
 
-                if (keyboard.SetKeyboard("Language:\n\nNote: changing language will require a restart of the game!", true, langOption, chooseLang) != -1) {
+                if (keyboard.SetKeyboard(language("Language:\n\nNote: changing language will require a restart of the game!", "Langue:\n\nNote: changer la langue nécessitera un redémarrage du jeu!"), true, langOption, chooseLang) != -1) {
                     if (chooseLang == 0) {
                         LangFile(Lang::ENG);
                         return;
@@ -95,7 +95,7 @@ namespace CTRPluginFramework {
             }
 
             if (settings == 1) {
-                if (MessageBox(CenterAlign("Would you like to reset settings?"), DialogType::DialogYesNo, ClearScreen::Both)()) {
+                if (MessageBox(CenterAlign(language("Would you like to reset settings?", "Voulez-vous réinitialiser les paramètres?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                     if (File::Exists("Data.bin")) {
                         File::Remove("Data.bin");
                         Message::Completed();
@@ -124,32 +124,32 @@ namespace CTRPluginFramework {
     }
 
     namespace Helpers {
-        ColoredText textColors[7] = {
-            {"Red", 0},
-            {"Green", 1},
-            {"Blue", 2},
-            {"Orange", 3},
-            {"Pink", 4},
-            {"Purple", 5},
-            {"Light Blue", 6}
-        };
-
         static int isColored = false, chosenColor;
 
         bool TextColorizer(u32 address) {
-            static const vector<string> options = {"No", "Yes"};
+            ColoredText textColors[7] = {
+                {language("Red", "Rouge"), 0},
+                {language("Green", "Vert"), 1},
+                {language("Blue", "Bleu"), 2},
+                {"Orange", 3},
+                {language("Pink", "Rose"), 4},
+                {language("Purple", "Violet"), 5},
+                {language("Light Blue", "Bleu Clair"), 6}
+            };
+
+            static const vector<string> options = {language("No", "Non"), language("Yes", "Oui")};
             KeyboardPlus keyboard;
 
-            if (keyboard.SetKeyboard("Colored?", true, options, isColored) != -1) {
+            if (keyboard.SetKeyboard(language("Colored?", "Coloré?"), true, options, isColored) != -1) {
                 if (isColored == 1) {
                     static vector<string> colors;
 
                     if (colors.empty()) {
-                        for (const ColoredText &nickname : textColors)
+                        for (ColoredText &nickname : textColors)
                             colors.push_back(nickname.name);
                     }
 
-                    if (keyboard.SetKeyboard("Color:", true, colors, chosenColor) != -1) {
+                    if (keyboard.SetKeyboard(language("Color:", "Coleur:"), true, colors, chosenColor) != -1) {
                         Process::Write32(address, 0x20010);
                         Process::Write16(address + 0x6, textColors[chosenColor].val);
                         Process::Write16(address + 0x4, 0xBD00);

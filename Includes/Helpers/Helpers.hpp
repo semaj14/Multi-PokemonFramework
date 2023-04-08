@@ -26,7 +26,7 @@ namespace CTRPluginFramework {
 
     namespace Helpers {
         struct ColoredText {
-            const char *name;
+            string name;
             int val;
         };
 

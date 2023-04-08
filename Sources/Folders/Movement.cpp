@@ -39,7 +39,7 @@ namespace Movement {
         static bool musicSelected = false;
 
         void ActionMusicKB(MenuEntry *entry) {
-            static const vector<string> options = {"Bicycle"};
+            static const vector<string> options = {language("Bicycle", "Vélo")};
             KeyboardPlus keyboard;
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, musicType) != -1) {
@@ -50,7 +50,7 @@ namespace Movement {
                         getMusicFiles.push_back(nickname.name);
                 }
 
-                if (keyboard.SetKeyboard(entry->Name() + ":\n\nSelect the music file you would like to use.", true, getMusicFiles, music) != -1) {
+                if (keyboard.SetKeyboard(entry->Name() + language(":\n\nSelect the music file you would like to use.", ":\n\nVeuillez sélectionner le fichier musical que vous souhaitez utiliser."), true, getMusicFiles, music) != -1) {
                     musicSelected = true;
                     Message::Completed();
                     return;
@@ -126,13 +126,13 @@ namespace Movement {
 
         struct Locations {
             int direction;
-            const char *name;
+            string name;
             int value;
             float x;
             float y;
         };
 
-        static const Locations locations[63] = {
+        static Locations locations[63] = {
             {0, "Ambrette Town", 0x2F, 369, 495},
             {0, "Anistar City", 0xD6, 369, 495},
             {0, "Camphrier Town", 0xD, 369, 495},
@@ -160,14 +160,14 @@ namespace Movement {
             {0, "Unknown Dungeon", 0x13F, 351, 567},
             {0, "Vanville Town", 0x2, 369, 495},
             {0, "Video Studio", 0x6B, 315, 585},
-            {0, "Ancient Tomb", 0x9F, 225, 333},
+            {0, language("Ancient Tomb", "Tombeau Antique"), 0x9F, 225, 333},
             {0, "Battle Resort", 0x206, 351, 441},
             {0, "Cave of Origin", 0x70, 333, 621},
             {0, "Day Care", 0x187, 225, 333},
             {0, "Desert Ruins", 0x4D, 225, 333},
             {0, "Dewford Town", 0xE8, 351, 441},
             {0, "Ever Grande City", 0x161, 351, 441},
-            {0, "Fabled Cave", 0x20F, 387, 693},
+            {0, language("Fabled Cave", "Grotte Évanescente"), 0x20F, 387, 693},
             {0, "Fallarbor Town", 0xF0, 351, 441},
             {0, "Fortree City", 0x12D, 351, 441},
             {0, "Gnarled Den", 0x210, 369, 657},
@@ -178,7 +178,7 @@ namespace Movement {
             {0, "Mauville City", 0x116, 351, 441},
             {0, "Meteor Falls", 0x47, 1035, 639},
             {0, "Mossdeep City", 0x14A, 351, 441},
-            {0, "Nameless Cavern", 0x20E, 369, 657},
+            {0, language("Nameless Cavern", "Grotte Sans Nom"), 0x20E, 369, 657},
             {0, "New Mauville", 0x8B, 369, 657},
             {0, "Odale Town", 0xE4, 351, 441},
             {0, "Pacifidlog Town", 0xFD, 351, 441},
@@ -187,7 +187,7 @@ namespace Movement {
             {0, "Pokémon League", 0x16C, 297, 387},
             {0, "Rustboro City", 0x11C, 351, 441},
             {0, "Rusturf Tunnel", 0x4B, 261, 369},
-            {0, "Scorched Slab", 0xA7,261, 459},
+            {0, language("Scorched Slab", "Chemin Ardent"), 0xA7,261, 459},
             {1, "Sea Mauville", 0x92, 369, 45},
             {0, "Sealed Chambers", 0xA3, 801, 1305},
             {0, "Secret Meadow", 0x1DB, 387, 657},
@@ -206,7 +206,7 @@ namespace Movement {
             static vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Locations &nickname : locations) {
+            for (Locations &nickname : locations) {
                 if (placesAvailable < ((group == Group::XY) ? 27 : 63)) {
                     if (group == Group::ORAS) {
                         if (placesAvailable > 26)
@@ -432,7 +432,7 @@ namespace Movement {
         void TimeOfDay(MenuEntry *entry) {
             static const u32 address = Helpers::GetVersion(0x330D9238, 0x330154B0);
 
-            if (KB<u8>("Time of Day:\n\nChoose an offset between 1-24 hours\n\n" << Color::SkyBlue << "12H" << Color::White << " - Moon" << Color::Orange << " 24H" << Color::White << " - Sun", true, false, 2, time, 0, 1, 24, Callback8)) {
+            if (KB<u8>(language("Time of Day:\n\nChoose an offset between 1-24 hours\n\n", "Plage horaire :\n\nChoisissez un décalage de 1 à 24 heures\n\n") << Color::SkyBlue << "12H" << Color::White << language(" - Moon", " - Lune") << Color::Orange << " 24H" << Color::White << language(" - Sun", " - Soleil"), true, false, 2, time, 0, 1, 24, Callback8)) {
                 Process::Write32(address, time * 3600);
                 Message::Completed();
             }

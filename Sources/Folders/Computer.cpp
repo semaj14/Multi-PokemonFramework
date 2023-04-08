@@ -17,11 +17,11 @@ namespace Computer {
         int index = listOfFileNames.size();
 
         if (index >= 20) {
-            if (MessageBox(CenterAlign("Limit reached! Erase old backups?"), DialogType::DialogYesNo, ClearScreen::Both)()) {
+            if (MessageBox(CenterAlign(language("Limit reached! Erase old backups?", "Limite atteinte! Supprimer les anciennes sauvegardes?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                 for (int i = 0; i < index; i++)
                     File::Remove(bin + listOfFileNames[i]);
 
-                MessageBox(CenterAlign("All backups have been erased."), DialogType::DialogOk, ClearScreen::Both)();
+                MessageBox(CenterAlign(language("All backups have been erased.", "Toutes les sauvegardes ont été effacées.")), DialogType::DialogOk, ClearScreen::Both)();
             }
 
             return;
@@ -29,7 +29,7 @@ namespace Computer {
 
         int choice;
         string fileName;
-        static const vector<string> options = {"Export", "Import"};
+        static const vector<string> options = {language("Export", "Exporter"), language("Import", "Importer")};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, choice) != -1) {
@@ -38,7 +38,7 @@ namespace Computer {
                     Directory::Create(bin);
 
                 if (index <= 20) {
-                    if (KB<string>("Name:", true, false, 16, fileName, "")) {
+                    if (KB<string>(language("Name:", "Nom:"), true, false, 16, fileName, "")) {
                         File dumpFile(bin + fileName + extension, File::RWC);
                         dumpFile.Dump(address, Helpers::AutoRegion(215760, 222720));
                         Message::Completed();
@@ -49,7 +49,7 @@ namespace Computer {
 
             if (choice == 1) {
                 if (index == 0) {
-                    MessageBox(CenterAlign("You have 0 backup(s) to recover from!"), DialogType::DialogOk, ClearScreen::Both)();
+                    MessageBox(CenterAlign(language("You have 0 backup(s) to recover from!", "Vous n'avez aucune sauvegarde à récupérer!")), DialogType::DialogOk, ClearScreen::Both)();
                     return;
                 }
 
@@ -73,8 +73,8 @@ namespace Computer {
         static u32 pointer;
 
         bool Setup(void) {
-            if (KB<u8>("Box:", true, false, 2, box, 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
-                if (KB<u8>("Slot:", true, false, 2, slot, 0, 1, 30, Callback8)) {
+            if (KB<u8>(language("Box:", "Boite:"), true, false, 2, box, 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
+                if (KB<u8>(language("Slot:", "Emplacement:"), true, false, 2, slot, 0, 1, 30, Callback8)) {
                     pointer = (((slot - 1) * 0xE8) + ((box - 1) * 6960 + GetPokePointer()));
                     return true;
                 }
@@ -91,7 +91,7 @@ namespace Computer {
         bool IsValid(u32 pointer, PK6 *pkmn) {
             if (!GetPokemon(pointer, pkmn)) {
                 if (!IsInBattle())
-                    MessageBox(CenterAlign("Failed to read or decrypt data!"), DialogType::DialogOk, ClearScreen::Both)();
+                    MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!")), DialogType::DialogOk, ClearScreen::Both)();
 
                 return false;
             }
@@ -112,7 +112,7 @@ namespace Computer {
 
         void Shinify(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> noYes = {"No", "Yes"};
+            static const vector<string> noYes = {language("No", "Non"), language("Yes", "Oui")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -157,7 +157,7 @@ namespace Computer {
 
         void IsNicknamed(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"No", "Yes"};
+            static const vector<string> options = {language("No", "Non"), language("Yes", "Oui")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -189,13 +189,13 @@ namespace Computer {
 
         void Gender(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Male", "Female"};
+            static const vector<string> options = {language("Male", "Mâle"), language("Female", "Femelle")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
                 for (int i = 0; i < fixedGender.size(); i++) {
                     if (pkmn->species == fixedGender[i]) {
-                        MessageBox(CenterAlign("Cannot override fixed gender."), DialogType::DialogOk, ClearScreen::Both)();
+                        MessageBox(CenterAlign(language("Cannot override fixed gender.", "Impossible de remplacer le sexe fixe.")), DialogType::DialogOk, ClearScreen::Both)();
                         return;
                     }
                 }
@@ -337,7 +337,7 @@ namespace Computer {
 
         void IsEgg(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"No", "Yes"};
+            static const vector<string> options = {language("No", "Non"), language("Yes", "Oui")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -355,20 +355,20 @@ namespace Computer {
 
         void Pokerus(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Cured", "Non-Cured"};
+            static const vector<string> options = {language("Cured", "Guéri"), language("Non-Cured", "Non guéri")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
                 start:
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, pkrsCureChoice) != -1) {
                     if (pkrsCureChoice == 0) {
-                        if (KB<u8>("Strain:", true, false, 1, pkrsVal[1], 0, 0, 3, Callback8))
+                        if (KB<u8>(language("Strain:", "Marque:"), true, false, 1, pkrsVal[1], 0, 0, 3, Callback8))
                             SetPokerus(pkmn, 0, pkrsVal[1]);
                     }
 
                     else if (pkrsCureChoice == 1) {
-                        if (KB<u8>("Days:", true, false, 2, pkrsVal[0], 0, 1, 15, Callback8)) {
-                            if (KB<u8>("Strain:", true, false, 1, pkrsVal[1], 0, 0, 3, Callback8))
+                        if (KB<u8>(language("Days:", "Jours:"), true, false, 2, pkrsVal[0], 0, 1, 15, Callback8)) {
+                            if (KB<u8>(language("Strain:", "Marque:"), true, false, 1, pkrsVal[1], 0, 0, 3, Callback8))
                                 SetPokerus(pkmn, pkrsVal[0], pkrsVal[1]);
 
                             else goto start;
@@ -410,7 +410,7 @@ namespace Computer {
 
         void ConsoleRegion(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Japan", "Americas", "Europe", "China", "Korea", "Taiwan"};
+            static const vector<string> options = {language("Japan", "Japon"), language("Americas", "Amériques"), "Europe", language("China", "Chine"), language("Korea", "Corée"), "Taiwan"};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -478,7 +478,7 @@ namespace Computer {
             }
 
             else {
-                MessageBox(CenterAlign("Failed to read or decrypt data!"), DialogType::DialogOk, ClearScreen::Both)();
+                MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!")), DialogType::DialogOk, ClearScreen::Both)();
                 return;
             }
 
@@ -566,7 +566,7 @@ namespace Computer {
 
         void MetDate(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Year", "Month", "Day"};
+            static const vector<string> options = {language("Year", "Année"), language("Month", "Mois"), language("Day", "Jour")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -593,7 +593,7 @@ namespace Computer {
 
         void IsFatefulEncounter(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"No", "Yes"};
+            static const vector<string> options = {language("No", "Non"), language("Yes", "Oui")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -628,7 +628,7 @@ namespace Computer {
             }
 
             else {
-                MessageBox(CenterAlign("Failed to read or decrypt data!"), DialogType::DialogOk, ClearScreen::Both)();
+                MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!")), DialogType::DialogOk, ClearScreen::Both)();
                 return;
             }
 
@@ -648,7 +648,7 @@ namespace Computer {
 
         void EggMetDate(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Year", "Month", "Day"};
+            static const vector<string> options = {language("Year", "Année"), language("Month", "Mois"), language("Day", "Jour")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -676,7 +676,7 @@ namespace Computer {
 
         void IVs(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"HP", "Atk", "Def", "Spe", "SpA", "SpD"};
+            static const vector<string> options = {language("HP", "PV"), language("Atk", "Atq"), "Def", language("Spe", "Vit"), language("SpA", "AtqS"), language("Def", "DefS")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -698,7 +698,7 @@ namespace Computer {
 
         void EVs(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"HP", "Atk", "Def", "Spe", "SpA", "SpD"};
+            static const vector<string> options = {language("HP", "PV"), language("Atk", "Atq"), "Def", language("Spe", "Vit"), language("SpA", "AtqS"), language("Def", "DefS")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -720,7 +720,7 @@ namespace Computer {
 
         void Contest(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Cool", "Beauty", "Cute", "Smart", "Though", "Sheen"};
+            static const vector<string> options = {language("Cool", "Classe"), language("Beauty", "Beauté"), language("Cute", "Mignon"), language("Smart", "Astuce"), language("Though", "Costaud"), language("Sheen", "Éclat")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -742,7 +742,7 @@ namespace Computer {
 
         void CurrentMoves(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Move 1", "Move 2", "Move 3", "Move 4"};
+            static const vector<string> options = {language("Move", "Attaque") + " 1", language("Move", "Attaque") + " 2", language("Move", "Attaque") + " 3", language("Move", "Attaque") + " 4"};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -771,7 +771,7 @@ namespace Computer {
 
         void PPUps(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Move 1", "Move 2", "Move 3", "Move 4"};
+            static const vector<string> options = {language("Move", "Attaque") + " 1", language("Move", "Attaque") + " 2", language("Move", "Attaque") + " 3", language("Move", "Attaque") + " 4"};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -793,7 +793,7 @@ namespace Computer {
 
         void RelearnMoves(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"Move 1", "Move 2", "Move 3", "Move 4"};
+            static const vector<string> options = {language("Move", "Attaque") + " 1", language("Move", "Attaque") + " 2", language("Move", "Attaque") + " 3", language("Move", "Attaque") + " 4"};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -882,7 +882,7 @@ namespace Computer {
         void Ribbons(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
             vector<string> options;
-            static const vector<string> noYes = {"No", "Yes"};
+            static const vector<string> noYes = {language("No", "Non"), language("Yes", "Oui")};
             KeyboardPlus keyboard;
 
             for (int i = 0; i < Helpers::AutoRegion(Helpers::PickGame(37, 44), 46); i++)
@@ -909,8 +909,8 @@ namespace Computer {
     void Cloning(MenuEntry *entry) {
         PK6 *pkmn = new PK6;
 
-        if (KB<u8>("Box:", true, false, 2, cloningSettings[0], 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
-            if (KB<u8>("Slot:", true, false, 2, cloningSettings[1], 0, 1, 30, Callback8)) {
+        if (KB<u8>(language("Box:", "Boite:"), true, false, 2, cloningSettings[0], 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
+            if (KB<u8>(language("Slot:", "Emplacement:"), true, false, 2, cloningSettings[1], 0, 1, 30, Callback8)) {
                 u32 location = (((cloningSettings[1] - 1) * 0xE8) + ((cloningSettings[0] - 1) * 6960 + GetPokePointer()));
 
                 if (Editor::IsValid(location, pkmn)) {
@@ -976,8 +976,8 @@ namespace Computer {
     }
 
     void KeepOriginalPokemonKB(MenuEntry *entry) {
-        if (KB<u8>("Box:", true, false, 2, originalLoc[0], 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
-            if (KB<u8>("Slot:", true, false, 2, originalLoc[1], 0, 1, 30, Callback8)) {
+        if (KB<u8>(language("Box:", "Boite"), true, false, 2, originalLoc[0], 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
+            if (KB<u8>(language("Slot:", "Emplacement"), true, false, 2, originalLoc[1], 0, 1, 30, Callback8)) {
                 OriginalPokemonTemp();
                 return;
             }

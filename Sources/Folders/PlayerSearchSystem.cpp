@@ -26,7 +26,7 @@ namespace PSS {
         static int optionsType;
 
         void ConfigurationKB(MenuEntry *entry) {
-            static const vector<string> options = {"Pokemon", "Gender", "Level"};
+            static const vector<string> options = {"Pokemon", language("Gender", "Sexe"), language("Level", "Niveau")};
             KeyboardPlus keyboard;
 
             start:
@@ -47,7 +47,7 @@ namespace PSS {
 
                 else {
                     choose:
-                    if (keyboard.SetKeyboard(entry->Name() + ":", true, {"Hacked", "Regular"}, optionsType) != -1) {
+                    if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké"), "Normal"}, optionsType) != -1) {
                         if (optionsType == 0) {
                             vector<string> selection;
 
@@ -64,7 +64,7 @@ namespace PSS {
                         }
 
                         else {
-                            vector<vector<string>> selection = {{"Any", "Male", "Female"}, {"Any", "1 to 10", "11 to 20", "21 to 30", "31 to 40", "41 to 50", "51 to 60", "61 to 70", "71 to 80", "81 to 90", "91 or higher"}};
+                            vector<vector<string>> selection = {{language("Any", "Tout"), language("Male", "Mâle"), language("Female", "Femelle")}, {"Any", "1 to 10", "11 to 20", "21 to 30", "31 to 40", "41 to 50", "51 to 60", "61 to 70", "71 to 80", "81 to 90", "91 or higher"}};
 
                             if (keyboard.SetKeyboard(options[depositConfig] + ":", true, (depositConfig == 1 ? selection[0] : selection[1]), getSettings[depositConfig - 1]) != -1) {
                                 settings[depositConfig] = getSettings[depositConfig - 1];
@@ -214,7 +214,7 @@ namespace PSS {
             }
 
             start:
-            if (keyboard.SetKeyboard(entry->Name() + ":", true, {"Hacked", "Regular"}, iconCategory) != -1) {
+            if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké"), "Normal"}, iconCategory) != -1) {
                 if (iconCategory != 0) {
                     if (keyboard.SetKeyboard(entry->Name() + ":", true, regularOptions, getIcon) != -1) {
                         Process::Write8(address, regularIcons[getIcon].id);
@@ -297,10 +297,10 @@ namespace PSS {
 
         void History(MenuEntry *entry) {
             static const u32 address = Helpers::GetVersion(0x8C84C7C, 0x8C8D448);
-            static const vector<string> options = {"Battle", "Trade", "O-Power", "Global Trade Station", "Battle Spot", "Wonder Trade"};
+            static const vector<string> options = {language("Battle", "Combat"), language("Trade", "Echange"), language("O-Power", "O-Aura"), "Global Trade Station", language("Battle Spot", "Coin combats"), language("Wonder Trade", "Echange miracle")};
             KeyboardPlus keyboard;
 
-            if (KB<u8>("Index:", true, false, 1, historyIndex, 0, 1, 6, Callback8)) {
+            if (KB<u8>(language("Index:", "Indexe:"), true, false, 1, historyIndex, 0, 1, 6, Callback8)) {
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getAction) != -1) {
                     if (Process::Read8(address, data8) && data8 != 6)
                         Process::Write8(address, 6);
@@ -349,17 +349,17 @@ namespace PSS {
                     {0x8C8B2A8, 0x8C8B2A0}
             )};
 
-            static const vector<string> options = {"Battles", "Trades"};
+            static const vector<string> options = {language("Battles", "Combats"), language("Trades", "Echanges")};
             KeyboardPlus keyboard;
 
             start:
-            if (keyboard.SetKeyboard("Which one?", true, options, chooseActivity) != -1) {
+            if (keyboard.SetKeyboard(language("Which one?", "Lequel?"), true, options, chooseActivity) != -1) {
                 pick:
                 for (int i = 0; i < sizeof(existingVals) / sizeof(existingVals[0]); i++)
                     Process::Read32(address[chooseActivity] + (i * 0x10), existingVals[i]);
 
-                if (keyboard.SetKeyboard("Where would you like to write the value to?\n\nKeep in mind that these values do accumulate with each other.\n\nLink: " << Color::Gray << to_string(existingVals[0]) << Color::White << "\nWiFi: " << Color::Gray << to_string(existingVals[1]) << Color::White << "\nIR: " << Color::Gray << to_string(existingVals[2]) << Color::White << "\n\nTotal: " << Color::Gray << to_string(existingVals[0] + existingVals[1] + existingVals[2]), true, {"Link", "WiFi", "IR"}, acvitityType) != -1) {
-                    if (KB<u32>("Amount:", true, false, 6, activityVal[chooseActivity], 0, 0, 999999, Callback32)) {
+                if (keyboard.SetKeyboard(language("Where would you like to write the value to?\n\nKeep in mind that these values do accumulate with each other.", "Où aimeriez-vous écrire la valeur?\n\nGardez à l'esprit que ces valeurs s'accumulent les unes avec les autres.") << "\n\nLink: " << Color::Gray << to_string(existingVals[0]) << Color::White << "\nWiFi: " << Color::Gray << to_string(existingVals[1]) << Color::White << "\nIR: " << Color::Gray << to_string(existingVals[2]) << Color::White << "\n\nTotal: " << Color::Gray << to_string(existingVals[0] + existingVals[1] + existingVals[2]), true, {"Link", "WiFi", "IR"}, acvitityType) != -1) {
+                    if (KB<u32>(language("Amount:", "Montant:"), true, false, 6, activityVal[chooseActivity], 0, 0, 999999, Callback32)) {
                         if (Process::Write32(address[chooseActivity] + (acvitityType * 0x10), activityVal[chooseActivity]))
                             Message::Completed();
                     }
@@ -380,8 +380,8 @@ namespace PSS {
                     {0x8C8545C, 0x8C85462}
             )};
 
-            if (KB<u8>("Survey (copy from):", true, false, 1, survey, 0, 1, 6, Callback8)) {
-                if (KB<u8>("Survey (copy to):", true, false, 1, surveyDest, 0, 1, 6, Callback8)) {
+            if (KB<u8>(language("Survey (copy from):", "Enquête (copier depuis):"), true, false, 1, survey, 0, 1, 6, Callback8)) {
+                if (KB<u8>(language("Survey (copy to):", "Enquête (copie vers):"), true, false, 1, surveyDest, 0, 1, 6, Callback8)) {
                     for (int i = 0; i < address.size(); i++) {
                         if (surveyDest != survey)
                             Process::Write8(address[i] + (surveyDest - 1), ProcessPlus::Read8(address[i] + (survey - 1)));
@@ -404,7 +404,7 @@ namespace PSS {
                     {0x8C8B46C, 0x8C8B364}
             )};
 
-            static const vector<string> options = {"Today", "Total"};
+            static const vector<string> options = {language("Today", "Aujourd'hui"), "Total"};
             KeyboardPlus keyboard;
 
             start:
@@ -485,7 +485,7 @@ namespace PSS {
     static int section, canClear[2];
 
     void ClearUsersKB(MenuEntry *entry) {
-        static const vector<string> options = {"Friends", "Acquaintances"};
+        static const vector<string> options = {language("Friends", "Amis"), language("Acquaintances", "Connaissances")};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, section) != -1) {

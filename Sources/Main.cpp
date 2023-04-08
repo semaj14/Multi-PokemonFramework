@@ -70,7 +70,7 @@ namespace CTRPluginFramework {
     }
 
     int main(void) {
-        PluginMenu *menu = new PluginMenu("Multi-Pokémon Framework", 1, 0, 0, "Multi-Pokémon Framework is a plugin developed by semaj14 that uses the CTRPluginFramework library by The Pixellizer Group.\n\nThis plugin is a work in progress as well as a learning exercise.\n\nFor more info, visit the official GitHub page.");
+        PluginMenu *menu = new PluginMenu("Multi-Pokémon Framework", 1, 0, 0, language("Multi-Pokémon Framework is a plugin developed by semaj14 that uses the CTRPluginFramework library by The Pixellizer Group.\n\nThis plugin is a work in progress as well as a learning exercise.\n\nFor more info, visit the official GitHub page.", "Multi-Pokémon Framework est un plugin développé par semaj14 qui utilise la base de données CTRPluginFramework de The Pixellizer Group.\n\nCe plugin est un travail en cours ainsi qu'un exercice d'apprentissage.\n\nPour plus d'informations, visitez la page GitHub officielle."));
         menu->ShowWelcomeMessage(false);
         menu->SynchronizeWithFrame(true);
         menu->SetHexEditorState(true);
@@ -89,7 +89,7 @@ namespace CTRPluginFramework {
 
         if (game != Game::None && update == Update::Supported) {
             Sleep(Seconds(3));
-            OSD::Notify("Welcome!");
+            OSD::Notify(language("Welcome!", "Bienvenue!"));
             InitMenu(*menu);
         }
 

@@ -28,7 +28,7 @@ namespace Battle {
                     else goto none;
                 }
 
-                else none: party[i] = Color::Gray << "None";
+                else none: party[i] = Color::Gray << language("None", "Aucun");
             }
 
             return party;
@@ -45,7 +45,7 @@ namespace Battle {
                         pointer[i] = Helpers::Battle::offset[i] + ((slot - 1) * 0x4);
 
                     Message::Completed();
-                    entry->Name() = "Slot: " << Color::Gray << Utils::ToString(slot, 0);
+                    entry->Name() = language("Slot: ", "Emplacement: ") << Color::Gray << Utils::ToString(slot, 0);
                 }
             }
         }
@@ -53,24 +53,24 @@ namespace Battle {
         static int isAffected, conditionOption;
 
         struct Conditions {
-            const char *name;
+            string name;
             int value;
         };
 
         void Condition(MenuEntry *entry) {
             Conditions conditions[5] = {
-                {"Paralyzed", Helpers::AutoRegion(0x20, 0x28)},
-                {"Asleep", Helpers::AutoRegion(0x24, 0x30)},
-                {"Frozen", Helpers::AutoRegion(0x28, 0x38)},
-                {"Burned", Helpers::AutoRegion(0x2C, 0x40)},
-                {"Poisoned", Helpers::AutoRegion(0x30, 0x48)}
+                {language("Paralyzed", "Paralysie"), Helpers::AutoRegion(0x20, 0x28)},
+                {language("Asleep", "Endormi"), Helpers::AutoRegion(0x24, 0x30)},
+                {language("Frozen", "Congelé"), Helpers::AutoRegion(0x28, 0x38)},
+                {language("Burned", "Brûlé"), Helpers::AutoRegion(0x2C, 0x40)},
+                {language("Poisoned", "Empoisonné"), Helpers::AutoRegion(0x30, 0x48)}
             };
 
-            static const vector<string> choices = {"None", "Affected"};
+            static const vector<string> choices = {language("None", "Aucun"), language("Affected", "Affecté")};
             vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Conditions &nickname : conditions)
+            for (Conditions &nickname : conditions)
                 options.push_back(nickname.name);
 
             if (IsInBattle()) {
@@ -106,7 +106,7 @@ namespace Battle {
         static u8 boostVal[7];
 
         void StatisticsKB(MenuEntry *entry) {
-            static const vector<string> choice = {"Base", "Boosts"}, baseChoices = {"Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"}, boostsChoices = {"Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Accuracy", "Evasiveness"};
+            static const vector<string> choice = {language("Base", "Stats de base"), "Boosts"}, baseChoices = {language("Attack", "Attaque"), language("Defense", "Défense"), language("Sp. Atk", "Attaque Sp."), language("Sp. Def", "Défense Sp."), language("Speed", "Vitesse")}, boostsChoices = {language("Attack", "Attaque"), language("Defense", "Défense"), language("Sp. Atk", "Attaque Sp."), language("Sp. Def", "Défense Sp."), language("Speed", "Vitesse"), language("Accuracy", "Précision"), language("Evasiveness", "Esquive")};
             u16 getBaseVal;
             u8 getBoostVal;
 
@@ -233,7 +233,7 @@ namespace Battle {
         static u8 staminaVal;
 
         void InvincibilityKB(MenuEntry *entry) {
-            static const vector<string> choices = {"Health", "Stamina"};
+            static const vector<string> choices = {language("HP", "PV"), "PP"};
             u16 getHealthVal;
             u8 getStaminaVal;
 
@@ -244,7 +244,7 @@ namespace Battle {
                     keyboard.SetKeyboard(entry->Name() + ":", true, choices, invincibilityOption);
 
                     if (invincibilityOption == 0) {
-                        if (KB<u16>("Health:", true, false, 3, getHealthVal, 0, 1, 999, Callback16)) {
+                        if (KB<u16>(language("HP:", "PV:"), true, false, 3, getHealthVal, 0, 1, 999, Callback16)) {
                             healthVal = getHealthVal;
                             Message::Completed();
                         }
@@ -253,7 +253,7 @@ namespace Battle {
                     }
 
                     else if (invincibilityOption == 1) {
-                        if (KB<u8>("Stamina:", true, false, 2, getStaminaVal, 0, 1, 99, Callback8)) {
+                        if (KB<u8>("PP:", true, false, 2, getStaminaVal, 0, 1, 99, Callback8)) {
                             staminaVal = getStaminaVal;
                             Message::Completed();
                         }
@@ -306,7 +306,8 @@ namespace Battle {
         static int attackSlot;
 
         void Attacks(MenuEntry *entry) {
-            static const vector<string> options = {"Move 1", "Move 2", "Move 3", "Move 4"};
+            static const string langName = language("Move", "Attaque");
+            static const vector<string> options = {langName + " 1", langName + " 2", langName + " 3", langName + " 4"};
             KeyboardPlus keyboard;
 
             if (IsInBattle()) {
@@ -367,14 +368,14 @@ namespace Battle {
         }
 
         void RevertDefault(MenuEntry *entry) {
-            if (MessageBox(CenterAlign("Revert everything?"), DialogType::DialogYesNo, ClearScreen::Both)()) {
+            if (MessageBox(CenterAlign(language("Revert everything?", "Tout réinitialiser?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                 isRevert = true;
-                entry->Name() = "Revert to Default: " << Color::Green << "On";
+                entry->Name() = language("Revert to Default: ", "Retourner aux paramètres par défaut: ") << Color::Green << language("On", "Activé");
                 Message::Completed();
                 return;
             }
 
-            entry->Name() = "Revert to Default: " << Color::Red << "Off";
+            entry->Name() = language("Revert to Default: ", "Retourner aux paramètres par défaut: ") << Color::Red << language("Off", "Désactivé");
             isRevert = false;
         }
 
@@ -393,7 +394,7 @@ namespace Battle {
             static PK6 *pkmn = new PK6;
             static const u32 pointer = Helpers::AutoRegion(Helpers::GetVersion(0x81FF744, 0x81FEEC8), Helpers::GetVersion(0x3003035C, 0x30030544));
             static u32 location = pointer;
-            static const vector<string> stats = {"HP", "Atk", "Def", "Spe", "SpA", "SpD"};
+            static const vector<string> stats = {language("HP", "PV"), language("Atk", "Atq"), "Def", language("Spe", "Vit"), language("SpA", "AtqS"), language("Def", "DefS")};
 
             if (!screen.IsTop)
                 return false;
@@ -407,36 +408,36 @@ namespace Battle {
                         location -= 0x1E4;
 
                     if (infoScreen == 0)
-                        screen.Draw(Color::Gray << "Slot: " << Utils::ToString(((location + 0x1E4 - pointer) / 0x1E4), 0), 5, 5, Color::White, Color::Black);
+                        screen.Draw(Color::Gray << language("Slot: ", "Emplacement: ") << Utils::ToString(((location + 0x1E4 - pointer) / 0x1E4), 0), 5, 5, Color::White, Color::Black);
 
                     if (IsValid(location, pkmn)) {
                         if (infoScreen == 0) {
-                            screen.Draw("Species: " << Color(0xF2, 0xCE, 0x70) << allPkmn[pkmn->species - 1], 5, 15, Color::White, Color::Black);
+                            screen.Draw(language("Species: ", "Espece: ") << Color(0xF2, 0xCE, 0x70) << allPkmn[pkmn->species - 1], 5, 15, Color::White, Color::Black);
                             screen.Draw("Nature: " << Color::White << allNatures[pkmn->nature], 5, 25, Color::White, Color::Black);
-                            screen.Draw("Item: " << (pkmn->heldItem == 0 ? Color::Gray : Color::White) << (pkmn->heldItem == 0 ? "None" : allItems[pkmn->heldItem - 1]), 5, 35, Color::White, Color::Black);
-                            screen.Draw("Ability: " << Color::White << allAbilities[pkmn->ability - 1], 5, 45, Color::White, Color::Black);
+                            screen.Draw(language("Item: ", "Objet: ") << (pkmn->heldItem == 0 ? Color::Gray : Color::White) << (pkmn->heldItem == 0 ? "None" : allItems[pkmn->heldItem - 1]), 5, 35, Color::White, Color::Black);
+                            screen.Draw(language("Ability: ", "Capacite: ") << Color::White << allAbilities[pkmn->ability - 1], 5, 45, Color::White, Color::Black);
                         }
 
                         else if (infoScreen == 1) {
-                            screen.Draw(Color::SkyBlue << "Moves", 5, 5, Color::White, Color::Black);
+                            screen.Draw(Color::SkyBlue << language("Moves", "Attaques"), 5, 5, Color::White, Color::Black);
 
                             for (int i = 0; i < 4; i++) {
                                 if (pkmn->moves[i] > 0)
                                     screen.Draw(to_string(i + 1) + ": " << Color::White << allMoves[pkmn->moves[i] - 1], 5, 15 + (i * 10), Color::White, Color::Black);
 
-                                else screen.Draw(to_string(i + 1) + ": " << Color::Gray << "None", 5, 15 + (i * 10), Color::White, Color::Black);
+                                else screen.Draw(to_string(i + 1) + ": " << Color::Gray << language("None", "Aucun"), 5, 15 + (i * 10), Color::White, Color::Black);
                             }
                         }
 
                         else if (infoScreen == 2) {
-                            screen.Draw(Color::Magenta << "IVs", 5, 5, Color::White, Color::Black);
+                            screen.Draw(Color::Magenta << language("IVs", "VIs"), 5, 5, Color::White, Color::Black);
 
                             for (int j = 0; j < stats.size(); j++)
                                 screen.Draw(stats[j] + ": " + to_string((u8)(pkmn->iv32 >> (5 * j)) & 0x1F), 5, 15 + (j * 10), Color::White, Color::Black);
                         }
 
                         else if (infoScreen == 3) {
-                            screen.Draw(Color::Olive << "EVs", 5, 5, Color::White, Color::Black);
+                            screen.Draw(Color::Olive << language("EVs", "VEs"), 5, 5, Color::White, Color::Black);
 
                             for (int k = 0; k < stats.size(); k++)
                                 screen.Draw(stats[k] + ": " + to_string(pkmn->evs[k]), 5, 15 + (k * 10), Color::White, Color::Black);
@@ -466,7 +467,7 @@ namespace Battle {
         }
 
         void PokeView(MenuEntry *entry) {
-            static const vector<string> options = {"Enable", "Disable"};
+            static const vector<string> options = {language("Enable", "Activer"), language("Disable", "Désactiver")};
             KeyboardPlus keyboard;
 
             if (IsInBattle()) {
@@ -517,7 +518,7 @@ namespace Battle {
             if (Bit::Read8(address, data8, true) && data8 != 1) {
                 Sleep(Seconds(1));
 
-                if (MessageBox(CenterAlign("Unlock full Mega Evolution?"), DialogType::DialogYesNo, ClearScreen::Both)()) {
+                if (MessageBox(CenterAlign(language("Unlock full Mega Evolution?", "Débloquer la méga-évolution complète?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                     if (Bit::Read8(address, data8, true))
                         Bit::Write8(address, 1, true);
                 }
@@ -626,8 +627,8 @@ namespace Battle {
             KeyboardPlus keyboard;
 
             if (pokemon > 0) {
-                if (KB<u8>("Level:", true, false, 3, level, 0, 1, 100, Callback8)) {
-                    if (keyboard.SetKeyboard("Form:", true, CTRPluginFramework::Gen6::Forms(pokemon), form) != -1) {
+                if (KB<u8>(language("Level:", "Niveau:"), true, false, 3, level, 0, 1, 100, Callback8)) {
+                    if (keyboard.SetKeyboard(language("Form:", "Forme:"), true, CTRPluginFramework::Gen6::Forms(pokemon), form) != -1) {
                         InitPokemon(pokemon, form, level, Helpers::GetVersion(false, true));
                         Message::Completed();
                     }
@@ -647,7 +648,7 @@ namespace Battle {
             static const vector<string> options = {
                 Helpers::GetVersion<string>(
                     {"Mewtwo", Helpers::PickGame("Xerneas", "Yveltal"), "Zygarde"},
-                    {Helpers::PickGame("Ho-Oh", "Lugia"), Helpers::PickGame("Latias", "Latios"), Helpers::PickGame("Groudon", "Kyogre"), "Rayquaza", "Deoxys", Helpers::PickGame("Palkia", "Dialga"), "Heatran", "Regigigas", "Giritina", Helpers::PickGame("Tornadus", "Thunderus"), "Landorus", "Kyruem"}
+                    {Helpers::PickGame("Ho-Oh", "Lugia"), Helpers::PickGame("Latias", "Latios"), Helpers::PickGame("Groudon", "Kyogre"), "Rayquaza", "Deoxys", Helpers::PickGame("Palkia", "Dialga"), "Heatran", "Regigigas", "Giritina", Helpers::PickGame(language("Tornadus", "Boréas"), language("Thunderus", "Fulguris")), language("Landorus", "Démétéros"), "Kyruem"}
             )};
 
             KeyboardPlus keyboard;
@@ -930,8 +931,8 @@ namespace Battle {
             KeyboardPlus keyboard;
 
             if (pokemon > 0) {
-                if (keyboard.SetKeyboard("Form:", true, CTRPluginFramework::Gen7::Forms(pokemon), form) != -1) {
-                    if (KB<u8>("Level:", true, false, 3, level, 0, 1, 100, Callback8))
+                if (keyboard.SetKeyboard(language("Form:", "Forme:"), true, CTRPluginFramework::Gen7::Forms(pokemon), form) != -1) {
+                    if (KB<u8>(language("Level:", "Niveau:"), true, false, 3, level, 0, 1, 100, Callback8))
                         entry->SetGameFunc(InitPokemon);
                         Message::Completed();
                 }
@@ -947,7 +948,7 @@ namespace Battle {
                     {0x33013264, 0x33013266, 0x33013268, 0x3301322C, 0x33013712, 0x3301379F, 0x33013796}
             )};
 
-            static const vector<string> options = {"Tapu Koko", "Tapu Lele", "Tapu Bulu", "Tapu Fini", "Cosmog", Helpers::PickGame("Solgaleo", "Lunala"), "Necrozma"};
+            static const vector<string> options = {language("Tapu Koko", "Tokorico"), language("Tapu Lele", "Tokopiyon"), language("Tapu Bulu", "Tokotoro"), language("Tapu Fini", "Tokopisco"), "Cosmog", Helpers::PickGame("Solgaleo", "Lunala"), "Necrozma"};
             KeyboardPlus keyboard;
 
             static const vector<bool> rightSide = {true, true, true, true, false, false, false};
@@ -1121,7 +1122,7 @@ namespace Battle {
     }
 
     void MusicKB(MenuEntry *entry) {
-        static const vector<string> options = {"Wild Encounter", "Trainer"};
+        static const vector<string> options = {language("Wild Encounter", "Rencontres Sauvages"), language("Trainer", "Combats de Dresseurs")};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, musicType) != -1) {
@@ -1132,7 +1133,7 @@ namespace Battle {
                     getMusicFiles.push_back(nickname.name);
             }
 
-            if (keyboard.SetKeyboard(entry->Name() + ":\n\nSelect the music file you would like to use.", true, getMusicFiles, music) != -1) {
+            if (keyboard.SetKeyboard(entry->Name() + ":\n\n" + language("Select the music file you would like to use.", "Choisissez le fichier de musique que vous souhaitez utiliser."), true, getMusicFiles, music) != -1) {
                 musicSelected = true;
                 entry->SetGameFunc(ApplyMusic);
                 Message::Completed();

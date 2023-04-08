@@ -8,12 +8,12 @@ namespace Misc {
     static int weatherLocation, weatherToggle;
 
     void WeatherKB(MenuEntry *entry) {
-        static const vector<string> options = {"Route 113", "Route 119", "Route 120", "Jagged Pass", "East Hoenn"};
-        static const vector<string> conditions = {"Snow", "Rain", "Rain", "Snow", Helpers::PickGame("Extremely Harsh Sunlight", "Heavy Rain")};
+        static const vector<string> options = {"Route 113", "Route 119", "Route 120", language("Jagged Pass", "Le Sentier Étroit"), language("East Hoenn", "l'Est d'Hoenn")};
+        static const vector<string> conditions = {language("Snow", "Neige"), language("Rain", "Pluie"), language("Rain", "Pluie"), language("Snow", "Neige"), Helpers::PickGame(language("Extremely Harsh Sunlight", "Soleil ardent"), language("Heavy Rain", "Pluie diluvienne"))};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, weatherLocation) != -1) {
-            if (keyboard.SetKeyboard(conditions[weatherLocation] + ":", true, {"On", "Off"}, weatherToggle) != -1)
+            if (keyboard.SetKeyboard(conditions[weatherLocation] + ":", true, {language("On", "Allumé"), language("Off", "Eteint")}, weatherToggle) != -1)
                 Message::Completed();
         }
     }
@@ -213,11 +213,11 @@ namespace Misc {
         int index = listOfFileNames.size();
 
         if (index >= 20) {
-            if (MessageBox(CenterAlign("Limit reached! Erase old backups?"), DialogType::DialogYesNo, ClearScreen::Both)()) {
+            if (MessageBox(CenterAlign(language("Limit reached! Erase old backups?", "Limite atteinte! Supprimer les anciennes sauvegardes?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                 for (int i = 0; i < index; i++)
                     File::Remove("Keyboard/" + listOfFileNames[i]);
 
-                MessageBox(CenterAlign("All backups have been erased."), DialogType::DialogOk, ClearScreen::Both)();
+                MessageBox(CenterAlign(language("All backups have been erased.", "Toutes les sauvegardes ont été effacées.")), DialogType::DialogOk, ClearScreen::Both)();
             }
 
             return;
@@ -225,7 +225,7 @@ namespace Misc {
 
         int mode;
         string fileName;
-        static const vector<string> options = {"Export", "Import"};
+        static const vector<string> options = {language("Export", "Exporter"), language("Import", "Importer")};
         KeyboardPlus keyboard;
 
         Process::Read32(pointer, offset);
@@ -239,7 +239,7 @@ namespace Misc {
                         Directory::Create("Keyboard");
 
                     if (index <= 20) {
-                        if (KB<string>("Name:", true, false, 16, fileName, "")) {
+                        if (KB<string>(language("Name:", "Nom:"), true, false, 16, fileName, "")) {
                             File dumpFile("Keyboard/" + fileName + extension, File::RWC);
                             dumpFile.Dump(offset, 0x81);
                             Message::Completed();
@@ -250,7 +250,7 @@ namespace Misc {
 
                 if (mode == 1) {
                     if (index == 0) {
-                        MessageBox(CenterAlign("You have 0 backup(s) to recover from!"), DialogType::DialogOk, ClearScreen::Both)();
+                        MessageBox(CenterAlign(language("You have 0 backup(s) to recover from!", "Vous n'avez aucune sauvegarde à récupérer!")), DialogType::DialogOk, ClearScreen::Both)();
                         return;
                     }
 
@@ -287,7 +287,7 @@ namespace Misc {
             if (entry->Hotkeys[0].IsPressed()) {
                 Sleep(Seconds(.5));
 
-                if (KB<u8>("Key:", true, false, 3, key, 0, 1, 65, Callback8)) {
+                if (KB<u8>(language("Key:", "Touches:"), true, false, 3, key, 0, 1, 65, Callback8)) {
                     Sleep(Seconds(.5));
 
                     if (KB<u32>("Unicode:", true, true, 4, unicode, 0, 0, 0xFFFF, Callback32))
