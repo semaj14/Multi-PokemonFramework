@@ -447,7 +447,7 @@ namespace CTRPluginFramework {
 
         // Draw version if on default page
         if (folder->name == pluginName)
-            Renderer::DrawString("Version: 1.0.2", 158, posY2, Color::Gray);
+            Renderer::DrawString("Version: 1.0.3", 158, posY2, Color::Gray);
 
         else Renderer::DrawString("Multi-Pokemon Framework", 132, posY2, Color::Gray);
 
