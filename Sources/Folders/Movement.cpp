@@ -14,7 +14,7 @@ namespace Movement {
                 ProcessPlus process;
                 unsigned int x = stoul(process.Address(s, -5), nullptr, 16);
 
-                if (!Process::Write32(x, CTRPluginFramework::ORAS::models[swap].id))
+                if (!Process::Write32(x, (currLang == Lang::ENG ? CTRPluginFramework::ORAS::English::models[swap].id : CTRPluginFramework::ORAS::French::models[swap].id)))
                     return;
             }
 
@@ -23,7 +23,7 @@ namespace Movement {
                 KeyboardPlus keyboard;
 
                 if (options.empty()) {
-                    for (const CTRPluginFramework::ORAS::Model &nickname : CTRPluginFramework::ORAS::models)
+                    for (const CTRPluginFramework::ORAS::Model &nickname : (currLang == Lang::ENG ? CTRPluginFramework::ORAS::English::models : CTRPluginFramework::ORAS::French::models))
                         options.push_back(nickname.name);
                 }
 
@@ -132,71 +132,141 @@ namespace Movement {
             float y;
         };
 
-        static Locations locations[63] = {
-            {0, "Ambrette Town", 0x2F, 369, 495},
-            {0, "Anistar City", 0xD6, 369, 495},
-            {0, "Camphrier Town", 0xD, 369, 495},
-            {0, "Coumarine City", 0xBE, 369, 495},
-            {0, "Couriway Town", 0x28, 369, 495},
-            {0, "Cyllage City", 0x9F, 369, 495},
-            {0, "Day Care", 0x109, 225, 351},
-            {0, "Dendemille Town", 0x21, 369, 495},
-            {0, "Friend Safari", 0x163, 153, 315},
-            {0, "Geosenge Town", 0x18, 369, 495},
-            {0, "Kiloude City", 0xEA, 369, 495},
-            {0, "Laverre City", 0xCA, 369, 495},
-            {0, "Lumiose City", 0x167, 369, 495},
-            {0, "Poké Ball Factory", 0x136, 279, 621},
-            {0, "Pokémon Lab", 0x53, 207, 261},
-            {0, "Pokémon League", 0xF4, 369, 495},
-            {0, "Radiant Chamber", 0x100, 351, 423},
-            {0, "Santalune City", 0x36, 369, 495},
-            {0, "Santalune Forest", 0x11E, 729, 1359},
-            {0, "Sea Spirit's Den", 0x15F, 333, 405},
-            {0, "Shalour City", 0xAE, 369, 495},
-            {0, "Snowbelle City", 0xE1, 369, 495},
-            {0, "Team Flare HQ", 0x155, 711, 891},
-            {0, "Terminus Cave", 0x15A, 765, 693},
-            {0, "Unknown Dungeon", 0x13F, 351, 567},
-            {0, "Vanville Town", 0x2, 369, 495},
-            {0, "Video Studio", 0x6B, 315, 585},
-            {0, language("Ancient Tomb", "Tombeau Antique"), 0x9F, 225, 333},
-            {0, "Battle Resort", 0x206, 351, 441},
-            {0, "Cave of Origin", 0x70, 333, 621},
-            {0, "Day Care", 0x187, 225, 333},
-            {0, "Desert Ruins", 0x4D, 225, 333},
-            {0, "Dewford Town", 0xE8, 351, 441},
-            {0, "Ever Grande City", 0x161, 351, 441},
-            {0, language("Fabled Cave", "Grotte Évanescente"), 0x20F, 387, 693},
-            {0, "Fallarbor Town", 0xF0, 351, 441},
-            {0, "Fortree City", 0x12D, 351, 441},
-            {0, "Gnarled Den", 0x210, 369, 657},
-            {0, "Granite Cave", 0x4E, 531, 639},
-            {0, "Island Cave", 0x9E, 225, 333},
-            {0, "Lilycove City", 0x135, 351, 441},
-            {0, "Littleroot Town", 0xDF, 297, 333},
-            {0, "Mauville City", 0x116, 351, 441},
-            {0, "Meteor Falls", 0x47, 1035, 639},
-            {0, "Mossdeep City", 0x14A, 351, 441},
-            {0, language("Nameless Cavern", "Grotte Sans Nom"), 0x20E, 369, 657},
-            {0, "New Mauville", 0x8B, 369, 657},
-            {0, "Odale Town", 0xE4, 351, 441},
-            {0, "Pacifidlog Town", 0xFD, 351, 441},
-            {0, "Petalburg City", 0x103, 351, 441},
-            {0, "Petalburg Woods", 0x52, 531, 1161},
-            {0, "Pokémon League", 0x16C, 297, 387},
-            {0, "Rustboro City", 0x11C, 351, 441},
-            {0, "Rusturf Tunnel", 0x4B, 261, 369},
-            {0, language("Scorched Slab", "Chemin Ardent"), 0xA7,261, 459},
-            {1, "Sea Mauville", 0x92, 369, 45},
-            {0, "Sealed Chambers", 0xA3, 801, 1305},
-            {0, "Secret Meadow", 0x1DB, 387, 657},
-            {0, "Sky Pillar", 0xB0, 639, 981},
-            {0, "Slateport City", 0x109, 351, 441},
-            {0, "Sootopolis City", 0x155, 351, 441},
-            {0, "Verdanturf Town", 0xF6, 351, 441},
-            {0, "Victory Road", 0x7B, 387, 855}
-        };
+        namespace English {
+            static Locations locations[63] = {
+                {0, "Ambrette Town", 0x2F, 369, 495},
+                {0, "Anistar City", 0xD6, 369, 495},
+                {0, "Camphrier Town", 0xD, 369, 495},
+                {0, "Coumarine City", 0xBE, 369, 495},
+                {0, "Couriway Town", 0x28, 369, 495},
+                {0, "Cyllage City", 0x9F, 369, 495},
+                {0, "Day Care", 0x109, 225, 351},
+                {0, "Dendemille Town", 0x21, 369, 495},
+                {0, "Friend Safari", 0x163, 153, 315},
+                {0, "Geosenge Town", 0x18, 369, 495},
+                {0, "Kiloude City", 0xEA, 369, 495},
+                {0, "Laverre City", 0xCA, 369, 495},
+                {0, "Lumiose City", 0x167, 369, 495},
+                {0, "Poké Ball Factory", 0x136, 279, 621},
+                {0, "Pokémon Lab", 0x53, 207, 261},
+                {0, "Pokémon League", 0xF4, 369, 495},
+                {0, "Radiant Chamber", 0x100, 351, 423},
+                {0, "Santalune City", 0x36, 369, 495},
+                {0, "Santalune Forest", 0x11E, 729, 1359},
+                {0, "Sea Spirit's Den", 0x15F, 333, 405},
+                {0, "Shalour City", 0xAE, 369, 495},
+                {0, "Snowbelle City", 0xE1, 369, 495},
+                {0, "Team Flare HQ", 0x155, 711, 891},
+                {0, "Terminus Cave", 0x15A, 765, 693},
+                {0, "Unknown Dungeon", 0x13F, 351, 567},
+                {0, "Vanville Town", 0x2, 369, 495},
+                {0, "Video Studio", 0x6B, 315, 585},
+                {0, "Ancient Tomb", 0x9F, 225, 333},
+                {0, "Battle Resort", 0x206, 351, 441},
+                {0, "Cave of Origin", 0x70, 333, 621},
+                {0, "Day Care", 0x187, 225, 333},
+                {0, "Desert Ruins", 0x4D, 225, 333},
+                {0, "Dewford Town", 0xE8, 351, 441},
+                {0, "Ever Grande City", 0x161, 351, 441},
+                {0, "Fabled Cave", 0x20F, 387, 693},
+                {0, "Fallarbor Town", 0xF0, 351, 441},
+                {0, "Fortree City", 0x12D, 351, 441},
+                {0, "Gnarled Den", 0x210, 369, 657},
+                {0, "Granite Cave", 0x4E, 531, 639},
+                {0, "Island Cave", 0x9E, 225, 333},
+                {0, "Lilycove City", 0x135, 351, 441},
+                {0, "Littleroot Town", 0xDF, 297, 333},
+                {0, "Mauville City", 0x116, 351, 441},
+                {0, "Meteor Falls", 0x47, 1035, 639},
+                {0, "Mossdeep City", 0x14A, 351, 441},
+                {0, "Nameless Cavern", 0x20E, 369, 657},
+                {0, "New Mauville", 0x8B, 369, 657},
+                {0, "Odale Town", 0xE4, 351, 441},
+                {0, "Pacifidlog Town", 0xFD, 351, 441},
+                {0, "Petalburg City", 0x103, 351, 441},
+                {0, "Petalburg Woods", 0x52, 531, 1161},
+                {0, "Pokémon League", 0x16C, 297, 387},
+                {0, "Rustboro City", 0x11C, 351, 441},
+                {0, "Rusturf Tunnel", 0x4B, 261, 369},
+                {0, "Scorched Slab", 0xA7,261, 459},
+                {1, "Sea Mauville", 0x92, 369, 45},
+                {0, "Sealed Chambers", 0xA3, 801, 1305},
+                {0, "Secret Meadow", 0x1DB, 387, 657},
+                {0, "Sky Pillar", 0xB0, 639, 981},
+                {0, "Slateport City", 0x109, 351, 441},
+                {0, "Sootopolis City", 0x155, 351, 441},
+                {0, "Verdanturf Town", 0xF6, 351, 441},
+                {0, "Victory Road", 0x7B, 387, 855}
+            };
+        }
+
+        namespace French {
+            static Locations locations[63] = {
+                {0, "Ville d'Auffrac-les-Congères", 0x2F, 369, 495},
+                {0, "Ville d'Anistar", 0xD6, 369, 495},
+                {0, "Bourg Croquis", 0xD, 369, 495},
+                {0, "Ville de Cromlac'h", 0xBE, 369, 495},
+                {0, "Bourg Croquis", 0x28, 369, 495},
+                {0, "Mérouville", 0x9F, 369, 495},
+                {0, "Garde Pokémon", 0x109, 225, 351},
+                {0, "Bourg Croquis", 0x21, 369, 495},
+                {0, "Safari des Amis", 0x163, 153, 315},
+                {0, "Village de Croma", 0x18, 369, 495},
+                {0, "Village Pokémon", 0xEA, 369, 495},
+                {0, "Mahlieu", 0xCA, 369, 495},
+                {0, "Illumis", 0x167, 369, 495},
+                {0, "Usine de Poké Balls", 0x136, 279, 621},
+                {0, "Laboratoire Pokémon", 0x53, 207, 261},
+                {0, "Ligue Pokémon", 0xF4, 369, 495},
+                {0, "Chambre Radieuse", 0x100, 351, 423},
+                {0, "Quarellis-sur-Mer", 0x36, 369, 495},
+                {0, "Forêt de Neuvartault", 0x11E, 729, 1359},
+                {0, "Antre des Esprits Marins", 0x15F, 333, 405},
+                {0, "Parsemille", 0xAE, 369, 495},
+                {0, "Flusselles", 0xE1, 369, 495},
+                {0, "QG de la Team Flare", 0x155, 711, 891},
+                {0, "Grotte Coda", 0x15A, 765, 693},
+                {0, "Grotte Inconnue", 0x13F, 351, 567},
+                {0, "Rosyères", 0x2, 369, 495},
+                {0, "Studio de Cinécapture", 0x6B, 315, 585},
+                {0, "Tombeau Antique", 0x9F, 225, 333},
+                {0, "Atoll de Combat", 0x206, 351, 441},
+                {0, "Caverne Fondmer", 0x70, 333, 621},
+                {0, "Garde Pokémon", 0x187, 225, 333},
+                {0, "Ruines Désert", 0x4D, 225, 333},
+                {0, "Village Myokara", 0xE8, 351, 441},
+                {0, "Éternara", 0x161, 351, 441},
+                {0, "Grotte Miroitante", 0x20F, 387, 693},
+                {0, "Vestigion", 0xF0, 351, 441},
+                {0, "Fort-Vanitas", 0x12D, 351, 441},
+                {0, "Antre Grouillant", 0x210, 369, 657},
+                {0, "Caverne Granite", 0x4E, 531, 639},
+                {0, "Caverne Azurée", 0x9E, 225, 333},
+                {0, "Nénucrique", 0x135, 351, 441},
+                {0, "Bourg-en-Vol", 0xDF, 297, 333},
+                {0, "Clémenti-Ville", 0x116, 351, 441},
+                {0, "Chute Métorite", 0x47, 1035, 639},
+                {0, "Algatia", 0x14A, 351, 441},
+                {0, "Antre sans Nom", 0x20E, 369, 657},
+                {0, "Manoir de l'Aube", 0x8B, 369, 657},
+                {0, "Rosyères", 0xE4, 351, 441},
+                {0, "Village Myokara", 0xFD, 351, 441},
+                {0, "Clémenti-Ville", 0x103, 351, 441},
+                {0, "Bois Clémenti", 0x52, 531, 1161},
+                {0, "Ligue Pokémon", 0x16C, 297, 387},
+                {0, "Village Myokara", 0x11C, 351, 441},
+                {0, "Tunnel Mérazon", 0x4B, 261, 369},
+                {0, "Grotte de la Roche Glacée", 0xA7, 261, 459},
+                {1, "Hôtel Désolation", 0x92, 369, 45},
+                {0, "Chambre Scellée", 0xA3, 801, 1305},
+                {0, "Prairie Secrète", 0x1DB, 387, 657},
+                {0, "Tour de Maîtrise", 0xB0, 639, 981},
+                {0, "Poivressel", 0x109, 351, 441},
+                {0, "Atalanopolis", 0x155, 351, 441},
+                {0, "Rosyères", 0xF6, 351, 441},
+                {0, "Route Victoire", 0x7B, 387, 855}
+            };
+        }
 
         int placesAvailable = 0;
         static int place, direction;
@@ -206,7 +276,7 @@ namespace Movement {
             static vector<string> options;
             KeyboardPlus keyboard;
 
-            for (Locations &nickname : locations) {
+            for (Locations &nickname : (currLang == Lang::ENG ? English::locations : French::locations)) {
                 if (placesAvailable < ((group == Group::XY) ? 27 : 63)) {
                     if (group == Group::ORAS) {
                         if (placesAvailable > 26)
@@ -223,8 +293,8 @@ namespace Movement {
             }
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, place) != -1) {
-                coords[0] = locations[place + Helpers::GetVersion(0, 27)].x;
-                coords[1] = locations[place + Helpers::GetVersion(0, 27)].y;
+                coords[0] = (currLang == Lang::ENG ? English::locations[place + Helpers::GetVersion(0, 27)].x : French::locations[place + Helpers::GetVersion(0, 27)].x);
+                coords[1] = (currLang == Lang::ENG ? English::locations[place + Helpers::GetVersion(0, 27)].y : French::locations[place + Helpers::GetVersion(0, 27)].y);
                 Message::Completed();
             }
         }
@@ -238,8 +308,8 @@ namespace Movement {
 
             if (entry->Hotkeys[0].IsDown()) {
                 if (Process::Read16(address[1], data16) && data16 == 0x5544) {
-                    if (Process::Write16(address[0], locations[place + Helpers::GetVersion(0, 27)].value)) {
-                        if (Process::Write8(address[2], locations[place + Helpers::GetVersion(0, 27)].direction)) {
+                    if (Process::Write16(address[0], (currLang == Lang::ENG ? English::locations[place + Helpers::GetVersion(0, 27)].value : French::locations[place + Helpers::GetVersion(0, 27)].value))) {
+                        if (Process::Write8(address[2], (currLang == Lang::ENG ? English::locations[place + Helpers::GetVersion(0, 27)].direction : French::locations[place + Helpers::GetVersion(0, 27)].direction))) {
                             for (int i; i < 2; i++)
                                 Process::WriteFloat(address[i + 3], coords[i]);
                         }

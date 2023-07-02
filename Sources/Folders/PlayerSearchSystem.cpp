@@ -12,15 +12,29 @@ namespace PSS {
             int val2;
         };
 
-        static const Deposit deposit[7] = {
-            {"Back", 0x45, 0x40},
-            {"Quit the GTS", 0x4F, 0x4B},
-            {"Pokemon Wanted", 0xA4, 0xA0},
-            {"Wanted", 0xA6, 0xA2},
-            {"Gender", 0xA8, 0xA4},
-            {"Level", 0xAA, 0xA6},
-            {"Options", 0xAE, 0xAA}
-        };
+        namespace English {
+            static const Deposit deposit[7] = {
+                {"Back", 0x45, 0x40},
+                {"Quit the GTS", 0x4F, 0x4B},
+                {"Pokemon Wanted", 0xA4, 0xA0},
+                {"Wanted", 0xA6, 0xA2},
+                {"Gender", 0xA8, 0xA4},
+                {"Level", 0xAA, 0xA6},
+                {"Options", 0xAE, 0xAA}
+            };
+        }
+
+        namespace French {
+            static const Deposit deposit[7] = {
+                {"Retour", 0x45, 0x40},
+                {"Quitter le GTS", 0x4F, 0x4B},
+                {"Pokémon Recherché", 0xA4, 0xA0},
+                {"Recherché", 0xA6, 0xA2},
+                {"Genre", 0xA8, 0xA4},
+                {"Niveau", 0xAA, 0xA6},
+                {"Options", 0xAE, 0xAA}
+            };
+        }
 
         static int depositConfig, getSettings[2], settings[3];
         static int optionsType;
@@ -51,11 +65,11 @@ namespace PSS {
                         if (optionsType == 0) {
                             vector<string> selection;
 
-                            for (const Deposit &nickname : deposit)
+                            for (const Deposit &nickname : (currLang == Lang::ENG ? English::deposit : French::deposit))
                                 selection.push_back(nickname.name);
 
                             if (keyboard.SetKeyboard(options[depositConfig] + ":", true, selection, getSettings[depositConfig - 1]) != -1) {
-                                settings[depositConfig] = (depositConfig < 2) ? deposit[getSettings[depositConfig - 1]].val1 : deposit[getSettings[depositConfig -1]].val2;
+                                settings[depositConfig] = (depositConfig < 2) ? (currLang == Lang::ENG ? English::deposit[getSettings[depositConfig - 1]].val1 : French::deposit[getSettings[depositConfig - 1]].val1) : (currLang == Lang::ENG ? English::deposit[getSettings[depositConfig -1]].val2 : French::deposit[getSettings[depositConfig -1]].val2);
                                 Message::Completed();
                                 return;
                             }
@@ -64,7 +78,7 @@ namespace PSS {
                         }
 
                         else {
-                            vector<vector<string>> selection = {{language("Any", "Tout"), language("Male", "Mâle"), language("Female", "Femelle")}, {"Any", "1 to 10", "11 to 20", "21 to 30", "31 to 40", "41 to 50", "51 to 60", "61 to 70", "71 to 80", "81 to 90", "91 or higher"}};
+                            vector<vector<string>> selection = {{language("Any", "Tout"), language("Male", "Mâle"), language("Female", "Femelle")}, {language("Any", "Tout"), "1 ~ 10", "11 ~ 20", "21 ~ 30", "31 ~ 40", "41 ~ 50", "51 ~ 60", "61 ~ 70", "71 ~ 80", "81 ~ 90", language("91 or higher", "91 ou plus")}};
 
                             if (keyboard.SetKeyboard(options[depositConfig] + ":", true, (depositConfig == 1 ? selection[0] : selection[1]), getSettings[depositConfig - 1]) != -1) {
                                 settings[depositConfig] = getSettings[depositConfig - 1];
@@ -113,85 +127,169 @@ namespace PSS {
             const char *name;
         };
 
-        static const Sprites hackedIcons[3] = {
-            {17, "Invisible"},
-            {128, "Pokémon Center"},
-            {129, "Gift"}
-        };
+        namespace English {
+            static const Sprites hackedIcons[3] = {
+                {17, "Invisible"},
+                {128, "Pokémon Center"},
+                {129, "Gift"}
+            };
 
-        static const Sprites regularIcons[71] = {
-            {0, "Serena"},
-            {1, "Calem"},
-            {2, "Sycamore"},
-            {3, "Diantha"},
-            {4, "Wikstrom"},
-            {5, "Malva"},
-            {6, "Drasna"},
-            {7, "Siebold"},
-            {8, "Viola"},
-            {9, "Grant"},
-            {10, "Korrina"},
-            {11, "Ramos"},
-            {12, "Clemont"},
-            {13, "Valerie"},
-            {14, "Olympia"},
-            {15, "Wulfric"},
-            {16, "Youngster"},
-            {18, "Lass"},
-            {19, "Lady"},
-            {20, "Schoolgirl"},
-            {21, "Battle Girl"},
-            {22, "Schoolboy"},
-            {23, "Rich Boy"},
-            {24, "Female Ace Trainer"},
-            {26, "Female Ranger"},
-            {27, "Male Ace Trainer"},
-            {28, "Male Ranger"},
-            {29, "Madame"},
-            {30, "Monsieur"},
-            {31, "Black Belt"},
-            {32, "Male Punk"},
-            {33, "Fairy Tale Girl"},
-            {34, "Shauna"},
-            {35, "Tierno"},
-            {36, "Trevor"},
-            {37, "Brendan"},
-            {38, "May"},
-            {40, "Hiker"},
-            {41, "Aroma Lady"},
-            {42, "Male Schoolkid"},
-            {43, "Female Schoolkid"},
-            {44, "Black Belt"},
-            {45, "Battle Girl"},
-            {46, "Pokemaniac"},
-            {47, "Fairy Tale Girl"},
-            {48, "Victor Winstrate"},
-            {49, "Victoria Winstrate"},
-            {50, "Male Ranger"},
-            {51, "Female Ranger"},
-            {52, "Male Swimmer"},
-            {53, "Hex Maniac"},
-            {54, "Male Ace Trainer"},
-            {55, "Female Ace Trainer"},
-            {56, "Street Thug"},
-            {57, "Delinquent"},
-            {58, "Male Expert"},
-            {59, "Female Expert"},
-            {60, "Lady"},
-            {61, "Rich Boy"},
-            {62, "Ninja Boy"},
-            {63, "Beauty"},
-            {64, "Guitarist"},
-            {65, "Lass"},
-            {66, "Male Breeder"},
-            {67, "Female Breeder"},
-            {68, "Camper"},
-            {69, "Picnicker"},
-            {70, "Wally"},
-            {71, "Steven"},
-            {72, "Maxie"},
-            {73, "Archie"}
-        };
+            static const Sprites regularIcons[71] = {
+                {0, "Serena"},
+                {1, "Calem"},
+                {2, "Sycamore"},
+                {3, "Diantha"},
+                {4, "Wikstrom"},
+                {5, "Malva"},
+                {6, "Drasna"},
+                {7, "Siebold"},
+                {8, "Viola"},
+                {9, "Grant"},
+                {10, "Korrina"},
+                {11, "Ramos"},
+                {12, "Clemont"},
+                {13, "Valerie"},
+                {14, "Olympia"},
+                {15, "Wulfric"},
+                {16, "Youngster"},
+                {18, "Lass"},
+                {19, "Lady"},
+                {20, "Schoolgirl"},
+                {21, "Battle Girl"},
+                {22, "Schoolboy"},
+                {23, "Rich Boy"},
+                {24, "Female Ace Trainer"},
+                {26, "Female Ranger"},
+                {27, "Male Ace Trainer"},
+                {28, "Male Ranger"},
+                {29, "Madame"},
+                {30, "Monsieur"},
+                {31, "Black Belt"},
+                {32, "Male Punk"},
+                {33, "Fairy Tale Girl"},
+                {34, "Shauna"},
+                {35, "Tierno"},
+                {36, "Trevor"},
+                {37, "Brendan"},
+                {38, "May"},
+                {40, "Hiker"},
+                {41, "Aroma Lady"},
+                {42, "Male Schoolkid"},
+                {43, "Female Schoolkid"},
+                {44, "Black Belt"},
+                {45, "Battle Girl"},
+                {46, "Pokemaniac"},
+                {47, "Fairy Tale Girl"},
+                {48, "Victor Winstrate"},
+                {49, "Victoria Winstrate"},
+                {50, "Male Ranger"},
+                {51, "Female Ranger"},
+                {52, "Male Swimmer"},
+                {53, "Hex Maniac"},
+                {54, "Male Ace Trainer"},
+                {55, "Female Ace Trainer"},
+                {56, "Street Thug"},
+                {57, "Delinquent"},
+                {58, "Male Expert"},
+                {59, "Female Expert"},
+                {60, "Lady"},
+                {61, "Rich Boy"},
+                {62, "Ninja Boy"},
+                {63, "Beauty"},
+                {64, "Guitarist"},
+                {65, "Lass"},
+                {66, "Male Breeder"},
+                {67, "Female Breeder"},
+                {68, "Camper"},
+                {69, "Picnicker"},
+                {70, "Wally"},
+                {71, "Steven"},
+                {72, "Maxie"},
+                {73, "Archie"}
+            };
+        }
+
+        namespace French {
+            static const Sprites regularIcons[71] = {
+                {0, "Serena"},
+                {1, "Calem"},
+                {2, "Sycamore"},
+                {3, "Diantha"},
+                {4, "Wikstrom"},
+                {5, "Malva"},
+                {6, "Drasna"},
+                {7, "Siebold"},
+                {8, "Viola"},
+                {9, "Grant"},
+                {10, "Korrina"},
+                {11, "Ramos"},
+                {12, "Clemont"},
+                {13, "Valerie"},
+                {14, "Olympia"},
+                {15, "Wulfric"},
+                {16, "Jeune Dresseur"},
+                {18, "Dresseuse"},
+                {19, "Dame"},
+                {20, "Écolière"},
+                {21, "Fille de combat"},
+                {22, "Écolier"},
+                {23, "Jeune riche"},
+                {24, "Dresseuse As"},
+                {26, "Ranger Femme"},
+                {27, "Dresseur As"},
+                {28, "Ranger Homme"},
+                {29, "Madame"},
+                {30, "Monsieur"},
+                {31, "Ceinture Noire"},
+                {32, "Punk Homme"},
+                {33, "Fille des contes"},
+                {34, "Shauna"},
+                {35, "Tierno"},
+                {36, "Trevor"},
+                {37, "Brendan"},
+                {38, "May"},
+                {40, "Randonneur"},
+                {41, "Demoiselle Parfumée"},
+                {42, "Écolier Homme"},
+                {43, "Écolière Femme"},
+                {44, "Ceinture Noire"},
+                {45, "Fille de combat"},
+                {46, "Pokémaniac"},
+                {47, "Fille des contes"},
+                {48, "Victor Winstrate"},
+                {49, "Victoria Winstrate"},
+                {50, "Ranger Homme"},
+                {51, "Ranger Femme"},
+                {52, "Nageur Homme"},
+                {53, "Folle aux hexagones"},
+                {54, "Dresseur As"},
+                {55, "Dresseuse As"},
+                {56, "Voyou de rue"},
+                {57, "Délinquante"},
+                {58, "Expert Homme"},
+                {59, "Expert Femme"},
+                {60, "Dame"},
+                {61, "Jeune riche"},
+                {62, "Garçon Ninja"},
+                {63, "Belle"},
+                {64, "Guitariste"},
+                {65, "Dresseuse"},
+                {66, "Éleveur Homme"},
+                {67, "Éleveuse Femme"},
+                {68, "Campeur"},
+                {69, "Pique-niqueuse"},
+                {70, "Wally"},
+                {71, "Steven"},
+                {72, "Maxie"},
+                {73, "Archie"}
+            };
+
+            static const Sprites hackedIcons[3] = {
+                {17, "Invisible"},
+                {128, "Centre Pokémon"},
+                {129, "Cadeau"}
+            };
+        }
 
         int iconsAvailable = 0;
         static int iconCategory, getIcon;
@@ -204,7 +302,7 @@ namespace PSS {
             static vector<string> regularOptions;
             KeyboardPlus keyboard;
 
-            for (const Sprites &nickname : regularIcons) {
+            for (const Sprites &nickname : (currLang == Lang::ENG ? English::regularIcons : French::regularIcons)) {
                 if (iconsAvailable < ((group == Group::XY) ? 35 : 71)) {
                     regularOptions.push_back(nickname.name);
                     iconsAvailable++;
@@ -217,7 +315,7 @@ namespace PSS {
             if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké"), "Normal"}, iconCategory) != -1) {
                 if (iconCategory != 0) {
                     if (keyboard.SetKeyboard(entry->Name() + ":", true, regularOptions, getIcon) != -1) {
-                        Process::Write8(address, regularIcons[getIcon].id);
+                        Process::Write8(address, (currLang == Lang::ENG ? English::regularIcons[getIcon].id : French::regularIcons[getIcon].id));
                         goto end;
                     }
 
@@ -225,7 +323,7 @@ namespace PSS {
                 }
 
                 else {
-                    for (const Sprites &nickname : hackedIcons) {
+                    for (const Sprites &nickname : (currLang == Lang::ENG ? English::hackedIcons : French::hackedIcons)) {
                         if (counter < 3) {
                             hackedOptions.push_back(nickname.name);
                             counter++;
@@ -235,7 +333,7 @@ namespace PSS {
                     }
 
                     if (keyboard.SetKeyboard(entry->Name() + ":", true, hackedOptions, getIcon) != -1) {
-                        Process::Write8(address, hackedIcons[getIcon].id);
+                        Process::Write8(address, (currLang == Lang::ENG ? English::hackedIcons[getIcon].id : French::hackedIcons[getIcon].id));
                         goto end;
                     }
 
@@ -324,11 +422,11 @@ namespace PSS {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Geograph &nickname : allCountries)
+            for (const Geograph &nickname : (currLang == Lang::ENG ? CTRPluginFramework::English::allCountries : CTRPluginFramework::French::allCountries))
                 options.push_back(nickname.name);
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getCountry) != -1) {
-                countryID = allCountries[getCountry].id;
+                countryID = (currLang == Lang::ENG ? CTRPluginFramework::English::allCountries[getCountry].id : CTRPluginFramework::French::allCountries[getCountry].id);
 
                 if (Process::Write16(address[0], (countryID << 8 | regionID))) {
                     if (Process::Write32(address[1], Helpers::GetVersion(0xEB048F30, 0xEB04EF7C)))

@@ -17,7 +17,7 @@ namespace CTRPluginFramework {
             character = tolower(character);
 
         // Parse our possibilities to find the matches
-        for (const string &pkmn : allPkmn) {
+        for (const string &pkmn : (currLang == Lang::ENG ? English::allPkmn : French::allPkmn)) {
             string::iterator iterator = lowerCase.begin();
             string::const_iterator pokeIterator = pkmn.begin();
 
@@ -109,7 +109,7 @@ namespace CTRPluginFramework {
             character = tolower(character);
 
         // Parse our possibilities to find the matches
-        for (const string &ability : allAbilities) {
+        for (const string &ability : (currLang == Lang::ENG ? English::allAbilities : French::allAbilities)) {
             string::iterator iterator = lowerCase.begin();
             string::const_iterator itemIterator = ability.begin();
 
@@ -201,7 +201,7 @@ namespace CTRPluginFramework {
             character = tolower(character);
 
         // Parse our possibilities to find the matches
-        for (const string &item : allItems) {
+        for (const string &item : (currLang == Lang::ENG ? English::allItems : French::allItems)) {
             string::iterator iterator = lowerCase.begin();
             string::const_iterator itemIterator = item.begin();
 
@@ -296,7 +296,7 @@ namespace CTRPluginFramework {
             character = tolower(character);
 
         // Parse our possibilities to find the matches
-        for (const string &moves : allMoves) {
+        for (const string &moves : (currLang == Lang::ENG ? English::allMoves : French::allMoves)) {
             string::iterator iterator = lowerCase.begin();
             string::const_iterator itemIterator = moves.begin();
 

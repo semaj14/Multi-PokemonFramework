@@ -239,7 +239,7 @@ namespace Computer {
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
-                if (keyboard.SetKeyboard(entry->Name() + ":", true, allNatures, natureID) != -1) {
+                if (keyboard.SetKeyboard(entry->Name() + ":", true, (currLang == Lang::ENG ? English::allNatures : French::allNatures), natureID) != -1) {
                     SetNature(pkmn, natureID);
 
                     if (SetPokemon(pointer, pkmn))
@@ -390,12 +390,12 @@ namespace Computer {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Geograph &nickname : allCountries)
+            for (const Geograph &nickname : (currLang == Lang::ENG ? English::allCountries : French::allCountries))
                 options.push_back(nickname.name);
 
             if (IsValid(pointer, pkmn)) {
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getPlayerCountry) != -1) {
-                    playerCountry = allCountries[getPlayerCountry].id;
+                    playerCountry = (currLang == Lang::ENG ? English::allCountries[getPlayerCountry].id : French::allCountries[getPlayerCountry].id);
                     SetCountry(pkmn, playerCountry);
 
                     if (SetPokemon(pointer, pkmn))
@@ -431,7 +431,7 @@ namespace Computer {
             static vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Origins &nickname : allOrigins) {
+            for (const Origins &nickname : (currLang == Lang::ENG ? English::allOrigins : French::allOrigins)) {
                 if (originsAvailable != 8) {
                     if (originsAvailable > 3 && (group == Group::XY || group == Group::ORAS))
                         options.push_back(nickname.name);
@@ -447,7 +447,7 @@ namespace Computer {
 
             if (IsValid(pointer, pkmn)) {
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getOrigin) != -1) {
-                    originID = allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo;
+                    originID = (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo);
                     SetOrigin(pkmn, originID);
 
                     if (SetPokemon(pointer, pkmn))
@@ -463,17 +463,17 @@ namespace Computer {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            if (allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo == 24 || allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo == 25) {
-                deterVer = allLocs6[getMetLoc].choiceNo;
+            if ((currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo) == 24 || (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo) == 25) {
+                deterVer = (currLang == Lang::ENG ? English::allLocs6[getMetLoc].choiceNo : French::allLocs6[getMetLoc].choiceNo);
 
-                for (const Locations &nickname : allLocs6)
+                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6 : French::allLocs6))
                     options.push_back(nickname.name);
             }
 
-            else if (allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo == 26 || allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo == 27) {
-                deterVer = allLocs6b[getMetLoc].choiceNo;
+            else if ((currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo) == 26 || (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo) == 27) {
+                deterVer = (currLang == Lang::ENG ? English::allLocs6b[getMetLoc].choiceNo : French::allLocs6b[getMetLoc].choiceNo);
 
-                for (const Locations &nickname : allLocs6b)
+                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6b : French::allLocs6b))
                     options.push_back(nickname.name);
             }
 
@@ -501,7 +501,7 @@ namespace Computer {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Balls &nickname : allBalls) {
+            for (const Balls &nickname : (currLang == Lang::ENG ? English::allBalls : French::allBalls)) {
                 if (group == Group::XY || group == Group::ORAS) {
                     if (counter != 3)
                         options.push_back(nickname.name);
@@ -515,14 +515,14 @@ namespace Computer {
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getBall) != -1) {
                     if (group == Group::XY || group == Group::ORAS) {
                         if (getBall > 2) {
-                            ballID = allBalls[getBall + 1].choiceNo;
+                            ballID = (currLang == Lang::ENG ? English::allBalls[getBall + 1].choiceNo : French::allBalls[getBall + 1].choiceNo);
                             goto apply;
                         }
 
-                        else ballID = allBalls[getBall].choiceNo;
+                        else ballID = (currLang == Lang::ENG ? English::allBalls[getBall].choiceNo : French::allBalls[getBall].choiceNo);
                     }
 
-                    else ballID = allBalls[getBall].choiceNo;
+                    else ballID = (currLang == Lang::ENG ? English::allBalls[getBall].choiceNo : French::allBalls[getBall].choiceNo);
 
                     apply:
                     SetBall(pkmn, ballID);
@@ -613,17 +613,17 @@ namespace Computer {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            if (allOrigins[getOrigin].choiceNo == 24 || allOrigins[getOrigin].choiceNo == 25) {
-                deterEggVer = allLocs6[getEggMetLoc].choiceNo;
+            if ((currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : French::allOrigins[getOrigin].choiceNo) == 24 || (currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : French::allOrigins[getOrigin].choiceNo) == 25) {
+                deterEggVer = (currLang == Lang::ENG ? English::allLocs6[getEggMetLoc].choiceNo : French::allLocs6[getEggMetLoc].choiceNo);
 
-                for (const Locations &nickname : allLocs6)
+                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6 : French::allLocs6))
                     options.push_back(nickname.name);
             }
 
-            else if (allOrigins[getOrigin].choiceNo == 26 || allOrigins[getOrigin].choiceNo == 27) {
-                deterEggVer = allLocs6b[getEggMetLoc].choiceNo;
+            else if ((currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : French::allOrigins[getOrigin].choiceNo)  == 26 || (currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : French::allOrigins[getOrigin].choiceNo)  == 27) {
+                deterEggVer = (currLang == Lang::ENG ? English::allLocs6b[getEggMetLoc].choiceNo : French::allLocs6b[getEggMetLoc].choiceNo);
 
-                for (const Locations &nickname : allLocs6b)
+                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6b : French::allLocs6b))
                     options.push_back(nickname.name);
             }
 
@@ -886,13 +886,13 @@ namespace Computer {
             KeyboardPlus keyboard;
 
             for (int i = 0; i < Helpers::AutoRegion(Helpers::PickGame(37, 44), 46); i++)
-                options.push_back(allRibbons[i].name);
+                options.push_back((currLang == Lang::ENG ? English::allRibbons[i].name : French::allRibbons[i].name));
 
             if (IsValid(pointer, pkmn)) {
                 start:
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, ribbonChoice) != -1) {
                     if (keyboard.SetKeyboard(options[ribbonChoice] + ":", true, noYes, obtainRibbon) != -1)
-                        SetRibbons(pkmn, allRibbons[ribbonChoice].category, allRibbons[ribbonChoice].index, obtainRibbon);
+                        SetRibbons(pkmn, (currLang == Lang::ENG ? English::allRibbons[ribbonChoice].category : French::allRibbons[ribbonChoice].category), (currLang == Lang::ENG ? English::allRibbons[ribbonChoice].index : French::allRibbons[ribbonChoice].index), obtainRibbon);
 
                     else goto start;
 

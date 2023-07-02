@@ -21,7 +21,7 @@ namespace Battle {
                     data = ProcessPlus::Read16(location + 0xC);
 
                     if (data != 0 && data <= Helpers::AutoRegion(721, Helpers::GetVersion(802, 807))) {
-                        party[i] = allPkmn[data - 1];
+                        party[i] = (currLang == Lang::ENG ? English::allPkmn[data - 1] : French::allPkmn[data - 1]);
                         valid++;
                     }
 
@@ -412,10 +412,10 @@ namespace Battle {
 
                     if (IsValid(location, pkmn)) {
                         if (infoScreen == 0) {
-                            screen.Draw(language("Species: ", "Espece: ") << Color(0xF2, 0xCE, 0x70) << allPkmn[pkmn->species - 1], 5, 15, Color::White, Color::Black);
-                            screen.Draw("Nature: " << Color::White << allNatures[pkmn->nature], 5, 25, Color::White, Color::Black);
-                            screen.Draw(language("Item: ", "Objet: ") << (pkmn->heldItem == 0 ? Color::Gray : Color::White) << (pkmn->heldItem == 0 ? "None" : allItems[pkmn->heldItem - 1]), 5, 35, Color::White, Color::Black);
-                            screen.Draw(language("Ability: ", "Capacite: ") << Color::White << allAbilities[pkmn->ability - 1], 5, 45, Color::White, Color::Black);
+                            screen.Draw(language("Species: ", "Espece: ") << Color(0xF2, 0xCE, 0x70) << (currLang == Lang::ENG ? English::allPkmn[pkmn->species - 1] : French::allPkmn[pkmn->species - 1]), 5, 15, Color::White, Color::Black);
+                            screen.Draw("Nature: " << Color::White << (currLang == Lang::ENG ? English::allNatures[pkmn->nature] : French::allNatures[pkmn->nature]), 5, 25, Color::White, Color::Black);
+                            screen.Draw(language("Item: ", "Objet: ") << (pkmn->heldItem == 0 ? Color::Gray : Color::White) << (pkmn->heldItem == 0 ? "None" : (currLang == Lang::ENG ? English::allItems[pkmn->heldItem - 1] : French::allItems[pkmn->heldItem - 1])), 5, 35, Color::White, Color::Black);
+                            screen.Draw(language("Ability: ", "Capacite: ") << Color::White << (currLang == Lang::ENG ? English::allAbilities[pkmn->ability - 1] : French::allAbilities[pkmn->ability - 1]), 5, 45, Color::White, Color::Black);
                         }
 
                         else if (infoScreen == 1) {
@@ -423,7 +423,7 @@ namespace Battle {
 
                             for (int i = 0; i < 4; i++) {
                                 if (pkmn->moves[i] > 0)
-                                    screen.Draw(to_string(i + 1) + ": " << Color::White << allMoves[pkmn->moves[i] - 1], 5, 15 + (i * 10), Color::White, Color::Black);
+                                    screen.Draw(to_string(i + 1) + ": " << Color::White << (currLang == Lang::ENG ? English::allMoves[pkmn->moves[i] - 1] : French::allMoves[pkmn->moves[i] - 1]), 5, 15 + (i * 10), Color::White, Color::Black);
 
                                 else screen.Draw(to_string(i + 1) + ": " << Color::Gray << language("None", "Aucun"), 5, 15 + (i * 10), Color::White, Color::Black);
                             }
