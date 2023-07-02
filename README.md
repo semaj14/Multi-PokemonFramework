@@ -8,7 +8,7 @@ After installing the .zip file, copy and paste the contents to the root of your 
 ![Image](https://imgur.com/NbVzrHS.png)
 
 ## Contact
-https://discord.gg/r3jTQrfBCG
+​GitHub repo page.
 
 ## Credits
 [View](https://github.com/semaj14/Multi-PokemonFramework/blob/main/Credits.md)
