@@ -146,11 +146,7 @@ SECTIONS {
     .debug_info 0 : {*(.debug_info)}
     .debug_abbrev 0 : {*(.debug_abbrev)}
     .debug_line 0 : {*(.debug_line)}
-    .debug_
-    
-    
-    
-    me 0 : {*(.debug_frame)}
+    .debug_frame 0 : {*(.debug_frame)}
     .debug_str 0 : {*(.debug_str)}
     .debug_loc 0 : {*(.debug_loc)}
     .debug_macinfo 0 : {*(.debug_macinfo)}
