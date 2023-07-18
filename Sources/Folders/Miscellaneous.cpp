@@ -8,12 +8,12 @@ namespace Misc {
     static int weatherLocation, weatherToggle;
 
     void WeatherKB(MenuEntry *entry) {
-        static const vector<string> options = {"Route 113", "Route 119", "Route 120", language("Jagged Pass", "Le Sentier Étroit"), language("East Hoenn", "l'Est d'Hoenn")};
-        static const vector<string> conditions = {language("Snow", "Neige"), language("Rain", "Pluie"), language("Rain", "Pluie"), language("Snow", "Neige"), Helpers::PickGame(language("Extremely Harsh Sunlight", "Soleil ardent"), language("Heavy Rain", "Pluie diluvienne"))};
+        static const vector<string> options = {language("Route 113", "Route 113", "Percorso 113"), language("Route 119", "Route 119", "Percorso 119"), language("Route 120", "Route 120", "Percorso 120"), language("Jagged Pass", "Le Sentier Étroit", "Passo Selvaggio"), language("East Hoenn", "l'Est d'Hoenn", "Hoenn Est")};
+        static const vector<string> conditions = {language("Snow", "Neige", "Neve"), language("Rain", "Pluie", "Pioggia"), language("Rain", "Pluie", "Pioggia"), language("Snow", "Neige", "Snow"), Helpers::PickGame(language("Extremely Harsh Sunlight", "Soleil ardent", "Luce solare estremamente intensa"), language("Heavy Rain", "Pluie diluvienne", "Pioggia battente"))};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, weatherLocation) != -1) {
-            if (keyboard.SetKeyboard(conditions[weatherLocation] + ":", true, {language("On", "Allumé"), language("Off", "Eteint")}, weatherToggle) != -1)
+            if (keyboard.SetKeyboard(conditions[weatherLocation] + ":", true, {language("On", "Allumé", "On"), language("Off", "Eteint", "Off")}, weatherToggle) != -1)
                 Message::Completed();
         }
     }
@@ -213,11 +213,11 @@ namespace Misc {
         int index = listOfFileNames.size();
 
         if (index >= 20) {
-            if (MessageBox(CenterAlign(language("Limit reached! Erase old backups?", "Limite atteinte! Supprimer les anciennes sauvegardes?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
+            if (MessageBox(CenterAlign(language("Limit reached! Erase old backups?", "Limite atteinte! Supprimer les anciennes sauvegardes?", "Limite raggiunto! Cancellare i vecchi backup?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                 for (int i = 0; i < index; i++)
-                    File::Remove("Keyboard/" + listOfFileNames[i]);
+                    File::Remove(language("Keyboard/", "Keyboard/", "Tastiera/") + listOfFileNames[i]);
 
-                MessageBox(CenterAlign(language("All backups have been erased.", "Toutes les sauvegardes ont été effacées.")), DialogType::DialogOk, ClearScreen::Both)();
+                MessageBox(CenterAlign(language("All backups have been erased.", "Toutes les sauvegardes ont été effacées.", "Tutti i backup sono stati cancellati.")), DialogType::DialogOk, ClearScreen::Both)();
             }
 
             return;
@@ -225,7 +225,7 @@ namespace Misc {
 
         int mode;
         string fileName;
-        static const vector<string> options = {language("Export", "Exporter"), language("Import", "Importer")};
+        static const vector<string> options = {language("Export", "Exporter", "Esporta"), language("Import", "Importer", "Importa")};
         KeyboardPlus keyboard;
 
         Process::Read32(pointer, offset);
@@ -235,12 +235,12 @@ namespace Misc {
         if (Process::Read16(offset + 0x84, data16) && data16 == 0x5544) {
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, mode) != -1) {
                 if (mode == 0) {
-                    if (!Directory::IsExists("Keyboard"))
-                        Directory::Create("Keyboard");
+                    if (!Directory::IsExists(language("Keyboard", "Keyboard", "Tastiera")))
+                        Directory::Create(language("Keyboard", "Keyboard", "Tastiera"));
 
                     if (index <= 20) {
-                        if (KB<string>(language("Name:", "Nom:"), true, false, 16, fileName, "")) {
-                            File dumpFile("Keyboard/" + fileName + extension, File::RWC);
+                        if (KB<string>(language("Name:", "Nom:", "Nome:"), true, false, 16, fileName, "")) {
+                            File dumpFile(language("Keyboard/", "Keyboard/", "Tastiera/") + fileName + extension, File::RWC);
                             dumpFile.Dump(offset, 0x81);
                             Message::Completed();
                             return;
@@ -250,7 +250,7 @@ namespace Misc {
 
                 if (mode == 1) {
                     if (index == 0) {
-                        MessageBox(CenterAlign(language("You have 0 backup(s) to recover from!", "Vous n'avez aucune sauvegarde à récupérer!")), DialogType::DialogOk, ClearScreen::Both)();
+                        MessageBox(CenterAlign(language("You have 0 backup(s) to recover from!", "Vous n'avez aucune sauvegarde à récupérer!", "Hai 0 backup da cui ripristinare!")), DialogType::DialogOk, ClearScreen::Both)();
                         return;
                     }
 
@@ -259,7 +259,7 @@ namespace Misc {
                         int fileIndex = keyboard.Open();
 
                         if (fileIndex >= 0) {
-                            File injectFile("Keyboard/" + listOfFileNames[fileIndex]);
+                            File injectFile(language("Keyboard/", "Keyboard/", "Tastiera/") + listOfFileNames[fileIndex]);
                             injectFile.Read(vals, 0x81);
                             entry->SetGameFunc(CustomKeyboard);
                             Message::Completed();
@@ -287,7 +287,7 @@ namespace Misc {
             if (entry->Hotkeys[0].IsPressed()) {
                 Sleep(Seconds(.5));
 
-                if (KB<u8>(language("Key:", "Touches:"), true, false, 3, key, 0, 1, 65, Callback8)) {
+                if (KB<u8>(language("Key:", "Touches:", "Chiave:"), true, false, 3, key, 0, 1, 65, Callback8)) {
                     Sleep(Seconds(.5));
 
                     if (KB<u32>("Unicode:", true, true, 4, unicode, 0, 0, 0xFFFF, Callback32))

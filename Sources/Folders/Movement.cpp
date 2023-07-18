@@ -39,7 +39,7 @@ namespace Movement {
         static bool musicSelected = false;
 
         void ActionMusicKB(MenuEntry *entry) {
-            static const vector<string> options = {language("Bicycle", "Vélo")};
+            static const vector<string> options = {language("Bicycle", "Vélo", "Bicicletta")};
             KeyboardPlus keyboard;
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, musicType) != -1) {
@@ -50,7 +50,7 @@ namespace Movement {
                         getMusicFiles.push_back(nickname.name);
                 }
 
-                if (keyboard.SetKeyboard(entry->Name() + language(":\n\nSelect the music file you would like to use.", ":\n\nVeuillez sélectionner le fichier musical que vous souhaitez utiliser."), true, getMusicFiles, music) != -1) {
+                if (keyboard.SetKeyboard(entry->Name() + language(":\n\nSelect the music file you would like to use.", ":\n\nVeuillez sélectionner le fichier musical que vous souhaitez utiliser.", ":\n\nSelezionare il file musicale che si desidera utilizzare."), true, getMusicFiles, music) != -1) {
                     musicSelected = true;
                     Message::Completed();
                     return;
@@ -159,7 +159,7 @@ namespace Movement {
                 {0, "Team Flare HQ", 0x155, 711, 891},
                 {0, "Terminus Cave", 0x15A, 765, 693},
                 {0, "Unknown Dungeon", 0x13F, 351, 567},
-                {0, "Vanville Town", 0x2, 369, 495},
+                {0, "Vaniville Town", 0x2, 369, 495},
                 {0, "Video Studio", 0x6B, 315, 585},
                 {0, "Ancient Tomb", 0x9F, 225, 333},
                 {0, "Battle Resort", 0x206, 351, 441},
@@ -181,7 +181,7 @@ namespace Movement {
                 {0, "Mossdeep City", 0x14A, 351, 441},
                 {0, "Nameless Cavern", 0x20E, 369, 657},
                 {0, "New Mauville", 0x8B, 369, 657},
-                {0, "Odale Town", 0xE4, 351, 441},
+                {0, "Oldale Town", 0xE4, 351, 441},
                 {0, "Pacifidlog Town", 0xFD, 351, 441},
                 {0, "Petalburg City", 0x103, 351, 441},
                 {0, "Petalburg Woods", 0x52, 531, 1161},
@@ -265,6 +265,73 @@ namespace Movement {
                 {0, "Atalanopolis", 0x155, 351, 441},
                 {0, "Rosyères", 0xF6, 351, 441},
                 {0, "Route Victoire", 0x7B, 387, 855}
+            };
+        }
+
+        namespace Italian {
+            static Locations locations[63] = {
+                {0, "Petroglifari", 0x2F, 369, 495},
+                {0, "Fluxopoli", 0xD6, 369, 495},
+                {0, "Castel Vanità", 0xD, 369, 495},
+                {0, "Temperopoli", 0xBE, 369, 495},
+                {0, "Ponte Mosaico", 0x28, 369, 495},
+                {0, "Altoripoli", 0x9F, 369, 495},
+                {0, "Coppia della Pensione", 0x109, 225, 351},
+                {0, "Frescovilla", 0x21, 369, 495},
+                {0, "Safari Amici", 0x163, 153, 315},
+                {0, "Cromleburgo", 0x18, 369, 495},
+                {0, "Batikopoli", 0xEA, 369, 495},
+                {0, "Romantopoli", 0xCA, 369, 495},
+                {0, "Luminopoli", 0x167, 369, 495},
+                {0, "Fabbrica Poké Ball", 0x136, 279, 621},
+                {0, "Laboratorio Pokémon", 0x53, 207, 261},
+                {0, "Lega Pokémon", 0xF4, 369, 495},
+                {0, "Sala della Luce", 0x100, 351, 423},
+                {0, "Novartopoli", 0x36, 369, 495},
+                {0, "Bosco Novartopoli", 0x11E, 729, 1359},
+                {0, "Antro Talassico", 0x15F, 333, 405},
+                {0, "Yantaropoli", 0xAE, 369, 495},
+                {0, "Fractalopoli", 0xE1, 369, 495},
+                {0, "Covo del Team Flare", 0x155, 711, 891},
+                {0, "Grotta Climax", 0x15A, 765, 693},
+                {0, "Grotta Ignota", 0x13F, 351, 567},
+                {0, "Borgo Bozzetto", 0x2, 369, 495},
+                {0, "Studio Videoclip", 0x6B, 315, 585},
+                {0, "Tomba Antica", 0x9F, 225, 333},
+                {0, "Resort Lotta", 0x206, 351, 441},
+                {0, "Grotta dei Tempi", 0x70, 333, 621},
+                {0, "Pensione Pokémon", 0x187, 225, 333},
+                {0, "Rovine Sabbiose", 0x4D, 225, 333},
+                {0, "Bluruvia", 0xE8, 351, 441},
+                {0, "Iridopoli", 0x161, 351, 441},
+                {0, "Grotta Sfuggente", 0x20F, 387, 693},
+                {0, "Brunifoglia", 0xF0, 351, 441},
+                {0, "Forestopoli", 0x12D, 351, 441},
+                {0, "Fossa Informe", 0x210, 369, 657},
+                {0, "Grotta Pietrosa", 0x4E, 531, 639},
+                {0, "Grotta Insulare", 0x9E, 225, 333},
+                {0, "Porto Alghepoli", 0x135, 351, 441},
+                {0, "Albanova", 0xDF, 297, 333},
+                {0, "Ciclamipoli", 0x116, 351, 441},
+                {0, "Cascate Meteora", 0x47, 1035, 639},
+                {0, "Verdeazzupoli", 0x14A, 351, 441},
+                {0, "Caverna Ignota", 0x20E, 369, 657},
+                {0, "Ciclanova", 0x8B, 369, 657},
+                {0, "Solarosa", 0xE4, 351, 441},
+                {0, "Orocea", 0xFD, 351, 441},
+                {0, "Petalipoli", 0x103, 351, 441},
+                {0, "Bosco Petalo", 0x52, 531, 1161},
+                {0, "Lega Pokémon", 0x16C, 297, 387},
+                {0, "Ferrugipoli", 0x11C, 351, 441},
+                {0, "Tunnel Menferro", 0x4B, 261, 369},
+                {0, "Grottino Solare", 0xA7,261, 459},
+                {0, "Ciclamare", 0xA3, 801, 1305},
+                {0, "Valle Segreta", 0x1DB, 387, 657},
+                {0, "Torre dei Cieli", 0xB0, 639, 981},
+                {0, "Porto Selcepoli", 0x109, 351, 441},
+                {0, "Ceneride", 0x155, 351, 441},
+                {0, "Mentania", 0xF6, 351, 441},
+                {0, "Via Vittoria", 0x7B, 387, 855}
             };
         }
 
@@ -502,7 +569,7 @@ namespace Movement {
         void TimeOfDay(MenuEntry *entry) {
             static const u32 address = Helpers::GetVersion(0x330D9238, 0x330154B0);
 
-            if (KB<u8>(language("Time of Day:\n\nChoose an offset between 1-24 hours\n\n", "Plage horaire :\n\nChoisissez un décalage de 1 à 24 heures\n\n") << Color::SkyBlue << "12H" << Color::White << language(" - Moon", " - Lune") << Color::Orange << " 24H" << Color::White << language(" - Sun", " - Soleil"), true, false, 2, time, 0, 1, 24, Callback8)) {
+            if (KB<u8>(language("Time of Day:\n\nChoose an offset between 1-24 hours\n\n", "Plage horaire:\n\nChoisissez un décalage de 1 à 24 heures\n\n", "Ora del giorno: \n\nOra del giorno: Scegliere un offset tra 1-24 ore\n\n") << Color::SkyBlue << "12H" << Color::White << language(" - Moon", " - Lune", " - Luna") << Color::Orange << " 24H" << Color::White << language(" - Sun", " - Soleil", " - Sole"), true, false, 2, time, 0, 1, 24, Callback8)) {
                 Process::Write32(address, time * 3600);
                 Message::Completed();
             }
