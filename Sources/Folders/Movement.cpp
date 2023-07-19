@@ -14,7 +14,7 @@ namespace Movement {
                 ProcessPlus process;
                 unsigned int x = stoul(process.Address(s, -5), nullptr, 16);
 
-                if (!Process::Write32(x, (currLang == Lang::ENG ? CTRPluginFramework::ORAS::English::models[swap].id : CTRPluginFramework::ORAS::French::models[swap].id)))
+                if (!Process::Write32(x, (currLang == Lang::ENG ? CTRPluginFramework::ORAS::English::models[swap].id : (currLang == Lang::FRE ? CTRPluginFramework::ORAS::French::models[swap].id : CTRPluginFramework::ORAS::Italian::models[swap].id))))
                     return;
             }
 
@@ -23,7 +23,7 @@ namespace Movement {
                 KeyboardPlus keyboard;
 
                 if (options.empty()) {
-                    for (const CTRPluginFramework::ORAS::Model &nickname : (currLang == Lang::ENG ? CTRPluginFramework::ORAS::English::models : CTRPluginFramework::ORAS::French::models))
+                    for (const CTRPluginFramework::ORAS::Model &nickname : (currLang == Lang::ENG ? CTRPluginFramework::ORAS::English::models : (currLang == Lang::FRE ? CTRPluginFramework::ORAS::French::models : CTRPluginFramework::ORAS::Italian::models)))
                         options.push_back(nickname.name);
                 }
 

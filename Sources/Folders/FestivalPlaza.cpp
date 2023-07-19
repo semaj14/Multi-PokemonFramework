@@ -10,7 +10,7 @@ namespace Plaza {
         static int optionsType;
 
         void ConfigurationKB(MenuEntry *entry) {
-            static const vector<string> options = {"Pokemon", language("Gender", "Sexe", "Sesso"), language("Level", "Niveau", "Livello")};
+            static const vector<string> options = {"Pokémon", language("Gender", "Sexe", "Sesso"), language("Level", "Niveau", "Livello")};
             KeyboardPlus keyboard;
 
             start:

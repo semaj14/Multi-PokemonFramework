@@ -58,7 +58,7 @@ void InitMenu(PluginMenu &menu) {
     MenuFolder *primary = new MenuFolder(language("Primary", "Principal", "Primario"));
 
     *primary += new MenuFolder(language("Active", "En combat", "In battaglia"), note + language("must be in a battle to use.", "doit être en combat pour être utilisé.", "devi essere in combattimento per utilizzare questi trucchi."), vector<MenuEntry*>({
-        new MenuEntry(language("Slot: ", "Emplacement: ", "Slot") << Color::Gray << "0", nullptr, Battle::Universal::SlotKB),
+        new MenuEntry(language("Slot: ", "Emplacement: ", "Slot: ") << Color::Gray << "0", nullptr, Battle::Universal::SlotKB),
         new MenuEntry(language("Condition", "Condition", "Problemi di Stato"), nullptr, Battle::Universal::Condition),
         new MenuEntry(language("Statistics", "Statistiques", "Statistiche"), Battle::Universal::Statistics, Battle::Universal::StatisticsKB),
         new MenuEntry(language("Invincibility", "Invincibilité", "Invincibilità"), Battle::Universal::Invincibility, Battle::Universal::InvincibilityKB),
@@ -112,7 +112,7 @@ void InitMenu(PluginMenu &menu) {
     MenuFolder *trainer = new MenuFolder(language("Trainer", "Dresseur", "Allenatore"));
     MenuFolder *info = new MenuFolder(language("Information", "Information", "Informazioni Allenatore"));
     *info += new MenuEntry(language("IDs", "IDs", "Cambia gli ID"), nullptr, Trainer::Info::IDs, Helpers::AutoRegion<string>("", note + language("the ID that you see on your Pokémon is your TSV value.", "le code ID que vous voyez sur votre Pokémon correspond à votre valeur TSV.", "l'ID che vedete sul vostro Pokémon è il vostro ID Allenatore.")));
-    (group == Group::XY || group == Group::ORAS) ? *info += EntryWithHotkey(new MenuEntry(language("Name", "Nom", "Nome"), Trainer::Info::CopyToName, Trainer::Info::Name, note + language("press the hotkey(s) below to copy the text from your shout-out to name.", "appuyez sur la ou les touches de raccourci ci-dessous pour copier le texte de votre message de salutation en tant que nom.", "premi i tasti di scelta rapida sottostanti per copiare la tua Firmaallegra e impostarla come Nome.")), {Key::Start | Key::A, ""}) : *info += new MenuEntry(language("Name", "Name", "Nome"), nullptr, Trainer::Info::Name);
+    (group == Group::XY || group == Group::ORAS) ? *info += EntryWithHotkey(new MenuEntry(language("Name", "Nom", "Nome"), Trainer::Info::CopyToName, Trainer::Info::Name, note + language("press the hotkey(s) below to copy the text from your shout-out to name.", "appuyez sur la ou les touches de raccourci ci-dessous pour copier le texte de votre message de salutation en tant que nom.", "premi i tasti di scelta rapida sottostanti per copiare la tua Firmallegra e impostarla come Nome.")), {Key::Start | Key::A, ""}) : *info += new MenuEntry(language("Name", "Name", "Nome"), nullptr, Trainer::Info::Name);
     *info += new MenuEntry(language("Play Time", "Temps de jeu", "Tempo di gioco"), Trainer::Info::PlayTime, Trainer::Info::PlayTimeKB);
     *info += new MenuEntry(language("Language", "Langue", "Lingua"), Trainer::Info::Language, Trainer::Info::LanguageKB, note + language("save and restart to apply the changes.", "enregistrer et redémarrer pour appliquer les changements.", "salva e riavvia per applicare le modifiche."));
     *trainer += info;
@@ -140,7 +140,7 @@ void InitMenu(PluginMenu &menu) {
     *editor += new MenuEntry(language("Setup", "Place du Pokémon", "Posizione del Pokémon"), nullptr, Computer::Editor::Initialize, note + language("this is to set up the Pokémon you would like to modify.", "ce paramètre permet de sélectionner le Pokémon que vous souhaitez modifier.", "questo serve per impostare il Pokémon che desideri modificare."));
 
     *editor += new MenuFolder(language("Main", "Principal", "Principale"), vector<MenuEntry*>({
-        new MenuEntry(language("Shiny", "Chromatique", "Cromatico"), nullptr, Computer::Editor::Shinify),
+        new MenuEntry(language("Shiny", "Chromatique", "Cromatico?"), nullptr, Computer::Editor::Shinify),
         new MenuEntry(language("Species", "Espèce", "Specie"), nullptr, Computer::Editor::Species),
         new MenuEntry(language("Is Nicknamed", "Surnommer", "È soprannominato?"), nullptr, Computer::Editor::IsNicknamed),
         new MenuEntry(language("Nickname", "Surnom", "Soprannome"), nullptr, Computer::Editor::Nickname),
@@ -178,7 +178,7 @@ void InitMenu(PluginMenu &menu) {
 
     *editor += new MenuFolder(language("Attacks", "Attaques", "Modifica mosse"), vector<MenuEntry*>({
         new MenuEntry(language("Current Moves", "Attaques actuelles", "Mosse"), nullptr, Computer::Editor::CurrentMoves),
-        new MenuEntry(language("PP Ups", "PP Max", "Modifica PP"), nullptr, Computer::Editor::PPUps),
+        new MenuEntry(language("PP Ups", "PP Max", "Modifica Punti Potenza"), nullptr, Computer::Editor::PPUps),
         new MenuEntry(language("Relearn Moves", "Capacités réapprises", "Ricordamosse"), nullptr, Computer::Editor::RelearnMoves)
     }));
 
@@ -250,7 +250,7 @@ void InitMenu(PluginMenu &menu) {
     }));
 
     *misc += pokemon;
-    *misc += new MenuEntry(language("Remove Outlines", "Supprimer les contours", "Rimuovere i contorni"), Helpers::ChooseEntry(Misc::Gen6::NoOutlines, Misc::Gen7::NoOutlines), note + language("removes outlines in the overworld and in battles.", "supprime les contours dans le monde extérieur et pendant les combats.", "rimuove i contorni nel mondo esterno e nelle battaglie."));
+    *misc += new MenuEntry(language("Remove Outlines", "Supprimer les contours", "Rimuovi contorni"), Helpers::ChooseEntry(Misc::Gen6::NoOutlines, Misc::Gen7::NoOutlines), note + language("removes outlines in the overworld and in battles.", "supprime les contours dans le monde extérieur et pendant les combats.", "rimuove i contorni nel mondo esterno e nelle battaglie."));
     *misc += new MenuEntry(language("Fast Dialogs", "Dialogues rapides", "Dialoghi veloci"), Misc::FastDialogs, note + language("game dialogs will be sped up.", "les dialogues du jeu seront accélérés.", "le finestre di dialogo del gioco saranno velocizzate."));
     *misc += new MenuEntry(language("Bypass Text Restricts.", "Dépasser les restrictions de texte", "Ignora le restrizioni di testo"), Misc::BypassTextRestricts);
 

@@ -153,7 +153,7 @@ namespace CTRPluginFramework {
             static const vector<string> options = {language("No", "Non", "No"), language("Yes", "Oui", "Si")};
             KeyboardPlus keyboard;
 
-            if (keyboard.SetKeyboard(language("Colored?", "Coloré?", "Colorato?"), true, options, isColored) != -1) {
+            if (keyboard.SetKeyboard(language("Colored?", "Coloré?", "Vuoi colorarlo?"), true, options, isColored) != -1) {
                 if (isColored == 1) {
                     static vector<string> colors;
 

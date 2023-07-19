@@ -73,7 +73,7 @@ namespace PSS {
 
                 else {
                     choose:
-                    if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké", "Hackerate"), language("Normal", "Normal", "Normali")}, optionsType) != -1) {
+                    if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké", "Hackerato"), language("Normal", "Normal", "Legit")}, optionsType) != -1) {
                         if (optionsType == 0) {
                             vector<string> selection;
 
@@ -516,15 +516,27 @@ namespace PSS {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Geograph &nickname : (currLang == Lang::ENG ? CTRPluginFramework::English::allCountries : CTRPluginFramework::French::allCountries))
+            for (const Geograph &nickname : (currLang == Lang::ENG ? CTRPluginFramework::English::allCountries : (currLang == Lang::FRE ? CTRPluginFramework::French::allCountries : CTRPluginFramework::Italian::allCountries))){
                 options.push_back(nickname.name);
+            }
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getCountry) != -1) {
-                countryID = (currLang == Lang::ENG ? CTRPluginFramework::English::allCountries[getCountry].id : CTRPluginFramework::French::allCountries[getCountry].id);
+                int countryID;
+
+                if (currLang == Lang::ITA) {
+                    countryID = CTRPluginFramework::Italian::allCountries[getCountry].id;
+                }
+                else if (currLang == Lang::ENG) {
+                    countryID = CTRPluginFramework::English::allCountries[getCountry].id;
+                }
+                else if (currLang == Lang::FRE) {
+                    countryID = CTRPluginFramework::French::allCountries[getCountry].id;
+                }
 
                 if (Process::Write16(address[0], (countryID << 8 | regionID))) {
-                    if (Process::Write32(address[1], Helpers::GetVersion(0xEB048F30, 0xEB04EF7C)))
-                        ProcessPlus::Write32(address[2], {0xE59F0004, 0xE5900000, 0xE12FFF1E, Helpers::GetVersion<u32>(0x8C79C60, 0x8C81364)});
+                    if (Process::Write32(address[1], Helpers::GetVersion(0xEB048F30, 0xEB04EF7C))) {
+                        ProcessPlus::Write32(address[2], { 0xE59F0004, 0xE5900000, 0xE12FFF1E, Helpers::GetVersion<u32>(0x8C79C60, 0x8C81364) });
+                    }
                 }
 
                 Message::Completed();
@@ -550,7 +562,7 @@ namespace PSS {
                 for (int i = 0; i < sizeof(existingVals) / sizeof(existingVals[0]); i++)
                     Process::Read32(address[chooseActivity] + (i * 0x10), existingVals[i]);
 
-                if (keyboard.SetKeyboard(language("Where would you like to write the value to?\n\nKeep in mind that these values do accumulate with each other.", "Où aimeriez-vous écrire la valeur?\n\nGardez à l'esprit que ces valeurs s'accumulent les unes avec les autres.", "Dove desideri scrivere il valore?\n\nTieni presente che questi valori si accumulano tra di loro.") << "\n\nLink: " << Color::Gray << to_string(existingVals[0]) << Color::White << "\nWiFi: " << Color::Gray << to_string(existingVals[1]) << Color::White << "\nIR: " << Color::Gray << to_string(existingVals[2]) << Color::White << "\n\n" + language("Total: ", "Total: ", "Totale:") << Color::Gray << to_string(existingVals[0] + existingVals[1] + existingVals[2]), true, {"Link", "WiFi", "IR"}, acvitityType) != -1) {
+                if (keyboard.SetKeyboard(language("Where would you like to write the value to?\n\nKeep in mind that these values do accumulate with each other.", "Où aimeriez-vous écrire la valeur?\n\nGardez à l'esprit que ces valeurs s'accumulent les unes avec les autres.", "Dove desideri scrivere il valore?\n\nTieni presente che questi valori si accumulano\ntra di loro.") << "\n\nLink: " << Color::Gray << to_string(existingVals[0]) << Color::White << "\nWiFi: " << Color::Gray << to_string(existingVals[1]) << Color::White << "\nIR: " << Color::Gray << to_string(existingVals[2]) << Color::White << "\n\n" + language("Total: ", "Total: ", "Totale:") << Color::Gray << to_string(existingVals[0] + existingVals[1] + existingVals[2]), true, {"Link", "WiFi", "IR"}, acvitityType) != -1) {
                     if (KB<u32>(language("Amount:", "Montant:", "Quantità:"), true, false, 6, activityVal[chooseActivity], 0, 0, 999999, Callback32)) {
                         if (Process::Write32(address[chooseActivity] + (acvitityType * 0x10), activityVal[chooseActivity]))
                             Message::Completed();

@@ -25,7 +25,7 @@ namespace Trainer {
                         {0x330D67D2, 0x3301281A}
             ))};
 
-            static const vector<string> options = {language("Trainer", "Dresseur", "Allenatore"), "Secret"};
+            static const vector<string> options = {language("Trainer", "Dresseur", "Allenatore"), language("Secret", "Secret", "Segreto")};
             KeyboardPlus keyboard;
 
             start:
@@ -406,7 +406,7 @@ namespace Trainer {
                     {0x33013DF4, 0x33013D90, 0x330138CF, 0x330138D8}
         ))};
 
-        static const vector<string> options = {language("Unlock", "Débloquer", "Sbloccare")};
+        static const vector<string> options = {language("Unlock", "Débloquer", "Sblocca")};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, dexStatus) != -1) {

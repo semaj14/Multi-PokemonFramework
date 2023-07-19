@@ -17,7 +17,7 @@ namespace CTRPluginFramework {
             character = tolower(character);
 
         // Parse our possibilities to find the matches
-        for (const string &pkmn : (currLang == Lang::ENG ? English::allPkmn : French::allPkmn)) {
+        for (const std::string &pkmn : (currLang == Lang::ENG ? English::allPkmn : (currLang == Lang::FRE ? French::allPkmn : Italian::allPkmn))){
             string::iterator iterator = lowerCase.begin();
             string::const_iterator pokeIterator = pkmn.begin();
 
@@ -54,13 +54,13 @@ namespace CTRPluginFramework {
 
          // Else if input's length is inferior than 3, ask for more letters
         else if (input.size() < 3) {
-            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche.", "Non ci sono abbastanza lettere per effettuare la ricerca."));
+            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche.", "Non ci sono abbastanza lettere per\neffettuare la ricerca."));
             return;
         }
 
         // If we don't have any matches, tell the user
         if (!count) {
-            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer.", "Non c'è nulla che corrisponda al tuo input. Si prega di riprovare."));
+            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer.", "Non c'è nulla che corrisponda al tuo input.\nSi prega di riprovare."));
             return;
         }
 
@@ -81,7 +81,7 @@ namespace CTRPluginFramework {
 
             if (choice >= 0) {
                 pkmnID = matches.choiceNo[choice] + 1;
-                OSD::Notify(Color::LimeGreen << language("Success", "Succès", "Successo") << Color::White << language("! Selected: ", "! Sélectionné: ", "!Selezionato: ") << matches.name[choice]);
+                OSD::Notify(Color::LimeGreen << language("Success", "Succès", "Successo") << Color::White << language("! Selected: ", "! Sélectionné: ", "! Selezionato: ") << matches.name[choice]);
                 keyboard.Close();
                 return;
             }
@@ -109,7 +109,7 @@ namespace CTRPluginFramework {
             character = tolower(character);
 
         // Parse our possibilities to find the matches
-        for (const string &ability : (currLang == Lang::ENG ? English::allAbilities : French::allAbilities)) {
+        for (const std::string &ability : (currLang == Lang::ENG ? English::allAbilities : (currLang == Lang::FRE ? French::allAbilities : Italian::allAbilities))) {
             string::iterator iterator = lowerCase.begin();
             string::const_iterator itemIterator = ability.begin();
 
@@ -146,13 +146,13 @@ namespace CTRPluginFramework {
 
          // Else if input's length is inferior than 3, ask for more letters
         else if (input.size() < 3) {
-            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche.", "Non ci sono abbastanza lettere per effettuare la ricerca."));
+            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche.", "Non ci sono abbastanza lettere per\neffettuare la ricerca."));
             return;
         }
 
         // If we don't have any matches, tell the user
         if (!count) {
-            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer.", "Non c'è nulla che corrisponda al tuo input. Si prega di riprovare."));
+            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer.", "Non c'è nulla che corrisponda al tuo input.\nSi prega di riprovare."));
             return;
         }
 
@@ -201,7 +201,7 @@ namespace CTRPluginFramework {
             character = tolower(character);
 
         // Parse our possibilities to find the matches
-        for (const string &item : (currLang == Lang::ENG ? English::allItems : French::allItems)) {
+        for (const std::string &item : (currLang == Lang::ENG ? English::allItems : (currLang == Lang::FRE ? French::allItems : Italian::allItems))) {
             string::iterator iterator = lowerCase.begin();
             string::const_iterator itemIterator = item.begin();
 
@@ -240,13 +240,13 @@ namespace CTRPluginFramework {
 
          // Else if input's length is inferior than 3, ask for more letters
         else if (input.size() < 3) {
-            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche.", "Non ci sono abbastanza lettere per effettuare la ricerca."));
+            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche.", "Non ci sono abbastanza lettere per\neffettuare la ricerca."));
             return;
         }
 
         // If we don't have any matches, tell the user
         if (!count) {
-            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer.", "Non c'è nulla che corrisponda al tuo input. Si prega di riprovare."));
+            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer.", "Non c'è nulla che corrisponda al tuo input.\nSi prega di riprovare."));
             return;
         }
 
@@ -296,7 +296,7 @@ namespace CTRPluginFramework {
             character = tolower(character);
 
         // Parse our possibilities to find the matches
-        for (const string &moves : (currLang == Lang::ENG ? English::allMoves : French::allMoves)) {
+        for (const string &moves : (currLang == Lang::ENG ? English::allMoves : (currLang == Lang::FRE ? French::allMoves : Italian::allMoves))) {
             string::iterator iterator = lowerCase.begin();
             string::const_iterator itemIterator = moves.begin();
 
@@ -333,13 +333,13 @@ namespace CTRPluginFramework {
 
          // Else if input's length is inferior than 3, ask for more letters
         else if (input.size() < 3) {
-            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche.", "Non ci sono abbastanza lettere per effettuare la ricerca."));
+            keyboard.SetError(language("Not enough letters to do the search.","Pas assez de lettres pour effectuer la recherche.", "Non ci sono abbastanza lettere per\neffettuare la ricerca."));
             return;
         }
 
         // If we don't have any matches, tell the user
         if (!count) {
-            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer.", "Non c'è nulla che corrisponda al tuo input. Si prega di riprovare."));
+            keyboard.SetError(language("Nothing matches your input. Please try again.", "Rien ne correspond à votre saisie. Veuillez réessayer.", "Non c'è nulla che corrisponda al tuo input.\nSi prega di riprovare."));
             return;
         }
 
