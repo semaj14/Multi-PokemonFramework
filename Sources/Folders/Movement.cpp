@@ -343,7 +343,7 @@ namespace Movement {
             static vector<string> options;
             KeyboardPlus keyboard;
 
-            for (Locations& nickname : (currLang == Lang::ENG ? English::locations : (currLang == Lang::FRE ? French::locations : Italian::locations))) {
+            for (Locations &nickname : (currLang == Lang::ENG ? English::locations : (currLang == Lang::FRE ? French::locations : Italian::locations))) {
                 if (placesAvailable < ((group == Group::XY) ? 27 : 63)) {
                     if (group == Group::ORAS) {
                         if (placesAvailable > 26)
