@@ -150,7 +150,7 @@ void InitMenu(PluginMenu &menu) {
         new MenuEntry(language("Form", "Forme", "Forma"), nullptr, Computer::Editor::Form),
         new MenuEntry(language("Held Item", "Objet tenu", "Strumento tenuto"), nullptr, Computer::Editor::HeldItem),
         new MenuEntry(language("Ability", "Talent", "Abilità"), nullptr, Computer::Editor::Ability),
-        new MenuEntry(language("Friendship", "Amitié", "Livello Amicizia"), nullptr, Computer::Editor::Friendship),
+        new MenuEntry(language("Friendship", "Amitié", "Livello amicizia"), nullptr, Computer::Editor::Friendship),
         new MenuEntry(language("Language", "Langue", "Lingua"), nullptr, Computer::Editor::Language),
         new MenuEntry(language("Is Egg", "Oeuf", "È un uovo?"), nullptr, Computer::Editor::IsEgg),
         new MenuEntry("Pokérus", nullptr, Computer::Editor::Pokerus),
