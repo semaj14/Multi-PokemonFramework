@@ -11043,8 +11043,8 @@ namespace CTRPluginFramework {
                 {427, "Borsa"},
                 {237, "Combat Girl"},
                 {252, "Bellezza"},
-                {510, "Bicicletta [1]"},
-                {513, "Bicicletta [2]"},
+                {510, "Bicicletta [verde]"},
+                {513, "Bicicletta [gialla]"},
                 {317, "Brendan in bicicletta"},
                 {316, "Vera in bicicletta"},
                 {258, "Triatleta in bicicletta"},
@@ -11059,8 +11059,8 @@ namespace CTRPluginFramework {
                 {224, "Campeggiatore (F)"},
                 {309, "Capitano Remo"},
                 {238, "Cercapokémon"},
-                {174, "Contest (Brendan)"},
-                {173, "Contest (Vera)"},
+                {174, "Contest [Brendan]"},
+                {173, "Contest [Vera]"},
                 {198, "Rossella"},
                 {277, "Tipaccia"},
                 {437, "Triangolo di Deoxys"},
@@ -11089,7 +11089,7 @@ namespace CTRPluginFramework {
                 {473, "Groudon"},
                 {249, "Chitarrista"},
                 {301, "Guida alla Palestra"},
-                {418, "Casco"},     //Sbagliato
+                {418, "Cloche"},     //Sbagliato
                 {243, "Streghetta"},
                 {233, "Montanaro"},
                 {439, "Anello di Hoopa"},
@@ -11225,7 +11225,6 @@ namespace CTRPluginFramework {
             };
         }
     }
-
 
     namespace SM {
         static const vector<Music> musicFiles = {

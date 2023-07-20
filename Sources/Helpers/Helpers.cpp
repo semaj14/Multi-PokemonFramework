@@ -39,7 +39,7 @@ namespace CTRPluginFramework {
         return false;
     }
 
-    Lang currLang = Lang::ENG;
+    Lang currLang = Lang::ITA;
 
     void LangFile(Lang lang) {
         File file(path + "/Lang.txt");

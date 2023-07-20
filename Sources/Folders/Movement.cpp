@@ -50,7 +50,7 @@ namespace Movement {
                         getMusicFiles.push_back(nickname.name);
                 }
 
-                if (keyboard.SetKeyboard(entry->Name() + language(":\n\nSelect the music file you would like to use.", ":\n\nVeuillez sélectionner le fichier musical que vous souhaitez utiliser.", ":\n\nSelezionare il file musicale che si desidera utilizzare."), true, getMusicFiles, music) != -1) {
+                if (keyboard.SetKeyboard(entry->Name() + language(":\n\nSelect the music file you would like to use.", ":\n\nVeuillez sélectionner le fichier musical que vous souhaitez utiliser.", ":\n\nSelezionare il file musicale che si desidera\nutilizzare."), true, getMusicFiles, music) != -1) {
                     musicSelected = true;
                     Message::Completed();
                     return;

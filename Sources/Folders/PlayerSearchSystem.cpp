@@ -77,11 +77,19 @@ namespace PSS {
                         if (optionsType == 0) {
                             vector<string> selection;
 
-                            for (const Deposit &nickname : (currLang == Lang::ENG ? English::deposit : French::deposit))
+                            for (const Deposit& nickname : (currLang == Lang::ENG ? English::deposit : (currLang == Lang::ITA ? Italian::deposit : French::deposit)))
                                 selection.push_back(nickname.name);
 
                             if (keyboard.SetKeyboard(options[depositConfig] + ":", true, selection, getSettings[depositConfig - 1]) != -1) {
-                                settings[depositConfig] = (depositConfig < 2) ? (currLang == Lang::ENG ? English::deposit[getSettings[depositConfig - 1]].val1 : French::deposit[getSettings[depositConfig - 1]].val1) : (currLang == Lang::ENG ? English::deposit[getSettings[depositConfig -1]].val2 : French::deposit[getSettings[depositConfig -1]].val2);
+                                if (currLang == Lang::ENG) {
+                                    settings[depositConfig] = (depositConfig < 2) ? English::deposit[getSettings[depositConfig - 1]].val1 : English::deposit[getSettings[depositConfig - 1]].val2;
+                                }
+                                else if (currLang == Lang::ITA) {
+                                    settings[depositConfig] = (depositConfig < 2) ? Italian::deposit[getSettings[depositConfig - 1]].val1 : Italian::deposit[getSettings[depositConfig - 1]].val2;
+                                }
+                                else {
+                                    settings[depositConfig] = (depositConfig < 2) ? French::deposit[getSettings[depositConfig - 1]].val1 : French::deposit[getSettings[depositConfig - 1]].val2;
+                                }
                                 Message::Completed();
                                 return;
                             }
