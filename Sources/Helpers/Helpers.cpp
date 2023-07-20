@@ -89,7 +89,7 @@ namespace CTRPluginFramework {
                 static const vector<string> langOption = {language("English", "Anglais", "Inglese"), language("French", "Français", "Francese"), language("Italian", "Italien", "Italiano")};
                 int chooseLang;
 
-                if (keyboard.SetKeyboard(language("Language:\n\nNote: changing language will require a restart of the game!", "Langue:\n\nNote: changer la langue nécessitera un redémarrage du jeu!", "Lingua:\n\n Nota: per cambiare la lingua è necessario riavviare il gioco!"), true, langOption, chooseLang) != -1) {
+                if (keyboard.SetKeyboard(language("Language:\n\nNote: changing language will require a restart of the game!", "Langue:\n\nNote: changer la langue nécessitera un redémarrage du jeu!", "Lingua:\n\nNota: per cambiare la lingua è necessario\nriavviare il gioco!"), true, langOption, chooseLang) != -1) {
                     if (chooseLang == 0) {
                         LangFile(Lang::ENG);
                         return;

@@ -11089,7 +11089,7 @@ namespace CTRPluginFramework {
                 {473, "Groudon"},
                 {249, "Chitarrista"},
                 {301, "Guida alla Palestra"},
-                {418, "Cloche"},     //Sbagliato
+                {418, "Cloche"},
                 {243, "Streghetta"},
                 {233, "Montanaro"},
                 {439, "Anello di Hoopa"},

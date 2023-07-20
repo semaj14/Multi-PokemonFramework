@@ -210,7 +210,7 @@ void InitMenu(PluginMenu &menu) {
         if (group == Group::ORAS)
             *etc += new MenuEntry(language("Model Swap", "Remplacement de modèle", "Cambia modello"), nullptr, Movement::Gen6::ORAS::ModelSwapKB);
 
-        *etc += new MenuEntry(language("Action Music", "Musique d'action", "Musica di Sottofondo"), Movement::Gen6::ActionMusic, Movement::Gen6::ActionMusicKB);
+        *etc += new MenuEntry(language("Action Music", "Musique d'action", "Musica di sottofondo"), Movement::Gen6::ActionMusic, Movement::Gen6::ActionMusicKB);
         *etc += new MenuEntry(language("No Action Reset", "Réinitialisation sans action", "Nessun ripristino azione"), Movement::Gen6::NoActionReset);
         *etc += EntryWithHotkey(new MenuEntry(language("Teleportation", "Téléportation", "Teletrasporto"), Movement::Gen6::Teleportation, Movement::Gen6::TeleportationKB, note + language("hold the hotkey(s) below while moving.", "maintenez la ou les touches de raccourci ci-dessous enfoncées tout en vous déplaçant.", "premi il tasto di scelta rapida mentre entri in un edificio.")), {Key::L, ""});
         *etc += new MenuEntry(language("Unlock Locations", "Débloquer les lieux", "Sblocca tutte le zone"), nullptr, Movement::Gen6::UnlockLocations);
