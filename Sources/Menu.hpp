@@ -221,7 +221,7 @@ void InitMenu(PluginMenu &menu) {
     if (group == Group::SM || group == Group::USUM) {
         *movement += new MenuFolder(language("Etc.", "Etc.", "Altro"), vector<MenuEntry*>({
             new MenuEntry(language("Get All Mounts", "Avoir toutes les montures", "Ottieni tutti i Chiamapassaggio"), nullptr, Movement::Gen7::GetAllMounts, note + language("all mounts will be registered and unlocked despite not reaching a certain point of the story.", "tous les montures seront enregistrées et déverrouillées même si vous n'avez pas atteint un certain point de l'histoire.", "tutti i Chiamapassaggio saranno registrati e sbloccati nonostante non si sia raggiunto un determinato punto della storia.")),
-            EntryWithHotkey(new MenuEntry(language("Camera Zoom Out", "Zoom arrière de la caméra", "Cambia Zoom"), Movement::Gen7::CameraZoomOut), {Hotkey(Key::L, language("Zoom-Out", "Dézoomer", "Diminuire zoom")), Hotkey(Key::R, language("Zoom-In", "Zoom avant", "Aumentare lo zoom"))}),
+            EntryWithHotkey(new MenuEntry(language("Camera Zoom Out", "Zoom arrière de la caméra", "Cambia Zoom"), Movement::Gen7::CameraZoomOut), {Hotkey(Key::L, language("Zoom-Out", "Dézoomer", "Diminuire zoom")), Hotkey(Key::R, language("Zoom-In", "Zoom avant", "Aumentare zoom"))}),
             new MenuEntry(language("Remove Player Shadow", "Supprimer l'ombre du joueur", "Rimuovi l'ombra del giocatore"), Movement::Gen7::RemovePlayerShadow)
         }));
     }
@@ -246,7 +246,7 @@ void InitMenu(PluginMenu &menu) {
     *pokemon += new MenuEntry(language("Instant Egg Hatch", "Éclosion instantanée d'œuf", "Schiusa istantanea delle uova"), Helpers::ChooseEntry(Misc::Gen6::InstantEggHatch, Misc::Gen7::InstantEggHatch));
 
     *pokemon += new MenuFolder(language("Other", "Autre", "Altro"), vector<MenuEntry*>({
-        EntryWithHotkey(new MenuEntry(language("View Values in Summary", "Voir les valeurs dans le résumé", "Visualizza valori nel riepilogo"), Helpers::ChooseEntry(Misc::Gen6::ViewValuesInSummary, Misc::Gen7::ViewValuesInSummary), note + language("hold one of the following hotkey(s) to view your Individual and Effort Values.", "maintenez l'une des touches de raccourci suivantes pour afficher vos valeurs individuelles et d'effort.", "clicca uno dei tasti di scelta rapida per visualizzare i Valori Individuali o i Punti Base")), {Hotkey(Key::L, ""), Hotkey(Key::R, "")})
+        EntryWithHotkey(new MenuEntry(language("View Values in Summary", "Voir les valeurs dans le résumé", "Visualizza valori nel riepilogo"), Helpers::ChooseEntry(Misc::Gen6::ViewValuesInSummary, Misc::Gen7::ViewValuesInSummary), note + language("hold one of the following hotkey(s) to view your Individual and Effort Values.", "maintenez l'une des touches de raccourci suivantes pour afficher vos valeurs individuelles et d'effort.", "clicca uno dei tasti di scelta rapida per visualizzare i Valori Individuali o\ni Punti Base")), {Hotkey(Key::L, ""), Hotkey(Key::R, "")})
     }));
 
     *misc += pokemon;
@@ -265,5 +265,5 @@ void InitMenu(PluginMenu &menu) {
 
     menu += misc;
 
-    menu += new MenuEntry(language("Settings", "Menu des préférences", "Impostazioni"), nullptr, Settings, note + language("resetting your settings will launch you straight back to the home menu, remember to save your game before doing so.", "réinitialiser vos paramètres vous ramènera directement au menu principal, n'oubliez pas de sauvegarder votre jeu avant de le faire.", "Ripristinare le impostazioni ti riporterà nel Menu HOME, ricorda di salvare il tuo gioco prima di procedere."));
+    menu += new MenuEntry(language("Settings", "Menu des préférences", "Impostazioni"), nullptr, Settings, note + language("resetting your settings will launch you straight back to the home menu, remember to save your game before doing so.", "réinitialiser vos paramètres vous ramènera directement au menu principal, n'oubliez pas de sauvegarder votre jeu avant de le faire.", "ripristinare le impostazioni ti riporterà nel Menu HOME, ricorda di salvare il tuo gioco prima di procedere."));
 }

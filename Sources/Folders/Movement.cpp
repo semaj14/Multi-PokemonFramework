@@ -18,12 +18,12 @@ namespace Movement {
                     return;
             }
 
-            void ModelSwapKB(MenuEntry *entry) { // Ty H4x0rSpooky & FunkyGamer26
+            void ModelSwapKB(MenuEntry* entry) { // Ty H4x0rSpooky & FunkyGamer26
                 static vector<string> options;
                 KeyboardPlus keyboard;
 
                 if (options.empty()) {
-                    for (const CTRPluginFramework::ORAS::Model &nickname : (currLang == Lang::ENG ? CTRPluginFramework::ORAS::English::models : (currLang == Lang::FRE ? CTRPluginFramework::ORAS::French::models : CTRPluginFramework::ORAS::Italian::models)))
+                    for (const CTRPluginFramework::ORAS::Model& nickname : (currLang == Lang::ENG ? CTRPluginFramework::ORAS::English::models : (currLang == Lang::FRE ? CTRPluginFramework::ORAS::French::models : CTRPluginFramework::ORAS::Italian::models)))
                         options.push_back(nickname.name);
                 }
 
@@ -38,15 +38,15 @@ namespace Movement {
         static vector<string> getMusicFiles;
         static bool musicSelected = false;
 
-        void ActionMusicKB(MenuEntry *entry) {
-            static const vector<string> options = {language("Bicycle", "Vélo", "Bicicletta")};
+        void ActionMusicKB(MenuEntry* entry) {
+            static const vector<string> options = { language("Bicycle", "Vélo", "Bicicletta") };
             KeyboardPlus keyboard;
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, musicType) != -1) {
                 static const vector<Music> fromGame = Helpers::GetVersion(CTRPluginFramework::XY::musicFiles, CTRPluginFramework::ORAS::musicFiles);
 
                 if (getMusicFiles.empty()) {
-                    for (const Music &nickname : fromGame)
+                    for (const Music& nickname : fromGame)
                         getMusicFiles.push_back(nickname.name);
                 }
 
@@ -62,7 +62,7 @@ namespace Movement {
             else musicSelected = false;
         }
 
-        void ActionMusic(MenuEntry *entry) {
+        void ActionMusic(MenuEntry* entry) {
             static const vector<string> s = {
                 Helpers::GetVersion("6261K17H", "62673554"),
                 Helpers::GetVersion("6261K19H", "626735H9")
@@ -93,7 +93,7 @@ namespace Movement {
                         for (int i = 0; i < Helpers::GetVersion(0x20, 0x2C); i++)
                             Process::Write8(x[musicType] + i, 0);
 
-                        if (Process::WriteString(x[musicType], getMusicFiles[music], (getMusicFiles[music].size() + 1> original[musicType].size() ? Helpers::GetVersion(0x20, 0x2C) : getMusicFiles[music].size() + 1), StringFormat::Utf8))
+                        if (Process::WriteString(x[musicType], getMusicFiles[music], (getMusicFiles[music].size() + 1 > original[musicType].size() ? Helpers::GetVersion(0x20, 0x2C) : getMusicFiles[music].size() + 1), StringFormat::Utf8))
                             return;
                     }
                 }
@@ -115,7 +115,7 @@ namespace Movement {
             }
         }
 
-        void NoActionReset(MenuEntry *entry) {
+        void NoActionReset(MenuEntry* entry) {
             static const u32 address = (Helpers::GetVersion(0x3B9C30, 0x3D5EC8));
             static u32 original;
             static bool saved = false;
@@ -339,11 +339,11 @@ namespace Movement {
         static int place, direction;
         static float coords[2];
 
-        void TeleportationKB(MenuEntry *entry) {
+        void TeleportationKB(MenuEntry* entry) {
             static vector<string> options;
             KeyboardPlus keyboard;
 
-            for (Locations &nickname : (currLang == Lang::ENG ? English::locations : French::locations)) {
+            for (Locations& nickname : (currLang == Lang::ENG ? English::locations : (currLang == Lang::FRE ? French::locations : Italian::locations))) {
                 if (placesAvailable < ((group == Group::XY) ? 27 : 63)) {
                     if (group == Group::ORAS) {
                         if (placesAvailable > 26)
@@ -366,12 +366,12 @@ namespace Movement {
             }
         }
 
-        void Teleportation(MenuEntry *entry) {
+        void Teleportation(MenuEntry* entry) {
             static const vector<u32> address = {
                 Helpers::GetVersion<u32>(
                     {0x8803BCA, 0x8803C20, 0x8C67192, 0x8C671A0, 0x8C671A8},
                     {0x8803BCA, 0x8803C20, 0x8C6E886, 0x8C6E894, 0x8C6E89C}
-            )};
+            ) };
 
             if (entry->Hotkeys[0].IsDown()) {
                 if (Process::Read16(address[1], data16) && data16 == 0x5544) {
@@ -385,9 +385,9 @@ namespace Movement {
             }
         }
 
-        void UnlockLocations(MenuEntry *entry) {
+        void UnlockLocations(MenuEntry* entry) {
             static const u32 address = Helpers::GetVersion(0x8C7A81C, 0x8C81F24);
-            static const vector<u8> flags = {Helpers::GetVersion<u8>({0xF7, 0xFF, 0xF}, {0xCA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF3, 0xFB, 0x81})};
+            static const vector<u8> flags = { Helpers::GetVersion<u8>({0xF7, 0xFF, 0xF}, {0xCA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xF3, 0xFB, 0x81}) };
             int length = 0;
 
             for (int i = 0; i < flags.size(); i++) {
@@ -405,29 +405,29 @@ namespace Movement {
             Message::Completed();
         }
 
-        void CanUseFlyAnywhere(MenuEntry *entry) {
+        void CanUseFlyAnywhere(MenuEntry* entry) {
             static const u32 address = Helpers::GetVersion(0x8C61CF0, 0x8C69330);
 
             if (Process::Read32(address, data32) && data32 == Helpers::GetVersion(0x6B65C4, 0x7007C0))
                 Process::Write32(address, Helpers::GetVersion(0x6B6A30, 0x700C38));
         }
 
-        void SpeedUp(MenuEntry *entry) {
+        void SpeedUp(MenuEntry* entry) {
             static const vector<u32> address = {
                 Helpers::GetVersion<u32>(
                     {0x8092DE4, 0x8092F34},
                     {0x80845E8, 0x808475C}
-            )};
+            ) };
 
             vector<vector<u32>> check(2, vector<u32>(2));
 
             if (entry->IsActivated()) {
-                vector<vector<u32>> check = {{0x13A05006, 0x3A05004}, {0x13A0500A, 0x3A05007}};
+                vector<vector<u32>> check = { {0x13A05006, 0x3A05004}, {0x13A0500A, 0x3A05007} };
 
                 if (CRO::Read32(address[0], 2) == check[0]) {
                     if (CRO::Read32(address[1], 2) == check[1]) {
-                        if (CRO::Write32(address[0], {0x13A05003, 0x3A05002})) {
-                            if (!CRO::Write32(address[1], {0x13A05005, 0x3A05003}))
+                        if (CRO::Write32(address[0], { 0x13A05003, 0x3A05002 })) {
+                            if (!CRO::Write32(address[1], { 0x13A05005, 0x3A05003 }))
                                 return;
                         }
                     }
@@ -435,12 +435,12 @@ namespace Movement {
             }
 
             if (!entry->IsActivated()) {
-                vector<vector<u32>> check = {{0x13A05003, 0x3A05002}, {0x13A05005, 0x3A05003}};
+                vector<vector<u32>> check = { {0x13A05003, 0x3A05002}, {0x13A05005, 0x3A05003} };
 
                 if (CRO::Read32(address[0], 2) == check[0]) {
                     if (CRO::Read32(address[1], 2) == check[1]) {
-                        if (CRO::Write32(address[0], {0x13A05006, 0x3A05004})) {
-                            if (!CRO::Write32(address[1], {0x13A0500A, 0x3A05007}))
+                        if (CRO::Write32(address[0], { 0x13A05006, 0x3A05004 })) {
+                            if (!CRO::Write32(address[1], { 0x13A0500A, 0x3A05007 }))
                                 return;
                         }
                     }
@@ -448,17 +448,17 @@ namespace Movement {
             }
         }
 
-        void BypassWalls(MenuEntry *entry) {
+        void BypassWalls(MenuEntry* entry) {
             static const vector<u32> address = {
                 Helpers::GetVersion<u32>(
                     {0x53ED50, Helpers::PickGame<u32>(0x80B5820, 0x80B5824), Helpers::PickGame<u32>(0x80B3A1C, 0x80B3A20)},
                     {0x579820, 0x80BB414, 0x80B87F8}
-            )};
+            ) };
 
             static vector<u32> original(4);
             static bool saved = false;
 
-            if (ProcessPlus::Write32(address[0], {0xE3A01000, 0xE12FFF1E, 0xE3A06000, 0xE12FFF1E}, original, entry, saved)) {
+            if (ProcessPlus::Write32(address[0], { 0xE3A01000, 0xE12FFF1E, 0xE3A06000, 0xE12FFF1E }, original, entry, saved)) {
                 if (entry->IsActivated()) {
                     if (CRO::Read32(address[1]) == 0xE1A01000) {
                         if (CRO::Read32(address[2]) == 0xE1A06000) {
@@ -485,7 +485,7 @@ namespace Movement {
     }
 
     namespace Gen7 {
-        void GetAllMounts(MenuEntry *entry) {
+        void GetAllMounts(MenuEntry* entry) {
             static const u32 address = Helpers::GetVersion(0x330D7810, 0x330138D0);
 
             if (Process::Read32(address, data32) && (data32 & ~0xFFF00000) != 0x3FF80) {
@@ -502,14 +502,14 @@ namespace Movement {
             else Message::Warning();
         }
 
-        void CameraZoomOut(MenuEntry *entry) {
+        void CameraZoomOut(MenuEntry* entry) {
             static const vector<u32> address = {
                 Helpers::GetVersion<u32>(
                     {0x597724, 0x8037B18, 0x59773C},
                     {0x5BBF80, 0x803B920, 0x5BBF98}
-            )};
+            ) };
 
-            static u32 patch[7] = {0xED940A1C, 0xED9F1A03, 0xEE300A01, 0xED840A1C, 0xE2840004, 0xE12FFF1E, 0};
+            static u32 patch[7] = { 0xED940A1C, 0xED9F1A03, 0xEE300A01, 0xED840A1C, 0xE2840004, 0xE12FFF1E, 0 };
 
             if (entry->WasJustActivated())
                 Process::Patch(address[0], patch, 0x1C);
@@ -529,7 +529,7 @@ namespace Movement {
                 Process::Patch(address[0], 0, 0x1C);
         }
 
-        void RemovePlayerShadow(MenuEntry *entry) {
+        void RemovePlayerShadow(MenuEntry* entry) {
             static const u32 address = Helpers::GetVersion(0x39CA54, Helpers::PickGame(0x3AB574, 0x3AB578));
             static u32 original;
             static bool saved = false;
@@ -538,7 +538,7 @@ namespace Movement {
                 return;
         }
 
-        void SpeedUp(MenuEntry *entry) {
+        void SpeedUp(MenuEntry* entry) {
             static const u32 address = Helpers::GetVersion(0x39C394, Helpers::PickGame(0x3AAEB0, 0x3AAEB4));
             static u32 original;
             static bool saved = false;
@@ -547,18 +547,18 @@ namespace Movement {
                 return;
         }
 
-        void BypassWalls(MenuEntry *entry) {
+        void BypassWalls(MenuEntry* entry) {
             static const vector<u32> address = {
                 Helpers::GetVersion<u32>(
                     {0x39E560, 0x39E694},
                     {Helpers::PickGame<u32>(0x3AD228, 0x3AD22C), Helpers::PickGame<u32>(0x3AD35C, 0x3AD360)}
-            )};
+            ) };
 
             static vector<vector<u32>> original(2, vector<u32>(2));
-            static bool saved[2] = {false, false};
+            static bool saved[2] = { false, false };
 
-            if (ProcessPlus::Write32(address[0], {0xE1A00000, 0xE1A00000}, original[0], entry, saved[0])) {
-                if (!ProcessPlus::Write32(address[1], {0xE1A00000, 0xE1A00000}, original[1], entry, saved[1])) {
+            if (ProcessPlus::Write32(address[0], { 0xE1A00000, 0xE1A00000 }, original[0], entry, saved[0])) {
+                if (!ProcessPlus::Write32(address[1], { 0xE1A00000, 0xE1A00000 }, original[1], entry, saved[1])) {
                     return;
                 }
             }
@@ -566,10 +566,10 @@ namespace Movement {
 
         static u8 time;
 
-        void TimeOfDay(MenuEntry *entry) {
+        void TimeOfDay(MenuEntry* entry) {
             static const u32 address = Helpers::GetVersion(0x330D9238, 0x330154B0);
 
-            if (KB<u8>(language("Time of Day:\n\nChoose an offset between 1-24 hours\n\n", "Plage horaire:\n\nChoisissez un décalage de 1 à 24 heures\n\n", "Ora del giorno: \n\nOra del giorno: Scegliere un offset tra 1-24 ore\n\n") << Color::SkyBlue << "12H" << Color::White << language(" - Moon", " - Lune", " - Luna") << Color::Orange << " 24H" << Color::White << language(" - Sun", " - Soleil", " - Sole"), true, false, 2, time, 0, 1, 24, Callback8)) {
+            if (KB<u8>(language("Time of Day:\n\nChoose an offset between 1-24 hours\n\n", "Plage horaire:\n\nChoisissez un décalage de 1 à 24 heures\n\n", "Ora del giorno: \n\nScegliere un offset tra 1-24 ore\n\n") << Color::SkyBlue << "12H" << Color::White << language(" - Moon", " - Lune", " - Luna") << Color::Orange << " 24H" << Color::White << language(" - Sun", " - Soleil", " - Sole"), true, false, 2, time, 0, 1, 24, Callback8)) {
                 Process::Write32(address, time * 3600);
                 Message::Completed();
             }

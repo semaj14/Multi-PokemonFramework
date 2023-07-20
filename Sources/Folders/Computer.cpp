@@ -320,7 +320,18 @@ namespace Computer {
 
         void Language(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"JPN", "ENG", "FRE", "ITA", "GER", "ESP", "KOR", "CHS", "CHT"};
+            static const vector<string> options = { 
+                language("JPN", "JPN", "GPN"),
+                language("ENG", "ENG", "ING"),
+                language("FRE", "FRE", "FRA"),
+                language("ITA", "ITA", "ITA"),
+                language("GER", "GER", "TED"),
+                language("Null", "Null", "Vuoto"),
+                language("ESP", "ESP", "SPA"),          
+                language("KOR", "KOR", "COR"),   
+                language("CHS", "KHS", "CIN-S"), 
+                language("CHT", "CHT", "CIN-T")       
+            };
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
