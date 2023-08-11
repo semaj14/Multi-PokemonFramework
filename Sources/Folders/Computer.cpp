@@ -17,11 +17,11 @@ namespace Computer {
         int index = listOfFileNames.size();
 
         if (index >= 20) {
-            if (MessageBox(CenterAlign(language("Limit reached! Erase old backups?", "Limite atteinte! Supprimer les anciennes sauvegardes?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
+            if (MessageBox(CenterAlign(language("Limit reached! Erase old backups?", "Limite atteinte! Supprimer les anciennes sauvegardes?", "Limite raggiunto! Cancellare i vecchi backup?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                 for (int i = 0; i < index; i++)
                     File::Remove(bin + listOfFileNames[i]);
 
-                MessageBox(CenterAlign(language("All backups have been erased.", "Toutes les sauvegardes ont été effacées.")), DialogType::DialogOk, ClearScreen::Both)();
+                MessageBox(CenterAlign(language("All backups have been erased.", "Toutes les sauvegardes ont été effacées.", "Tutti i backup sono stati cancellati.")), DialogType::DialogOk, ClearScreen::Both)();
             }
 
             return;
@@ -29,7 +29,7 @@ namespace Computer {
 
         int choice;
         string fileName;
-        static const vector<string> options = {language("Export", "Exporter"), language("Import", "Importer")};
+        static const vector<string> options = {language("Export", "Exporter", "Esporta"), language("Import", "Importer", "Importa")};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, choice) != -1) {
@@ -38,7 +38,7 @@ namespace Computer {
                     Directory::Create(bin);
 
                 if (index <= 20) {
-                    if (KB<string>(language("Name:", "Nom:"), true, false, 16, fileName, "")) {
+                    if (KB<string>(language("Name:", "Nom:", "Nome:"), true, false, 16, fileName, "")) {
                         File dumpFile(bin + fileName + extension, File::RWC);
                         dumpFile.Dump(address, Helpers::AutoRegion(215760, 222720));
                         Message::Completed();
@@ -49,7 +49,7 @@ namespace Computer {
 
             if (choice == 1) {
                 if (index == 0) {
-                    MessageBox(CenterAlign(language("You have 0 backup(s) to recover from!", "Vous n'avez aucune sauvegarde à récupérer!")), DialogType::DialogOk, ClearScreen::Both)();
+                    MessageBox(CenterAlign(language("You have 0 backup(s) to recover from!", "Vous n'avez aucune sauvegarde à récupérer!", "Hai 0 backup da cui ripristinare!")), DialogType::DialogOk, ClearScreen::Both)();
                     return;
                 }
 
@@ -73,8 +73,8 @@ namespace Computer {
         static u32 pointer;
 
         bool Setup(void) {
-            if (KB<u8>(language("Box:", "Boite:"), true, false, 2, box, 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
-                if (KB<u8>(language("Slot:", "Emplacement:"), true, false, 2, slot, 0, 1, 30, Callback8)) {
+            if (KB<u8>(language("Box:", "Boite:", "Box:"), true, false, 2, box, 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
+                if (KB<u8>(language("Slot:", "Emplacement:", "Slot:"), true, false, 2, slot, 0, 1, 30, Callback8)) {
                     pointer = (((slot - 1) * 0xE8) + ((box - 1) * 6960 + GetPokePointer()));
                     return true;
                 }
@@ -91,7 +91,7 @@ namespace Computer {
         bool IsValid(u32 pointer, PK6 *pkmn) {
             if (!GetPokemon(pointer, pkmn)) {
                 if (!IsInBattle())
-                    MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!")), DialogType::DialogOk, ClearScreen::Both)();
+                    MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!", "Impossibile leggere o decifrare i dati!")), DialogType::DialogOk, ClearScreen::Both)();
 
                 return false;
             }
@@ -112,7 +112,7 @@ namespace Computer {
 
         void Shinify(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> noYes = {language("No", "Non"), language("Yes", "Oui")};
+            static const vector<string> noYes = {language("No", "Non", "No"), language("Yes", "Oui", "Si")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -157,7 +157,7 @@ namespace Computer {
 
         void IsNicknamed(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("No", "Non"), language("Yes", "Oui")};
+            static const vector<string> options = {language("No", "Non", "No"), language("Yes", "Oui", "Si")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -189,13 +189,13 @@ namespace Computer {
 
         void Gender(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Male", "Mâle"), language("Female", "Femelle")};
+            static const vector<string> options = {language("Male", "Mâle", "Maschio"), language("Female", "Femelle", "Femmina")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
                 for (int i = 0; i < fixedGender.size(); i++) {
                     if (pkmn->species == fixedGender[i]) {
-                        MessageBox(CenterAlign(language("Cannot override fixed gender.", "Impossible de remplacer le sexe fixe.")), DialogType::DialogOk, ClearScreen::Both)();
+                        MessageBox(CenterAlign(language("Cannot override fixed gender.", "Impossible de remplacer le sexe fixe.", "Non è possibile sovrascrivere il genere.")), DialogType::DialogOk, ClearScreen::Both)();
                         return;
                     }
                 }
@@ -239,7 +239,7 @@ namespace Computer {
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
-                if (keyboard.SetKeyboard(entry->Name() + ":", true, (currLang == Lang::ENG ? English::allNatures : French::allNatures), natureID) != -1) {
+                if (keyboard.SetKeyboard(entry->Name() + ":", true, (currLang == Lang::ENG ? English::allNatures : (currLang == Lang::FRE ? French::allNatures : Italian::allNatures)), natureID) != -1) {
                     SetNature(pkmn, natureID);
 
                     if (SetPokemon(pointer, pkmn))
@@ -320,7 +320,18 @@ namespace Computer {
 
         void Language(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {"JPN", "ENG", "FRE", "ITA", "GER", "ESP", "KOR", "CHS", "CHT"};
+            static const vector<string> options = { 
+                language("JPN", "JPN", "GPN"),
+                language("ENG", "ENG", "ING"),
+                language("FRE", "FRE", "FRA"),
+                language("ITA", "ITA", "ITA"),
+                language("GER", "GER", "TED"),
+                language("Null", "Null", "Vuoto"),
+                language("ESP", "ESP", "SPA"),          
+                language("KOR", "KOR", "COR"),   
+                language("CHS", "KHS", "CIN-S"), 
+                language("CHT", "CHT", "CIN-T")       
+            };
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -337,7 +348,7 @@ namespace Computer {
 
         void IsEgg(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("No", "Non"), language("Yes", "Oui")};
+            static const vector<string> options = {language("No", "Non", "No"), language("Yes", "Oui", "Si")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -355,20 +366,20 @@ namespace Computer {
 
         void Pokerus(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Cured", "Guéri"), language("Non-Cured", "Non guéri")};
+            static const vector<string> options = {language("Cured", "Guéri", "Curato"), language("Non-Cured", "Non guéri", "Non curato")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
                 start:
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, pkrsCureChoice) != -1) {
                     if (pkrsCureChoice == 0) {
-                        if (KB<u8>(language("Strain:", "Marque:"), true, false, 1, pkrsVal[1], 0, 0, 3, Callback8))
+                        if (KB<u8>(language("Strain:", "Marque:", "Variante:"), true, false, 1, pkrsVal[1], 0, 0, 3, Callback8))
                             SetPokerus(pkmn, 0, pkrsVal[1]);
                     }
 
                     else if (pkrsCureChoice == 1) {
-                        if (KB<u8>(language("Days:", "Jours:"), true, false, 2, pkrsVal[0], 0, 1, 15, Callback8)) {
-                            if (KB<u8>(language("Strain:", "Marque:"), true, false, 1, pkrsVal[1], 0, 0, 3, Callback8))
+                        if (KB<u8>(language("Days:", "Jours:", "Giorni"), true, false, 2, pkrsVal[0], 0, 1, 15, Callback8)) {
+                            if (KB<u8>(language("Strain:", "Marque:", "Variante:"), true, false, 1, pkrsVal[1], 0, 0, 3, Callback8))
                                 SetPokerus(pkmn, pkrsVal[0], pkrsVal[1]);
 
                             else goto start;
@@ -390,12 +401,12 @@ namespace Computer {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Geograph &nickname : (currLang == Lang::ENG ? English::allCountries : French::allCountries))
+            for (const Geograph &nickname : (currLang == Lang::ENG ? English::allCountries : (currLang == Lang::FRE ? French::allCountries : Italian::allCountries)))
                 options.push_back(nickname.name);
 
             if (IsValid(pointer, pkmn)) {
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getPlayerCountry) != -1) {
-                    playerCountry = (currLang == Lang::ENG ? English::allCountries[getPlayerCountry].id : French::allCountries[getPlayerCountry].id);
+                    playerCountry = (currLang == Lang::ENG ? English::allCountries[getPlayerCountry].id : (currLang == Lang::FRE ? French::allCountries[getPlayerCountry].id : Italian::allCountries[getPlayerCountry].id));
                     SetCountry(pkmn, playerCountry);
 
                     if (SetPokemon(pointer, pkmn))
@@ -410,7 +421,7 @@ namespace Computer {
 
         void ConsoleRegion(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Japan", "Japon"), language("Americas", "Amériques"), "Europe", language("China", "Chine"), language("Korea", "Corée"), "Taiwan"};
+            static const vector<string> options = {language("Japan", "Japon", "Giappone"), language("Americas", "Amériques", "Americhe"), language("Europe", "Europe", "Europa"), language("China", "Chine", "Cina"), language("Korea", "Corée", "Corea"), "Taiwan"};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -431,7 +442,7 @@ namespace Computer {
             static vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Origins &nickname : (currLang == Lang::ENG ? English::allOrigins : French::allOrigins)) {
+            for (const Origins &nickname : (currLang == Lang::ENG ? English::allOrigins : (currLang == Lang::FRE ? French::allOrigins : Italian::allOrigins))) {
                 if (originsAvailable != 8) {
                     if (originsAvailable > 3 && (group == Group::XY || group == Group::ORAS))
                         options.push_back(nickname.name);
@@ -447,7 +458,7 @@ namespace Computer {
 
             if (IsValid(pointer, pkmn)) {
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getOrigin) != -1) {
-                    originID = (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo);
+                    originID = (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : Italian::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo));
                     SetOrigin(pkmn, originID);
 
                     if (SetPokemon(pointer, pkmn))
@@ -463,22 +474,22 @@ namespace Computer {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            if ((currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo) == 24 || (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo) == 25) {
-                deterVer = (currLang == Lang::ENG ? English::allLocs6[getMetLoc].choiceNo : French::allLocs6[getMetLoc].choiceNo);
+            if ((currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : Italian::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo)) == 24 || (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : Italian::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo)) == 25) {
+                deterVer = (currLang == Lang::ENG ? English::allLocs6[getMetLoc].choiceNo : (currLang == Lang::FRE ? French::allLocs6[getMetLoc].choiceNo : Italian::allLocs6[getMetLoc].choiceNo));
 
-                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6 : French::allLocs6))
-                    options.push_back(nickname.name);
+                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6 : (currLang == Lang::FRE ? French::allLocs6 : Italian::allLocs6)))
+                    options.push_back(nickname.name);          
             }
 
-            else if ((currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo) == 26 || (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo) == 27) {
-                deterVer = (currLang == Lang::ENG ? English::allLocs6b[getMetLoc].choiceNo : French::allLocs6b[getMetLoc].choiceNo);
+            else if ((currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : Italian::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo)) == 26 || (currLang == Lang::ENG ? English::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo : Italian::allOrigins[getOrigin + Helpers::AutoRegion(4, 0)].choiceNo)) == 27) {
+                deterVer = (currLang == Lang::ENG ? English::allLocs6b[getMetLoc].choiceNo : (currLang == Lang::FRE ? French::allLocs6b[getMetLoc].choiceNo : Italian::allLocs6b[getMetLoc].choiceNo));
 
-                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6b : French::allLocs6b))
+                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6b : (currLang == Lang::FRE ? French::allLocs6b : Italian::allLocs6b)))
                     options.push_back(nickname.name);
             }
 
             else {
-                MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!")), DialogType::DialogOk, ClearScreen::Both)();
+                MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!", "Impossibile leggere o decifrare i dati!")), DialogType::DialogOk, ClearScreen::Both)();
                 return;
             }
 
@@ -495,13 +506,13 @@ namespace Computer {
 
         int getBall, ballID;
 
-        void Ball(MenuEntry *entry) {
-            PK6 *pkmn = new PK6;
+        void Ball(MenuEntry* entry) {
+            PK6* pkmn = new PK6;
             int counter = 0;
             vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Balls &nickname : (currLang == Lang::ENG ? English::allBalls : French::allBalls)) {
+            for (const Balls &nickname : (currLang == Lang::ENG ? English::allBalls : (currLang == Lang::FRE ? French::allBalls : Italian::allBalls))) {
                 if (group == Group::XY || group == Group::ORAS) {
                     if (counter != 3)
                         options.push_back(nickname.name);
@@ -515,16 +526,16 @@ namespace Computer {
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getBall) != -1) {
                     if (group == Group::XY || group == Group::ORAS) {
                         if (getBall > 2) {
-                            ballID = (currLang == Lang::ENG ? English::allBalls[getBall + 1].choiceNo : French::allBalls[getBall + 1].choiceNo);
+                            ballID = (currLang == Lang::ENG ? English::allBalls[getBall + 1].choiceNo : (currLang == Lang::FRE ? French::allBalls[getBall + 1].choiceNo : Italian::allBalls[getBall + 1].choiceNo));
                             goto apply;
                         }
-
-                        else ballID = (currLang == Lang::ENG ? English::allBalls[getBall].choiceNo : French::allBalls[getBall].choiceNo);
+                        else
+                            ballID = (currLang == Lang::ENG ? English::allBalls[getBall].choiceNo : (currLang == Lang::FRE ? French::allBalls[getBall].choiceNo : Italian::allBalls[getBall].choiceNo));
                     }
+                    else
+                        ballID = (currLang == Lang::ENG ? English::allBalls[getBall].choiceNo : (currLang == Lang::FRE ? French::allBalls[getBall].choiceNo : Italian::allBalls[getBall].choiceNo));
 
-                    else ballID = (currLang == Lang::ENG ? English::allBalls[getBall].choiceNo : French::allBalls[getBall].choiceNo);
-
-                    apply:
+                apply:
                     SetBall(pkmn, ballID);
 
                     if (SetPokemon(pointer, pkmn))
@@ -566,7 +577,7 @@ namespace Computer {
 
         void MetDate(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Year", "Année"), language("Month", "Mois"), language("Day", "Jour")};
+            static const vector<string> options = {language("Year", "Année", "Anno"), language("Month", "Mois", "Mese"), language("Day", "Jour", "Giorno")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -593,7 +604,7 @@ namespace Computer {
 
         void IsFatefulEncounter(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("No", "Non"), language("Yes", "Oui")};
+            static const vector<string> options = {language("No", "Non", "No"), language("Yes", "Oui", "Si")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -613,22 +624,22 @@ namespace Computer {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            if ((currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : French::allOrigins[getOrigin].choiceNo) == 24 || (currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : French::allOrigins[getOrigin].choiceNo) == 25) {
-                deterEggVer = (currLang == Lang::ENG ? English::allLocs6[getEggMetLoc].choiceNo : French::allLocs6[getEggMetLoc].choiceNo);
+            if ((currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin].choiceNo : Italian::allOrigins[getOrigin].choiceNo)) == 24 || (currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin].choiceNo : Italian::allOrigins[getOrigin].choiceNo)) == 25) {
+                deterEggVer = (currLang == Lang::ENG ? English::allLocs6[getEggMetLoc].choiceNo : (currLang == Lang::FRE ? French::allLocs6[getEggMetLoc].choiceNo : Italian::allLocs6[getEggMetLoc].choiceNo));
 
-                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6 : French::allLocs6))
+                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6 : (currLang == Lang::FRE ? French::allLocs6 : Italian::allLocs6)))
                     options.push_back(nickname.name);
             }
 
-            else if ((currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : French::allOrigins[getOrigin].choiceNo)  == 26 || (currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : French::allOrigins[getOrigin].choiceNo)  == 27) {
-                deterEggVer = (currLang == Lang::ENG ? English::allLocs6b[getEggMetLoc].choiceNo : French::allLocs6b[getEggMetLoc].choiceNo);
+            else if ((currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin].choiceNo : Italian::allOrigins[getOrigin].choiceNo)) == 26 || (currLang == Lang::ENG ? English::allOrigins[getOrigin].choiceNo : (currLang == Lang::FRE ? French::allOrigins[getOrigin].choiceNo : Italian::allOrigins[getOrigin].choiceNo)) == 27) {
+                deterEggVer = (currLang == Lang::ENG ? English::allLocs6b[getEggMetLoc].choiceNo : (currLang == Lang::FRE ? French::allLocs6b[getEggMetLoc].choiceNo : Italian::allLocs6b[getEggMetLoc].choiceNo));
 
-                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6b : French::allLocs6b))
+                for (const Locations &nickname : (currLang == Lang::ENG ? English::allLocs6b : (currLang == Lang::FRE ? French::allLocs6b : Italian::allLocs6b)))
                     options.push_back(nickname.name);
             }
 
             else {
-                MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!")), DialogType::DialogOk, ClearScreen::Both)();
+                MessageBox(CenterAlign(language("Failed to read or decrypt data!", "Impossible de lire ou de décrypter les données!", "Impossibile leggere o decifrare i dati!")), DialogType::DialogOk, ClearScreen::Both)();
                 return;
             }
 
@@ -648,7 +659,7 @@ namespace Computer {
 
         void EggMetDate(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Year", "Année"), language("Month", "Mois"), language("Day", "Jour")};
+            static const vector<string> options = {language("Year", "Année", "Anno"), language("Month", "Mois", "Mese"), language("Day", "Jour", "Giorno")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -676,7 +687,7 @@ namespace Computer {
 
         void IVs(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("HP", "PV"), language("Atk", "Atq"), "Def", language("Spe", "Vit"), language("SpA", "AtqS"), language("Def", "DefS")};
+            static const vector<string> options = {language("HP", "PV", "PS"), language("Atk", "Atq", "Attacco"), language("Def", "Def", "Difesa"), language("Spe", "Vit", "Velocità"), language("SpA", "AtqS", "Attacco Speciale"), language("Def", "DefS", "Difesa Speciale")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -698,7 +709,7 @@ namespace Computer {
 
         void EVs(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("HP", "PV"), language("Atk", "Atq"), "Def", language("Spe", "Vit"), language("SpA", "AtqS"), language("Def", "DefS")};
+            static const vector<string> options = {language("HP", "PV", "PS"), language("Atk", "Atq", "Attacco"), language("Def", "Def", "Difesa"), language("Spe", "Vit", "Velocità"), language("SpA", "AtqS", "Attacco Speciale"), language("Def", "DefS", "Difesa Speciale")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -720,7 +731,7 @@ namespace Computer {
 
         void Contest(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Cool", "Classe"), language("Beauty", "Beauté"), language("Cute", "Mignon"), language("Smart", "Astuce"), language("Though", "Costaud"), language("Sheen", "Éclat")};
+            static const vector<string> options = {language("Cool", "Classe", "Classe"), language("Beauty", "Beauté", "Bellezza"), language("Cute", "Mignon", "Grazia"), language("Smart", "Astuce", "Acume"), language("Though", "Costaud", "Grinta"), language("Sheen", "Éclat", "Lustro")};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -742,7 +753,7 @@ namespace Computer {
 
         void CurrentMoves(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Move", "Attaque") + " 1", language("Move", "Attaque") + " 2", language("Move", "Attaque") + " 3", language("Move", "Attaque") + " 4"};
+            static const vector<string> options = {language("Move", "Attaque", "Mossa") + " 1", language("Move", "Attaque", "Mossa") + " 2", language("Move", "Attaque", "Mossa") + " 3", language("Move", "Attaque", "Mossa") + " 4"};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -771,7 +782,7 @@ namespace Computer {
 
         void PPUps(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Move", "Attaque") + " 1", language("Move", "Attaque") + " 2", language("Move", "Attaque") + " 3", language("Move", "Attaque") + " 4"};
+            static const vector<string> options = {language("Move", "Attaque", "Mossa") + " 1", language("Move", "Attaque", "Mossa") + " 2", language("Move", "Attaque", "Mossa") + " 3", language("Move", "Attaque", "Mossa") + " 4"};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -793,7 +804,7 @@ namespace Computer {
 
         void RelearnMoves(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
-            static const vector<string> options = {language("Move", "Attaque") + " 1", language("Move", "Attaque") + " 2", language("Move", "Attaque") + " 3", language("Move", "Attaque") + " 4"};
+            static const vector<string> options = {language("Move", "Attaque","Mossa") + " 1", language("Move", "Attaque", "Mossa") + " 2", language("Move", "Attaque", "Mossa") + " 3", language("Move", "Attaque", "Mossa") + " 4"};
             KeyboardPlus keyboard;
 
             if (IsValid(pointer, pkmn)) {
@@ -882,19 +893,20 @@ namespace Computer {
         void Ribbons(MenuEntry *entry) {
             PK6 *pkmn = new PK6;
             vector<string> options;
-            static const vector<string> noYes = {language("No", "Non"), language("Yes", "Oui")};
+            static const vector<string> noYes = {language("No", "Non", "No"), language("Yes", "Oui", "Si")};
             KeyboardPlus keyboard;
 
             for (int i = 0; i < Helpers::AutoRegion(Helpers::PickGame(37, 44), 46); i++)
-                options.push_back((currLang == Lang::ENG ? English::allRibbons[i].name : French::allRibbons[i].name));
+                options.push_back((currLang == Lang::ENG ? English::allRibbons[i].name : (currLang == Lang::FRE ? French::allRibbons[i].name : Italian::allRibbons[i].name)));
 
             if (IsValid(pointer, pkmn)) {
-                start:
+            start:
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, ribbonChoice) != -1) {
                     if (keyboard.SetKeyboard(options[ribbonChoice] + ":", true, noYes, obtainRibbon) != -1)
-                        SetRibbons(pkmn, (currLang == Lang::ENG ? English::allRibbons[ribbonChoice].category : French::allRibbons[ribbonChoice].category), (currLang == Lang::ENG ? English::allRibbons[ribbonChoice].index : French::allRibbons[ribbonChoice].index), obtainRibbon);
+                        SetRibbons(pkmn, (currLang == Lang::ENG ? English::allRibbons[ribbonChoice].category : (currLang == Lang::FRE ? French::allRibbons[ribbonChoice].category : Italian::allRibbons[ribbonChoice].category)), (currLang == Lang::ENG ? English::allRibbons[ribbonChoice].index : (currLang == Lang::FRE ? French::allRibbons[ribbonChoice].index : Italian::allRibbons[ribbonChoice].index)), obtainRibbon);
 
-                    else goto start;
+                    else
+                        goto start;
 
                     if (SetPokemon(pointer, pkmn))
                         Message::Completed();
@@ -909,8 +921,8 @@ namespace Computer {
     void Cloning(MenuEntry *entry) {
         PK6 *pkmn = new PK6;
 
-        if (KB<u8>(language("Box:", "Boite:"), true, false, 2, cloningSettings[0], 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
-            if (KB<u8>(language("Slot:", "Emplacement:"), true, false, 2, cloningSettings[1], 0, 1, 30, Callback8)) {
+        if (KB<u8>(language("Box:", "Boite:", "Box:"), true, false, 2, cloningSettings[0], 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
+            if (KB<u8>(language("Slot:", "Emplacement:", "Slot:"), true, false, 2, cloningSettings[1], 0, 1, 30, Callback8)) {
                 u32 location = (((cloningSettings[1] - 1) * 0xE8) + ((cloningSettings[0] - 1) * 6960 + GetPokePointer()));
 
                 if (Editor::IsValid(location, pkmn)) {
@@ -976,8 +988,8 @@ namespace Computer {
     }
 
     void KeepOriginalPokemonKB(MenuEntry *entry) {
-        if (KB<u8>(language("Box:", "Boite"), true, false, 2, originalLoc[0], 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
-            if (KB<u8>(language("Slot:", "Emplacement"), true, false, 2, originalLoc[1], 0, 1, 30, Callback8)) {
+        if (KB<u8>(language("Box:", "Boite:", "Box:"), true, false, 2, originalLoc[0], 0, 1, Helpers::AutoRegion(31, 32), Callback8)) {
+            if (KB<u8>(language("Slot:", "Emplacement:", "Slot"), true, false, 2, originalLoc[1], 0, 1, 30, Callback8)) {
                 OriginalPokemonTemp();
                 return;
             }

@@ -11,7 +11,8 @@ namespace CTRPluginFramework {
     // Define an enumeration for supported languages
     enum Lang {
         ENG, // English
-        FRE  // French
+        FRE,  // French
+        ITA  // Italiano
     };
 }
 

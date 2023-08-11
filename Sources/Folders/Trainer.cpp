@@ -25,7 +25,7 @@ namespace Trainer {
                         {0x330D67D2, 0x3301281A}
             ))};
 
-            static const vector<string> options = {language("Trainer", "Dresseur"), "Secret"};
+            static const vector<string> options = {language("Trainer", "Dresseur", "Allenatore"), language("Secret", "Secret", "Segreto")};
             KeyboardPlus keyboard;
 
             start:
@@ -81,7 +81,7 @@ namespace Trainer {
         static int timeChoice, canSetTime[3];
 
         void PlayTimeKB(MenuEntry *entry) {
-            static const vector<string> options = {language("Hours", "Heures"), "Minutes", language("Seconds", "Secondes")};
+            static const vector<string> options = {language("Hours", "Heures", "Ore"), language("Minutes", "Minutes", "Minuti"), language("Seconds", "Secondes", "Secondi")};
             KeyboardPlus keyboard;
 
             start:
@@ -107,7 +107,7 @@ namespace Trainer {
         static int lang;
 
         void LanguageKB(MenuEntry *entry) {
-            static const vector<string> options = {language("Japanese", "Japonais"), language("English", "Anglais"), language("French", "Français"), language("Italian", "Italien"), language("German",  "Allemand"), language("Spanish", "Espagnol"), language("Korean", "Coréen")};
+            static const vector<string> options = {language("Japanese", "Japonais", "Giapponese"), language("English", "Anglais", "Inglese"), language("French", "Français", "Francese"), language("Italian", "Italien", "Italiano"), language("German", "Allemand", "Tedesco"), language("Spanish", "Espagnol", "Spagnolo"), language("Korean", "Coréen", "Coreano")};
             KeyboardPlus keyboard;
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, lang) != -1)
@@ -330,7 +330,7 @@ namespace Trainer {
         static int unlockCase;
 
         void Unlockable(MenuEntry *entry) {
-            static const vector<string> options = {language("TMs & HMs", "CTs & CSs"), language("Key Items", "Objets Clés")};
+            static const vector<string> options = {language("TMs & HMs", "CTs & CSs", "MT e MN"), language("Key Items", "Objets Clés", "Strumenti base")};
             KeyboardPlus keyboard;
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, unlockCase) != -1)
@@ -406,7 +406,7 @@ namespace Trainer {
                     {0x33013DF4, 0x33013D90, 0x330138CF, 0x330138D8}
         ))};
 
-        static const vector<string> options = {language("Unlock", "Débloquer")};
+        static const vector<string> options = {language("Unlock", "Débloquer", "Sblocca")};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, dexStatus) != -1) {

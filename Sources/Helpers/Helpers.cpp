@@ -39,7 +39,7 @@ namespace CTRPluginFramework {
         return false;
     }
 
-    Lang currLang = Lang::ENG;
+    Lang currLang = Lang::ITA;
 
     void LangFile(Lang lang) {
         File file(path + "/Lang.txt");
@@ -53,9 +53,10 @@ namespace CTRPluginFramework {
 
         if (lang == Lang::ENG)
             language = "English";
-
-        if (lang == Lang::FRE)
+        else if (lang == Lang::FRE)
             language = "Francais";
+        else if (lang == Lang::ITA)
+            language = "Italiano";
 
         if (File::Exists(path + "/Lang.txt") == 1) {
             LineWriter writeFile(file);
@@ -67,21 +68,28 @@ namespace CTRPluginFramework {
         }
     }
 
-    string language(string english, string french) {
-        return (currLang == Lang::ENG ? english : french);
+    string language(string english, string french, string italian) {
+        if (currLang == Lang::ENG)
+            return english;
+        else if (currLang == Lang::FRE)
+            return french;
+        else if (currLang == Lang::ITA)
+            return italian;
+        else
+            return english;
     }
 
     void Settings(MenuEntry *entry) {
-        static const vector<string> options = {language("Language", "Langue"), language("Reset", "Réinitialiser")};
+        static const vector<string> options = {language("Language", "Langue", "Lingua"), language("Reset", "Réinitialiser", "Ripristina")};
         KeyboardPlus keyboard;
         int settings;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, settings) != -1) {
             if (settings == 0) {
-                static const vector<string> langOption = {language("English", "Anglais"), language("French", "Français")};
+                static const vector<string> langOption = {language("English", "Anglais", "Inglese"), language("French", "Français", "Francese"), language("Italian", "Italien", "Italiano")};
                 int chooseLang;
 
-                if (keyboard.SetKeyboard(language("Language:\n\nNote: changing language will require a restart of the game!", "Langue:\n\nNote: changer la langue nécessitera un redémarrage du jeu!"), true, langOption, chooseLang) != -1) {
+                if (keyboard.SetKeyboard(language("Language:\n\nNote: changing language will require a restart of the game!", "Langue:\n\nNote: changer la langue nécessitera un redémarrage du jeu!", "Lingua:\n\nNota: per cambiare la lingua è necessario\nriavviare il gioco!"), true, langOption, chooseLang) != -1) {
                     if (chooseLang == 0) {
                         LangFile(Lang::ENG);
                         return;
@@ -91,11 +99,16 @@ namespace CTRPluginFramework {
                         LangFile(Lang::FRE);
                         return;
                     }
+
+                    if (chooseLang == 2) {
+                        LangFile(Lang::ITA);
+                        return;
+                    }
                 }
             }
 
             if (settings == 1) {
-                if (MessageBox(CenterAlign(language("Would you like to reset settings?", "Voulez-vous réinitialiser les paramètres?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
+                if (MessageBox(CenterAlign(language("Would you like to reset settings?", "Voulez-vous réinitialiser les paramètres?", "Si desidera ripristinare le impostazioni?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                     if (File::Exists("Data.bin")) {
                         File::Remove("Data.bin");
                         Message::Completed();
@@ -111,15 +124,15 @@ namespace CTRPluginFramework {
 
     namespace Message {
         void Completed(void) {
-            MessageBox(CenterAlign(language("Operation has been ", "L'opération a été ") << Color::LimeGreen << language("completed", "terminée") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
+            MessageBox(CenterAlign(language("Operation has been ", "L'opération a été ", "L'operazione è stata ") << Color::LimeGreen << language("completed", "terminée", "completata") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
         }
 
         void Interrupted(void) {
-            MessageBox(CenterAlign(language("Operation has been ", "L'opération a été ") << Color(255, 51, 51) << language("interrupted", "suspendu") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
+            MessageBox(CenterAlign(language("Operation has been ", "L'opération a été ", "L'operazione è stata ") << Color(255, 51, 51) << language("interrupted", "suspendu", "interrotta") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
         }
 
         void Warning(void) {
-            MessageBox(CenterAlign(language("Operation has already been ", "L'opération a déjà été ") << Color::Orange << language("completed", "accomplie") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
+            MessageBox(CenterAlign(language("Operation has already been ", "L'opération a déjà été ", "L'operazione è stata ") << Color::Orange << language("completed", "accomplie", "completata") << Color::White << "!"), DialogType::DialogOk, ClearScreen::Both)();
         }
     }
 
@@ -128,19 +141,19 @@ namespace CTRPluginFramework {
 
         bool TextColorizer(u32 address) {
             ColoredText textColors[7] = {
-                {language("Red", "Rouge"), 0},
-                {language("Green", "Vert"), 1},
-                {language("Blue", "Bleu"), 2},
-                {"Orange", 3},
-                {language("Pink", "Rose"), 4},
-                {language("Purple", "Violet"), 5},
-                {language("Light Blue", "Bleu Clair"), 6}
+                {language("Red", "Rouge", "Rosso"), 0},
+                {language("Green", "Vert", "Verde"), 1},
+                {language("Blue", "Bleu", "Blu"), 2},
+                {language("Orange", "Orange", "Arancione"), 3},
+                {language("Pink", "Rose", "Rosa"), 4},
+                {language("Purple", "Violet", "Viola"), 5},
+                {language("Light Blue", "Bleu Clair", "Azzurro"), 6}
             };
 
-            static const vector<string> options = {language("No", "Non"), language("Yes", "Oui")};
+            static const vector<string> options = {language("No", "Non", "No"), language("Yes", "Oui", "Si")};
             KeyboardPlus keyboard;
 
-            if (keyboard.SetKeyboard(language("Colored?", "Coloré?"), true, options, isColored) != -1) {
+            if (keyboard.SetKeyboard(language("Colored?", "Coloré?", "Vuoi colorarlo?"), true, options, isColored) != -1) {
                 if (isColored == 1) {
                     static vector<string> colors;
 
@@ -149,7 +162,7 @@ namespace CTRPluginFramework {
                             colors.push_back(nickname.name);
                     }
 
-                    if (keyboard.SetKeyboard(language("Color:", "Coleur:"), true, colors, chosenColor) != -1) {
+                    if (keyboard.SetKeyboard(language("Color:", "Coleur:", "Colore:"), true, colors, chosenColor) != -1) {
                         Process::Write32(address, 0x20010);
                         Process::Write16(address + 0x6, textColors[chosenColor].val);
                         Process::Write16(address + 0x4, 0xBD00);

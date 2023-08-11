@@ -21,14 +21,14 @@ namespace Battle {
                     data = ProcessPlus::Read16(location + 0xC);
 
                     if (data != 0 && data <= Helpers::AutoRegion(721, Helpers::GetVersion(802, 807))) {
-                        party[i] = (currLang == Lang::ENG ? English::allPkmn[data - 1] : French::allPkmn[data - 1]);
+                        party[i] = (currLang == Lang::ENG ? English::allPkmn[data - 1] : (currLang == Lang::FRE ? French::allPkmn[data - 1] : Italian::allPkmn[data - 1]));
                         valid++;
                     }
 
                     else goto none;
                 }
 
-                else none: party[i] = Color::Gray << language("None", "Aucun");
+                else none: party[i] = Color::Gray << language("None", "Aucun", "Nessuno");
             }
 
             return party;
@@ -45,7 +45,7 @@ namespace Battle {
                         pointer[i] = Helpers::Battle::offset[i] + ((slot - 1) * 0x4);
 
                     Message::Completed();
-                    entry->Name() = language("Slot: ", "Emplacement: ") << Color::Gray << Utils::ToString(slot, 0);
+                    entry->Name() = language("Slot: ", "Emplacement: ", "Slot: ") << Color::Gray << Utils::ToString(slot, 0);
                 }
             }
         }
@@ -59,14 +59,14 @@ namespace Battle {
 
         void Condition(MenuEntry *entry) {
             Conditions conditions[5] = {
-                {language("Paralyzed", "Paralysie"), Helpers::AutoRegion(0x20, 0x28)},
-                {language("Asleep", "Endormi"), Helpers::AutoRegion(0x24, 0x30)},
-                {language("Frozen", "Congelé"), Helpers::AutoRegion(0x28, 0x38)},
-                {language("Burned", "Brûlé"), Helpers::AutoRegion(0x2C, 0x40)},
-                {language("Poisoned", "Empoisonné"), Helpers::AutoRegion(0x30, 0x48)}
+                {language("Paralyzed", "Paralysie", "Paralizzato"), Helpers::AutoRegion(0x20, 0x28)},
+                {language("Asleep", "Endormi", "Addormentato"), Helpers::AutoRegion(0x24, 0x30)},
+                {language("Frozen", "Congelé", "Congelato"), Helpers::AutoRegion(0x28, 0x38)},
+                {language("Burned", "Brûlé", "Scottato"), Helpers::AutoRegion(0x2C, 0x40)},
+                {language("Poisoned", "Empoisonné", "Avvelenato"), Helpers::AutoRegion(0x30, 0x48)}
             };
 
-            static const vector<string> choices = {language("None", "Aucun"), language("Affected", "Affecté")};
+            static const vector<string> choices = {language("None", "Aucun", "Nessuno"), language("Affected", "Affecté", "Effetto")};
             vector<string> options;
             KeyboardPlus keyboard;
 
@@ -106,7 +106,7 @@ namespace Battle {
         static u8 boostVal[7];
 
         void StatisticsKB(MenuEntry *entry) {
-            static const vector<string> choice = {language("Base", "Stats de base"), "Boosts"}, baseChoices = {language("Attack", "Attaque"), language("Defense", "Défense"), language("Sp. Atk", "Attaque Sp."), language("Sp. Def", "Défense Sp."), language("Speed", "Vitesse")}, boostsChoices = {language("Attack", "Attaque"), language("Defense", "Défense"), language("Sp. Atk", "Attaque Sp."), language("Sp. Def", "Défense Sp."), language("Speed", "Vitesse"), language("Accuracy", "Précision"), language("Evasiveness", "Esquive")};
+            static const vector<string> choice = {language("Base", "Stats de base", "Punti Base"), "Boosts"}, baseChoices = {language("Attack", "Attaque", "Attacco"), language("Defense", "Défense", "Difesa"), language("Sp. Atk", "Attaque Sp.", "Attacco Speciale"), language("Sp. Def", "Défense Sp.", "Difesa Speciale"), language("Speed", "Vitesse", "Velocità")}, boostsChoices = {language("Attack", "Attaque", "Attacco"), language("Defense", "Défense", "Difesa"), language("Sp. Atk", "Attaque Sp.", "Attacco Speciale"), language("Sp. Def", "Défense Sp.", "Difesa Speciale"), language("Speed", "Vitesse", "Velocità"), language("Accuracy", "Précision", "Precisione"), language("Evasiveness", "Esquive", "Illusione")};
             u16 getBaseVal;
             u8 getBoostVal;
 
@@ -233,7 +233,7 @@ namespace Battle {
         static u8 staminaVal;
 
         void InvincibilityKB(MenuEntry *entry) {
-            static const vector<string> choices = {language("HP", "PV"), "PP"};
+            static const vector<string> choices = {language("HP", "PV", "Punti Salute"), language("PP", "PP", "Punti Potenza")};
             u16 getHealthVal;
             u8 getStaminaVal;
 
@@ -244,7 +244,7 @@ namespace Battle {
                     keyboard.SetKeyboard(entry->Name() + ":", true, choices, invincibilityOption);
 
                     if (invincibilityOption == 0) {
-                        if (KB<u16>(language("HP:", "PV:"), true, false, 3, getHealthVal, 0, 1, 999, Callback16)) {
+                        if (KB<u16>(language("HP:", "PV:", "Punti Salute:"), true, false, 3, getHealthVal, 0, 1, 999, Callback16)) {
                             healthVal = getHealthVal;
                             Message::Completed();
                         }
@@ -253,7 +253,7 @@ namespace Battle {
                     }
 
                     else if (invincibilityOption == 1) {
-                        if (KB<u8>("PP:", true, false, 2, getStaminaVal, 0, 1, 99, Callback8)) {
+                        if (KB<u8>(language("PP:", "PP:", "Punti Potenza:"), true, false, 2, getStaminaVal, 0, 1, 99, Callback8)) {
                             staminaVal = getStaminaVal;
                             Message::Completed();
                         }
@@ -306,7 +306,7 @@ namespace Battle {
         static int attackSlot;
 
         void Attacks(MenuEntry *entry) {
-            static const string langName = language("Move", "Attaque");
+            static const string langName = language("Move", "Attaque", "Mossa");
             static const vector<string> options = {langName + " 1", langName + " 2", langName + " 3", langName + " 4"};
             KeyboardPlus keyboard;
 
@@ -368,14 +368,14 @@ namespace Battle {
         }
 
         void RevertDefault(MenuEntry *entry) {
-            if (MessageBox(CenterAlign(language("Revert everything?", "Tout réinitialiser?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
+            if (MessageBox(CenterAlign(language("Revert everything?", "Tout réinitialiser?", "Ripristinare tutto?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                 isRevert = true;
-                entry->Name() = language("Revert to Default: ", "Retourner aux paramètres par défaut: ") << Color::Green << language("On", "Activé");
+                entry->Name() = language("Revert to Default: ", "Retourner aux paramètres par défaut: ", "Torna alle impostazioni predefinite: ") << Color::Green << language("On", "Activé", "Attivo");
                 Message::Completed();
                 return;
             }
 
-            entry->Name() = language("Revert to Default: ", "Retourner aux paramètres par défaut: ") << Color::Red << language("Off", "Désactivé");
+            entry->Name() = language("Revert to Default: ", "Retourner aux paramètres par défaut: ", "Torna alle impostazioni predefinite:") << Color::Red << language("Off", "Désactivé", "Disattivo");
             isRevert = false;
         }
 
@@ -394,7 +394,7 @@ namespace Battle {
             static PK6 *pkmn = new PK6;
             static const u32 pointer = Helpers::AutoRegion(Helpers::GetVersion(0x81FF744, 0x81FEEC8), Helpers::GetVersion(0x3003035C, 0x30030544));
             static u32 location = pointer;
-            static const vector<string> stats = {language("HP", "PV"), language("Atk", "Atq"), "Def", language("Spe", "Vit"), language("SpA", "AtqS"), language("Def", "DefS")};
+            static const vector<string> stats = {language("HP", "PV", "Punti Salute"), language("Atk", "Atq", "Attacco"), language("Def", "Def", "Difesa"), language("Spe", "Vit", "Velocita"), language("SpA", "AtqS", "Attacco Speciale"), language("Def", "DefS", "Difesa Speciale")};
 
             if (!screen.IsTop)
                 return false;
@@ -408,36 +408,35 @@ namespace Battle {
                         location -= 0x1E4;
 
                     if (infoScreen == 0)
-                        screen.Draw(Color::Gray << language("Slot: ", "Emplacement: ") << Utils::ToString(((location + 0x1E4 - pointer) / 0x1E4), 0), 5, 5, Color::White, Color::Black);
+                        screen.Draw(Color::Gray << language("Slot: ", "Emplacement: ", "Slot: ") << Utils::ToString(((location + 0x1E4 - pointer) / 0x1E4), 0), 5, 5, Color::White, Color::Black);
 
                     if (IsValid(location, pkmn)) {
                         if (infoScreen == 0) {
-                            screen.Draw(language("Species: ", "Espece: ") << Color(0xF2, 0xCE, 0x70) << (currLang == Lang::ENG ? English::allPkmn[pkmn->species - 1] : French::allPkmn[pkmn->species - 1]), 5, 15, Color::White, Color::Black);
-                            screen.Draw("Nature: " << Color::White << (currLang == Lang::ENG ? English::allNatures[pkmn->nature] : French::allNatures[pkmn->nature]), 5, 25, Color::White, Color::Black);
-                            screen.Draw(language("Item: ", "Objet: ") << (pkmn->heldItem == 0 ? Color::Gray : Color::White) << (pkmn->heldItem == 0 ? "None" : (currLang == Lang::ENG ? English::allItems[pkmn->heldItem - 1] : French::allItems[pkmn->heldItem - 1])), 5, 35, Color::White, Color::Black);
-                            screen.Draw(language("Ability: ", "Capacite: ") << Color::White << (currLang == Lang::ENG ? English::allAbilities[pkmn->ability - 1] : French::allAbilities[pkmn->ability - 1]), 5, 45, Color::White, Color::Black);
+                            screen.Draw(language("Species: ", "Espece: ", "Specie: ") << Color(0xF2, 0xCE, 0x70) << (currLang == Lang::ENG ? English::allPkmn[pkmn->species - 1] : (currLang == Lang::FRE ? French::allPkmn[pkmn->species - 1] : Italian::allPkmn[pkmn->species - 1])), 5, 15, Color::White, Color::Black);
+                            screen.Draw(language("Nature: ", "Nature: ", "Natura: ") << Color::White << (currLang == Lang::ENG ? English::allNatures[pkmn->nature] : (currLang == Lang::FRE ? French::allNatures[pkmn->nature] : Italian::allNatures[pkmn->nature])), 5, 25, Color::White, Color::Black);
+                            screen.Draw(language("Item: ", "Objet: ", "Strumento: ") << (pkmn->heldItem == 0 ? Color::Gray : Color::White) << (pkmn->heldItem == 0 ? language("None", "None", "Nessuno") : (currLang == Lang::ENG ? English::allItems[pkmn->heldItem - 1] : (currLang == Lang::FRE ? French::allItems[pkmn->heldItem - 1] : Italian::allItems[pkmn->heldItem - 1]))), 5, 35, Color::White, Color::Black);
+                            screen.Draw(language("Ability: ", "Capacite: ", "Abilita: ") << Color::White << (currLang == Lang::ENG ? English::allAbilities[pkmn->ability - 1] : (currLang == Lang::FRE ? French::allAbilities[pkmn->ability - 1] : Italian::allAbilities[pkmn->ability - 1])), 5, 45, Color::White, Color::Black);
                         }
 
                         else if (infoScreen == 1) {
-                            screen.Draw(Color::SkyBlue << language("Moves", "Attaques"), 5, 5, Color::White, Color::Black);
+                            screen.Draw(Color::SkyBlue << language("Moves", "Attaques", "Mosse"), 5, 5, Color::White, Color::Black);
 
                             for (int i = 0; i < 4; i++) {
                                 if (pkmn->moves[i] > 0)
-                                    screen.Draw(to_string(i + 1) + ": " << Color::White << (currLang == Lang::ENG ? English::allMoves[pkmn->moves[i] - 1] : French::allMoves[pkmn->moves[i] - 1]), 5, 15 + (i * 10), Color::White, Color::Black);
-
-                                else screen.Draw(to_string(i + 1) + ": " << Color::Gray << language("None", "Aucun"), 5, 15 + (i * 10), Color::White, Color::Black);
+                                    screen.Draw(to_string(i + 1) + ": " << Color::White << (currLang == Lang::ENG ? English::allMoves[pkmn->moves[i] - 1] : (currLang == Lang::FRE ? French::allMoves[pkmn->moves[i] - 1] : Italian::allMoves[pkmn->moves[i] - 1])), 5, 15 + (i * 10), Color::White, Color::Black);
+                                else screen.Draw(to_string(i + 1) + ": " << Color::Gray << language("None", "Aucun", "Nessuno"), 5, 15 + (i * 10), Color::White, Color::Black);
                             }
                         }
 
                         else if (infoScreen == 2) {
-                            screen.Draw(Color::Magenta << language("IVs", "VIs"), 5, 5, Color::White, Color::Black);
+                            screen.Draw(Color::Magenta << language("IVs", "VIs", "IV"), 5, 5, Color::White, Color::Black);
 
                             for (int j = 0; j < stats.size(); j++)
                                 screen.Draw(stats[j] + ": " + to_string((u8)(pkmn->iv32 >> (5 * j)) & 0x1F), 5, 15 + (j * 10), Color::White, Color::Black);
                         }
 
                         else if (infoScreen == 3) {
-                            screen.Draw(Color::Olive << language("EVs", "VEs"), 5, 5, Color::White, Color::Black);
+                            screen.Draw(Color::Olive << language("EVs", "VEs", "EV"), 5, 5, Color::White, Color::Black);
 
                             for (int k = 0; k < stats.size(); k++)
                                 screen.Draw(stats[k] + ": " + to_string(pkmn->evs[k]), 5, 15 + (k * 10), Color::White, Color::Black);
@@ -467,7 +466,7 @@ namespace Battle {
         }
 
         void PokeView(MenuEntry *entry) {
-            static const vector<string> options = {language("Enable", "Activer"), language("Disable", "Désactiver")};
+            static const vector<string> options = {language("Enable", "Activer", "Attiva"), language("Disable", "Désactiver", "Disattiva")};
             KeyboardPlus keyboard;
 
             if (IsInBattle()) {
@@ -518,7 +517,7 @@ namespace Battle {
             if (Bit::Read8(address, data8, true) && data8 != 1) {
                 Sleep(Seconds(1));
 
-                if (MessageBox(CenterAlign(language("Unlock full Mega Evolution?", "Débloquer la méga-évolution complète?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
+                if (MessageBox(CenterAlign(language("Unlock full Mega Evolution?", "Débloquer la méga-évolution complète?", "Sbloccare la Megaevoluzione?")), DialogType::DialogYesNo, ClearScreen::Both)()) {
                     if (Bit::Read8(address, data8, true))
                         Bit::Write8(address, 1, true);
                 }
@@ -627,8 +626,8 @@ namespace Battle {
             KeyboardPlus keyboard;
 
             if (pokemon > 0) {
-                if (KB<u8>(language("Level:", "Niveau:"), true, false, 3, level, 0, 1, 100, Callback8)) {
-                    if (keyboard.SetKeyboard(language("Form:", "Forme:"), true, CTRPluginFramework::Gen6::Forms(pokemon), form) != -1) {
+                if (KB<u8>(language("Level:", "Niveau:", "Livello:"), true, false, 3, level, 0, 1, 100, Callback8)) {
+                    if (keyboard.SetKeyboard(language("Form:", "Forme:", "Forma: "), true, CTRPluginFramework::Gen6::Forms(pokemon), form) != -1) {
                         InitPokemon(pokemon, form, level, Helpers::GetVersion(false, true));
                         Message::Completed();
                     }
@@ -648,7 +647,7 @@ namespace Battle {
             static const vector<string> options = {
                 Helpers::GetVersion<string>(
                     {"Mewtwo", Helpers::PickGame("Xerneas", "Yveltal"), "Zygarde"},
-                    {Helpers::PickGame("Ho-Oh", "Lugia"), Helpers::PickGame("Latias", "Latios"), Helpers::PickGame("Groudon", "Kyogre"), "Rayquaza", "Deoxys", Helpers::PickGame("Palkia", "Dialga"), "Heatran", "Regigigas", "Giritina", Helpers::PickGame(language("Tornadus", "Boréas"), language("Thunderus", "Fulguris")), language("Landorus", "Démétéros"), "Kyruem"}
+                    {Helpers::PickGame("Ho-Oh", "Lugia"), Helpers::PickGame("Latias", "Latios"), Helpers::PickGame("Groudon", "Kyogre"), "Rayquaza", "Deoxys", Helpers::PickGame("Palkia", "Dialga"), "Heatran", "Regigigas", "Giritina", Helpers::PickGame(language("Tornadus", "Boréas", "Tornadus"), language("Thunderus", "Fulguris", "Thunderus")), language("Landorus", "Démétéros", "Landorus"), "Kyruem"}
             )};
 
             KeyboardPlus keyboard;
@@ -931,8 +930,8 @@ namespace Battle {
             KeyboardPlus keyboard;
 
             if (pokemon > 0) {
-                if (keyboard.SetKeyboard(language("Form:", "Forme:"), true, CTRPluginFramework::Gen7::Forms(pokemon), form) != -1) {
-                    if (KB<u8>(language("Level:", "Niveau:"), true, false, 3, level, 0, 1, 100, Callback8))
+                if (keyboard.SetKeyboard(language("Form:", "Forme:", "Forma:"), true, CTRPluginFramework::Gen7::Forms(pokemon), form) != -1) {
+                    if (KB<u8>(language("Level:", "Niveau:", "Livello:"), true, false, 3, level, 0, 1, 100, Callback8))
                         entry->SetGameFunc(InitPokemon);
                         Message::Completed();
                 }
@@ -948,7 +947,7 @@ namespace Battle {
                     {0x33013264, 0x33013266, 0x33013268, 0x3301322C, 0x33013712, 0x3301379F, 0x33013796}
             )};
 
-            static const vector<string> options = {language("Tapu Koko", "Tokorico"), language("Tapu Lele", "Tokopiyon"), language("Tapu Bulu", "Tokotoro"), language("Tapu Fini", "Tokopisco"), "Cosmog", Helpers::PickGame("Solgaleo", "Lunala"), "Necrozma"};
+            static const vector<string> options = {language("Tapu Koko", "Tokorico", "Tapu Koko"), language("Tapu Lele", "Tokopiyon", "Tapu Lele"), language("Tapu Bulu", "Tokotoro", "Tapu Bulu"), language("Tapu Fini", "Tokopisco", "Tapu Fini"), "Cosmog", Helpers::PickGame("Solgaleo", "Lunala"), "Necrozma"};
             KeyboardPlus keyboard;
 
             static const vector<bool> rightSide = {true, true, true, true, false, false, false};
@@ -1122,7 +1121,7 @@ namespace Battle {
     }
 
     void MusicKB(MenuEntry *entry) {
-        static const vector<string> options = {language("Wild Encounter", "Rencontres Sauvages"), language("Trainer", "Combats de Dresseurs")};
+        static const vector<string> options = {language("Wild Encounter", "Rencontres Sauvages", "Incontro Selvatico"), language("Trainer", "Combats de Dresseurs", "Battaglie tra Allenatori")};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, musicType) != -1) {
@@ -1133,7 +1132,7 @@ namespace Battle {
                     getMusicFiles.push_back(nickname.name);
             }
 
-            if (keyboard.SetKeyboard(entry->Name() + ":\n\n" + language("Select the music file you would like to use.", "Choisissez le fichier de musique que vous souhaitez utiliser."), true, getMusicFiles, music) != -1) {
+            if (keyboard.SetKeyboard(entry->Name() + ":\n\n" + language("Select the music file you would like to use.", "Choisissez le fichier de musique que vous souhaitez utiliser.", "Selezionare il file musicale che si desidera\nutilizzare."), true, getMusicFiles, music) != -1) {
                 musicSelected = true;
                 entry->SetGameFunc(ApplyMusic);
                 Message::Completed();

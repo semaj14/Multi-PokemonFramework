@@ -36,11 +36,23 @@ namespace PSS {
             };
         }
 
+        namespace Italian {
+            static const Deposit deposit[7] = {
+                {"Indietro", 0x45, 0x40},
+                {"Esci dalla GTS", 0x4F, 0x4B},
+                {"Cerca un Pokémon", 0xA4, 0xA0},
+                {"Pokémon Richiesto", 0xA6, 0xA2},
+                {"Sesso", 0xA8, 0xA4},
+                {"Livello", 0xAA, 0xA6},
+                {"Opzioni", 0xAE, 0xAA}
+            };
+        }
+
         static int depositConfig, getSettings[2], settings[3];
         static int optionsType;
 
         void ConfigurationKB(MenuEntry *entry) {
-            static const vector<string> options = {"Pokemon", language("Gender", "Sexe"), language("Level", "Niveau")};
+            static const vector<string> options = {"Pokemon", language("Gender", "Sexe", "Sesso"), language("Level", "Niveau", "Livello")};
             KeyboardPlus keyboard;
 
             start:
@@ -61,15 +73,23 @@ namespace PSS {
 
                 else {
                     choose:
-                    if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké"), "Normal"}, optionsType) != -1) {
+                    if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké", "Hackerato"), language("Normal", "Normal", "Legit")}, optionsType) != -1) {
                         if (optionsType == 0) {
                             vector<string> selection;
 
-                            for (const Deposit &nickname : (currLang == Lang::ENG ? English::deposit : French::deposit))
+                            for (const Deposit& nickname : (currLang == Lang::ENG ? English::deposit : (currLang == Lang::ITA ? Italian::deposit : French::deposit)))
                                 selection.push_back(nickname.name);
 
                             if (keyboard.SetKeyboard(options[depositConfig] + ":", true, selection, getSettings[depositConfig - 1]) != -1) {
-                                settings[depositConfig] = (depositConfig < 2) ? (currLang == Lang::ENG ? English::deposit[getSettings[depositConfig - 1]].val1 : French::deposit[getSettings[depositConfig - 1]].val1) : (currLang == Lang::ENG ? English::deposit[getSettings[depositConfig -1]].val2 : French::deposit[getSettings[depositConfig -1]].val2);
+                                if (currLang == Lang::ENG) {
+                                    settings[depositConfig] = (depositConfig < 2) ? English::deposit[getSettings[depositConfig - 1]].val1 : English::deposit[getSettings[depositConfig - 1]].val2;
+                                }
+                                else if (currLang == Lang::ITA) {
+                                    settings[depositConfig] = (depositConfig < 2) ? Italian::deposit[getSettings[depositConfig - 1]].val1 : Italian::deposit[getSettings[depositConfig - 1]].val2;
+                                }
+                                else {
+                                    settings[depositConfig] = (depositConfig < 2) ? French::deposit[getSettings[depositConfig - 1]].val1 : French::deposit[getSettings[depositConfig - 1]].val2;
+                                }
                                 Message::Completed();
                                 return;
                             }
@@ -78,7 +98,7 @@ namespace PSS {
                         }
 
                         else {
-                            vector<vector<string>> selection = {{language("Any", "Tout"), language("Male", "Mâle"), language("Female", "Femelle")}, {language("Any", "Tout"), "1 ~ 10", "11 ~ 20", "21 ~ 30", "31 ~ 40", "41 ~ 50", "51 ~ 60", "61 ~ 70", "71 ~ 80", "81 ~ 90", language("91 or higher", "91 ou plus")}};
+                            vector<vector<string>> selection = {{language("Any", "Tout", "Qualsiasi"), language("Male", "Mâle", "Maschio"), language("Female", "Femelle", "Femmina")}, {language("Any", "Tout", "Qualsiasi"), "1 ~ 10", "11 ~ 20", "21 ~ 30", "31 ~ 40", "41 ~ 50", "51 ~ 60", "61 ~ 70", "71 ~ 80", "81 ~ 90", language("91 or higher", "91 ou plus", "91 o superiore")}};
 
                             if (keyboard.SetKeyboard(options[depositConfig] + ":", true, (depositConfig == 1 ? selection[0] : selection[1]), getSettings[depositConfig - 1]) != -1) {
                                 settings[depositConfig] = getSettings[depositConfig - 1];
@@ -291,6 +311,88 @@ namespace PSS {
             };
         }
 
+        namespace Italian {
+            static const Sprites hackedIcons[3] = {
+                {17, "Invisibile"},
+                {128, "Centro Pokémon"},
+                {129, "Regalo"}
+            };
+
+            static const Sprites regularIcons[71] = {
+                {0, "Serena"},
+                {1, "Calem"},
+                {2, "Platan"},
+                {3, "Diantha"},
+                {4, "Timeus"},
+                {5, "Malva"},
+                {6, "Lilia"},
+                {7, "Narciso"},
+                {8, "Violetta"},
+                {9, "Lino"},
+                {10, "Ornella"},
+                {11, "Amur"},
+                {12, "Lem"},
+                {13, "Valérie"},
+                {14, "Astra"},
+                {15, "Edel"},
+                {16, "Marmocchio"},
+                {18, "Teenager"},
+                {19, "Lady"},
+                {20, "Studentessa"},
+                {21, "Combat Girl"},
+                {22, "Studente"},
+                {23, "Elegantone"},
+                {24, "Fantallenatrice"},
+                {26, "Pokémon Ranger (F)"},
+                {27, "Fantallenatore"},
+                {28, "Pokémon Ranger (M)"},
+                {29, "Madame"},
+                {30, "Gentiluomo"},
+                {31, "Cinturanera"},
+                {32, "Ribelle"},
+                {33, "Ragazza delle fiabe"},
+                {34, "Shauna"},
+                {35, "Tierno"},
+                {36, "Trovato"},
+                {37, "Brendon"},
+                {38, "Vera"},
+                {40, "Montanaro"},
+                {41, "Profumina"},
+                {42, "Scolaro"},
+                {43, "Scolara"},
+                {44, "Cinturanera"},
+                {45, "Combat Girl"},
+                {46, "Pokéfanatico"},
+                {47, "Ragazza delle fiabe"},
+                {48, "Vincenzo Vinci"},
+                {49, "Vittoria Vinci"},
+                {50, "Pokémon Ranger (M)"},
+                {51, "Pokémon Ranger (F)"},
+                {52, "Nuotatore"},
+                {53, "Streghetta"},
+                {54, "Fantallenatore"},
+                {55, "Fantallenatrice"},
+                {56, "Tipaccio"},
+                {57, "Tipaccia"},
+                {58, "Specialista (M)"},
+                {59, "Specialista (F)"},
+                {60, "Lady"},
+                {61, "Elegantone"},
+                {62, "Ninja Boy"},
+                {63, "Bellezza"},
+                {64, "Chitarrista"},
+                {65, "Teenager"},
+                {66, "Allevapokémon (M)"},
+                {67, "Allevapokémon (F)"},
+                {68, "Campeggiatore"},
+                {69, "Picnic Girl"},
+                {70, "Lino"},
+                {71, "Rocco Petri"},
+                {72, "Max"},
+                {73, "Ivan"}
+            };
+        }
+
         int iconsAvailable = 0;
         static int iconCategory, getIcon;
 
@@ -312,7 +414,7 @@ namespace PSS {
             }
 
             start:
-            if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké"), "Normal"}, iconCategory) != -1) {
+            if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké", "Hackerate"), language("Normal", "Normal", "Normali")}, iconCategory) != -1) {
                 if (iconCategory != 0) {
                     if (keyboard.SetKeyboard(entry->Name() + ":", true, regularOptions, getIcon) != -1) {
                         Process::Write8(address, (currLang == Lang::ENG ? English::regularIcons[getIcon].id : French::regularIcons[getIcon].id));
@@ -395,10 +497,10 @@ namespace PSS {
 
         void History(MenuEntry *entry) {
             static const u32 address = Helpers::GetVersion(0x8C84C7C, 0x8C8D448);
-            static const vector<string> options = {language("Battle", "Combat"), language("Trade", "Echange"), language("O-Power", "O-Aura"), "Global Trade Station", language("Battle Spot", "Coin combats"), language("Wonder Trade", "Echange miracle")};
+            static const vector<string> options = {language("Battle", "Combat", "Battaglia"), language("Trade", "Echange", "Scambio"), language("O-Power", "O-Aura", "Poteri O"), "Global Trade Station", language("Battle Spot", "Coin combats", "Punto Lotta"), language("Wonder Trade", "Echange miracle", "Scambio prodigioso")};
             KeyboardPlus keyboard;
 
-            if (KB<u8>(language("Index:", "Indexe:"), true, false, 1, historyIndex, 0, 1, 6, Callback8)) {
+            if (KB<u8>(language("Index:", "Indexe:", "Indice"), true, false, 1, historyIndex, 0, 1, 6, Callback8)) {
                 if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getAction) != -1) {
                     if (Process::Read8(address, data8) && data8 != 6)
                         Process::Write8(address, 6);
@@ -422,15 +524,27 @@ namespace PSS {
             vector<string> options;
             KeyboardPlus keyboard;
 
-            for (const Geograph &nickname : (currLang == Lang::ENG ? CTRPluginFramework::English::allCountries : CTRPluginFramework::French::allCountries))
+            for (const Geograph &nickname : (currLang == Lang::ENG ? CTRPluginFramework::English::allCountries : (currLang == Lang::FRE ? CTRPluginFramework::French::allCountries : CTRPluginFramework::Italian::allCountries))){
                 options.push_back(nickname.name);
+            }
 
             if (keyboard.SetKeyboard(entry->Name() + ":", true, options, getCountry) != -1) {
-                countryID = (currLang == Lang::ENG ? CTRPluginFramework::English::allCountries[getCountry].id : CTRPluginFramework::French::allCountries[getCountry].id);
+                int countryID;
+
+                if (currLang == Lang::ITA) {
+                    countryID = CTRPluginFramework::Italian::allCountries[getCountry].id;
+                }
+                else if (currLang == Lang::ENG) {
+                    countryID = CTRPluginFramework::English::allCountries[getCountry].id;
+                }
+                else if (currLang == Lang::FRE) {
+                    countryID = CTRPluginFramework::French::allCountries[getCountry].id;
+                }
 
                 if (Process::Write16(address[0], (countryID << 8 | regionID))) {
-                    if (Process::Write32(address[1], Helpers::GetVersion(0xEB048F30, 0xEB04EF7C)))
-                        ProcessPlus::Write32(address[2], {0xE59F0004, 0xE5900000, 0xE12FFF1E, Helpers::GetVersion<u32>(0x8C79C60, 0x8C81364)});
+                    if (Process::Write32(address[1], Helpers::GetVersion(0xEB048F30, 0xEB04EF7C))) {
+                        ProcessPlus::Write32(address[2], { 0xE59F0004, 0xE5900000, 0xE12FFF1E, Helpers::GetVersion<u32>(0x8C79C60, 0x8C81364) });
+                    }
                 }
 
                 Message::Completed();
@@ -447,17 +561,17 @@ namespace PSS {
                     {0x8C8B2A8, 0x8C8B2A0}
             )};
 
-            static const vector<string> options = {language("Battles", "Combats"), language("Trades", "Echanges")};
+            static const vector<string> options = {language("Battles", "Combats", "Battaglie"), language("Trades", "Echanges", "Scambi")};
             KeyboardPlus keyboard;
 
             start:
-            if (keyboard.SetKeyboard(language("Which one?", "Lequel?"), true, options, chooseActivity) != -1) {
+            if (keyboard.SetKeyboard(language("Which one?", "Lequel?", "Quale?"), true, options, chooseActivity) != -1) {
                 pick:
                 for (int i = 0; i < sizeof(existingVals) / sizeof(existingVals[0]); i++)
                     Process::Read32(address[chooseActivity] + (i * 0x10), existingVals[i]);
 
-                if (keyboard.SetKeyboard(language("Where would you like to write the value to?\n\nKeep in mind that these values do accumulate with each other.", "Où aimeriez-vous écrire la valeur?\n\nGardez à l'esprit que ces valeurs s'accumulent les unes avec les autres.") << "\n\nLink: " << Color::Gray << to_string(existingVals[0]) << Color::White << "\nWiFi: " << Color::Gray << to_string(existingVals[1]) << Color::White << "\nIR: " << Color::Gray << to_string(existingVals[2]) << Color::White << "\n\nTotal: " << Color::Gray << to_string(existingVals[0] + existingVals[1] + existingVals[2]), true, {"Link", "WiFi", "IR"}, acvitityType) != -1) {
-                    if (KB<u32>(language("Amount:", "Montant:"), true, false, 6, activityVal[chooseActivity], 0, 0, 999999, Callback32)) {
+                if (keyboard.SetKeyboard(language("Where would you like to write the value to?\n\nKeep in mind that these values do accumulate with each other.", "Où aimeriez-vous écrire la valeur?\n\nGardez à l'esprit que ces valeurs s'accumulent les unes avec les autres.", "Dove desideri scrivere il valore?\n\nTieni presente che questi valori si accumulano\ntra di loro.") << "\n\nLink: " << Color::Gray << to_string(existingVals[0]) << Color::White << "\nWiFi: " << Color::Gray << to_string(existingVals[1]) << Color::White << "\nIR: " << Color::Gray << to_string(existingVals[2]) << Color::White << "\n\n" + language("Total: ", "Total: ", "Totale:") << Color::Gray << to_string(existingVals[0] + existingVals[1] + existingVals[2]), true, {"Link", "WiFi", "IR"}, acvitityType) != -1) {
+                    if (KB<u32>(language("Amount:", "Montant:", "Quantità:"), true, false, 6, activityVal[chooseActivity], 0, 0, 999999, Callback32)) {
                         if (Process::Write32(address[chooseActivity] + (acvitityType * 0x10), activityVal[chooseActivity]))
                             Message::Completed();
                     }
@@ -478,8 +592,8 @@ namespace PSS {
                     {0x8C8545C, 0x8C85462}
             )};
 
-            if (KB<u8>(language("Survey (copy from):", "Enquête (copier depuis):"), true, false, 1, survey, 0, 1, 6, Callback8)) {
-                if (KB<u8>(language("Survey (copy to):", "Enquête (copie vers):"), true, false, 1, surveyDest, 0, 1, 6, Callback8)) {
+            if (KB<u8>(language("Survey (copy from):", "Enquête (copier depuis):", "Sondaggio (copia da):"), true, false, 1, survey, 0, 1, 6, Callback8)) {
+                if (KB<u8>(language("Survey (copy to):", "Enquête (copie vers):", "Sondaggio (copia verso):"), true, false, 1, surveyDest, 0, 1, 6, Callback8)) {
                     for (int i = 0; i < address.size(); i++) {
                         if (surveyDest != survey)
                             Process::Write8(address[i] + (surveyDest - 1), ProcessPlus::Read8(address[i] + (survey - 1)));
@@ -502,7 +616,7 @@ namespace PSS {
                     {0x8C8B46C, 0x8C8B364}
             )};
 
-            static const vector<string> options = {language("Today", "Aujourd'hui"), "Total"};
+            static const vector<string> options = {language("Today", "Aujourd'hui", "Oggi"), language("Total", "Total", "Totale")};
             KeyboardPlus keyboard;
 
             start:
@@ -583,7 +697,7 @@ namespace PSS {
     static int section, canClear[2];
 
     void ClearUsersKB(MenuEntry *entry) {
-        static const vector<string> options = {language("Friends", "Amis"), language("Acquaintances", "Connaissances")};
+        static const vector<string> options = {language("Friends", "Amis", "Amici"), language("Acquaintances", "Connaissances", "Persone incontrate")};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, section) != -1) {
