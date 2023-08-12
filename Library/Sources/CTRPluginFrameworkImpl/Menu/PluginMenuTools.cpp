@@ -647,8 +647,8 @@ namespace CTRPluginFramework {
         static Clock clock;
         static bool timesup = true;
 
-        static const char version[] = "Version: 1.0.3b";
-        static const char compiled[] = "Compiled: July 1, 2023";
+        static const char version[] = "Version: 1.0.4";
+        static const char compiled[] = "Compiled: August 11, 2023";
         const char *info[3] = {SystemModel().c_str(), InternetAccess().c_str(), CurrentTime().c_str()};
 
         {
