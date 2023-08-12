@@ -2597,7 +2597,7 @@ namespace CTRPluginFramework {
                 case 664: // Scatterbug
                 case 665: // Spewpa
                 case 666: // Vivillon
-                    options = {language("Icy Snow", "Neige Glacée", "Motivo Nevi Perenni"), language("Polar", "Polaire", "Motivo Nordico"), language("Tundra", "Toundra", "Motivo Manto di Neve"), language("Continental", "Continental", "Motivo Continentale"), language("Garden", "Jardin", "Motivo Prato"), language("Elegant", "Élégant", "Motivo Eleganza"), language("Meadow", "Prairie", "Motivo Giardinfiore"), language("Modern", "Moderne", "Motivo Trendy"), language("Marine", "Marin", "Motivo Marino"), language("Archipelago", "Archipel", "Motivo Arcipelago"), language("High-Plains", "Hautes Plaines", "Motivo Deserto"), language("Sandstorm", "Tempête de Sable", "Motivo Sabbia"), language("River", "Rivière", "Motivo Fluviale"), language("Monsoon", "Mousson", "Motivo Pluviale"), language("Savannah", "Savane", "Motivo Savana"), language("Sun", "Soleil", "Motivo Solare"), language("Ocean", "Océan", "Motivo Oceanico"), language("Jungle", "Jungle", "Motivo Giungla"), language("Fancy", "Chic", "Motivo Sbarazzino"), language("Poké Ball", "Poké Ball", "Motivo Poké Ball")};                    
+                    options = {language("Icy Snow", "Neige Glacée", "Motivo Nevi Perenni"), language("Polar", "Polaire", "Motivo Nordico"), language("Tundra", "Toundra", "Motivo Manto di Neve"), language("Continental", "Continental", "Motivo Continentale"), language("Garden", "Jardin", "Motivo Prato"), language("Elegant", "Élégant", "Motivo Eleganza"), language("Meadow", "Prairie", "Motivo Giardinfiore"), language("Modern", "Moderne", "Motivo Trendy"), language("Marine", "Marin", "Motivo Marino"), language("Archipelago", "Archipel", "Motivo Arcipelago"), language("High-Plains", "Hautes Plaines", "Motivo Deserto"), language("Sandstorm", "Tempête de Sable", "Motivo Sabbia"), language("River", "Rivière", "Motivo Fluviale"), language("Monsoon", "Mousson", "Motivo Pluviale"), language("Savannah", "Savane", "Motivo Savana"), language("Sun", "Soleil", "Motivo Solare"), language("Ocean", "Océan", "Motivo Oceanico"), language("Jungle", "Jungle", "Motivo Giungla"), language("Fancy", "Chic", "Motivo Sbarazzino"), language("Poké Ball", "Poké Ball", "Motivo Poké Ball")};
                     break;
 
                 case 669: // Flabébé
@@ -2612,7 +2612,7 @@ namespace CTRPluginFramework {
                 case 676: // Furfrou
                     options = {language("Natural", "Naturel", "Selvatica"), language("Heart", "Coeur", "Taglio Cuore"), language("Star", "Étoile", "Taglio Stella"), language("Diamond", "Diamant", "Taglio Diamante"), language("Deputante", "Débutante", "Taglio Signorina"), language("Matron", "Dame", "Taglio Gentildonna"), language("Dandy", "Dandy", "Taglio Gentiluomo"), language("La Reine", "La Reine", "Taglio Regina"), language("Kabuki", "Kabuki", "Taglio Kabuki"), language("Pharaoh", "Pharaon", "Taglio Faraone")};
                         break;
-  
+
                 case 681: // Aegislash
                     options = {language("Shield", "Bouclier", "Scudo"), language("Blade", "Lame", "Spada")};
                     break;
@@ -2807,7 +2807,7 @@ namespace CTRPluginFramework {
                 case 664: // Scatterbug
                 case 665: // Spewpa
                 case 666: // Vivillon
-                    options = {language("Icy Snow", "Neige Glacée", "Motivo Nevi Perenni"), language("Polar", "Polaire", "Motivo Nordico"), language("Tundra", "Toundra", "Motivo Manto di Neve"), language("Continental", "Continental", "Motivo Continentale"), language("Garden", "Jardin", "Motivo Prato"), language("Elegant", "Élégant", "Motivo Eleganza"), language("Meadow", "Prairie", "Motivo Giardinfiore"), language("Modern", "Moderne", "Motivo Trendy"), language("Marine", "Marin", "Motivo Marino"), language("Archipelago", "Archipel", "Motivo Arcipelago"), language("High-Plains", "Hautes Plaines", "Motivo Deserto"), language("Sandstorm", "Tempête de Sable", "Motivo Sabbia"), language("River", "Rivière", "Motivo Fluviale"), language("Monsoon", "Mousson", "Motivo Pluviale"), language("Savannah", "Savane", "Motivo Savana"), language("Sun", "Soleil", "Motivo Solare"), language("Ocean", "Océan", "Motivo Oceanico"), language("Jungle", "Jungle", "Motivo Giungla"), language("Fancy", "Chic", "Motivo Sbarazzino"), language("Poké Ball", "Poké Ball", "Motivo Poké Ball")};                    
+                    options = {language("Icy Snow", "Neige Glacée", "Motivo Nevi Perenni"), language("Polar", "Polaire", "Motivo Nordico"), language("Tundra", "Toundra", "Motivo Manto di Neve"), language("Continental", "Continental", "Motivo Continentale"), language("Garden", "Jardin", "Motivo Prato"), language("Elegant", "Élégant", "Motivo Eleganza"), language("Meadow", "Prairie", "Motivo Giardinfiore"), language("Modern", "Moderne", "Motivo Trendy"), language("Marine", "Marin", "Motivo Marino"), language("Archipelago", "Archipel", "Motivo Arcipelago"), language("High-Plains", "Hautes Plaines", "Motivo Deserto"), language("Sandstorm", "Tempête de Sable", "Motivo Sabbia"), language("River", "Rivière", "Motivo Fluviale"), language("Monsoon", "Mousson", "Motivo Pluviale"), language("Savannah", "Savane", "Motivo Savana"), language("Sun", "Soleil", "Motivo Solare"), language("Ocean", "Océan", "Motivo Oceanico"), language("Jungle", "Jungle", "Motivo Giungla"), language("Fancy", "Chic", "Motivo Sbarazzino"), language("Poké Ball", "Poké Ball", "Motivo Poké Ball")};
                     break;
 
                 case 669: // Flabébé
@@ -6719,7 +6719,7 @@ namespace CTRPluginFramework {
             {"Blu [INT]/Verde [JP]", 36, 1},
             {"Blu [JP]", 37, 1},
             {"Giallo", 38, 1}
-            };
+        };
     }
 
     struct Geograph {
