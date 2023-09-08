@@ -321,7 +321,7 @@ namespace PSS {
             static const Sprites regularIcons[71] = {
                 {0, "Serena"},
                 {1, "Calem"},
-                {2, "Platan"},
+                {2, "Professor Platan"},
                 {3, "Diantha"},
                 {4, "Timeus"},
                 {5, "Malva"},
@@ -404,7 +404,7 @@ namespace PSS {
             static vector<string> regularOptions;
             KeyboardPlus keyboard;
 
-            for (const Sprites &nickname : (currLang == Lang::ENG ? English::regularIcons : French::regularIcons)) {
+            for (const Sprites& nickname : (currLang == Lang::ENG ? English::regularIcons : (currLang == Lang::FRE ? French::regularIcons : Italian::regularIcons))) {
                 if (iconsAvailable < ((group == Group::XY) ? 35 : 71)) {
                     regularOptions.push_back(nickname.name);
                     iconsAvailable++;
@@ -417,7 +417,7 @@ namespace PSS {
             if (keyboard.SetKeyboard(entry->Name() + ":", true, {language("Hacked", "Hacké", "Hackerate"), language("Normal", "Normal", "Normali")}, iconCategory) != -1) {
                 if (iconCategory != 0) {
                     if (keyboard.SetKeyboard(entry->Name() + ":", true, regularOptions, getIcon) != -1) {
-                        Process::Write8(address, (currLang == Lang::ENG ? English::regularIcons[getIcon].id : French::regularIcons[getIcon].id));
+                        Process::Write8(address, (currLang == Lang::ENG ? English::regularIcons[getIcon].id : (currLang == Lang::FRE ? French::regularIcons[getIcon].id : Italian::regularIcons[getIcon].id)));                        
                         goto end;
                     }
 
@@ -425,7 +425,7 @@ namespace PSS {
                 }
 
                 else {
-                    for (const Sprites &nickname : (currLang == Lang::ENG ? English::hackedIcons : French::hackedIcons)) {
+                    for (const Sprites &nickname : (currLang == Lang::ENG ? English::hackedIcons : (currLang == Lang::FRE ? French::hackedIcons : Italian::hackedIcons))) {
                         if (counter < 3) {
                             hackedOptions.push_back(nickname.name);
                             counter++;
@@ -435,7 +435,7 @@ namespace PSS {
                     }
 
                     if (keyboard.SetKeyboard(entry->Name() + ":", true, hackedOptions, getIcon) != -1) {
-                        Process::Write8(address, (currLang == Lang::ENG ? English::hackedIcons[getIcon].id : French::hackedIcons[getIcon].id));
+                        Process::Write8(address, (currLang == Lang::ENG ? English::hackedIcons[getIcon].id : (currLang == Lang::FRE ? French::hackedIcons[getIcon].id : Italian::hackedIcons[getIcon].id)));
                         goto end;
                     }
 

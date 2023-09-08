@@ -140,7 +140,7 @@ void InitMenu(PluginMenu &menu) {
     *editor += new MenuEntry(language("Setup", "Place du Pokémon", "Posizione del Pokémon"), nullptr, Computer::Editor::Initialize, note + language("this is to set up the Pokémon you would like to modify.", "ce paramètre permet de sélectionner le Pokémon que vous souhaitez modifier.", "questo serve per impostare il Pokémon che desideri modificare."));
 
     *editor += new MenuFolder(language("Main", "Principal", "Principale"), vector<MenuEntry*>({
-        new MenuEntry(language("Shiny", "Chromatique", "Cromatico?"), nullptr, Computer::Editor::Shinify),
+        new MenuEntry(language("Shiny", "Chromatique", "È cromatico?"), nullptr, Computer::Editor::Shinify),
         new MenuEntry(language("Species", "Espèce", "Specie"), nullptr, Computer::Editor::Species),
         new MenuEntry(language("Is Nicknamed", "Surnommer", "È soprannominato?"), nullptr, Computer::Editor::IsNicknamed),
         new MenuEntry(language("Nickname", "Surnom", "Soprannome"), nullptr, Computer::Editor::Nickname),
