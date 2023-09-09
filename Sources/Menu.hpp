@@ -59,7 +59,7 @@ void InitMenu(PluginMenu &menu) {
 
     *primary += new MenuFolder(language("Active", "En combat", "In battaglia"), note + language("must be in a battle to use.", "doit être en combat pour être utilisé.", "devi essere in combattimento per utilizzare questi trucchi."), vector<MenuEntry*>({
         new MenuEntry(language("Slot: ", "Emplacement: ", "Slot: ") << Color::Gray << "0", nullptr, Battle::Universal::SlotKB),
-        new MenuEntry(language("Condition", "Condition", "Problemi di Stato"), nullptr, Battle::Universal::Condition),
+        new MenuEntry(language("Condition", "Condition", "Problemi di stato"), nullptr, Battle::Universal::Condition),
         new MenuEntry(language("Statistics", "Statistiques", "Statistiche"), Battle::Universal::Statistics, Battle::Universal::StatisticsKB),
         new MenuEntry(language("Invincibility", "Invincibilité", "Invincibilità"), Battle::Universal::Invincibility, Battle::Universal::InvincibilityKB),
         new MenuEntry(language("Item", "Objet tenu", "Strumento tenuto"), nullptr, Battle::Universal::Item),

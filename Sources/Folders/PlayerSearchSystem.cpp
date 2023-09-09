@@ -404,7 +404,7 @@ namespace PSS {
             static vector<string> regularOptions;
             KeyboardPlus keyboard;
 
-            for (const Sprites& nickname : (currLang == Lang::ENG ? English::regularIcons : (currLang == Lang::FRE ? French::regularIcons : Italian::regularIcons))) {
+            for (const Sprites &nickname : (currLang == Lang::ENG ? English::regularIcons : (currLang == Lang::FRE ? French::regularIcons : Italian::regularIcons))) {
                 if (iconsAvailable < ((group == Group::XY) ? 35 : 71)) {
                     regularOptions.push_back(nickname.name);
                     iconsAvailable++;
