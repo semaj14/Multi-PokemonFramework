@@ -9,7 +9,7 @@ namespace Misc {
 
     void WeatherKB(MenuEntry *entry) {
         static const vector<string> options = {language("Route 113", "Route 113", "Percorso 113"), language("Route 119", "Route 119", "Percorso 119"), language("Route 120", "Route 120", "Percorso 120"), language("Jagged Pass", "Le Sentier Étroit", "Passo Selvaggio"), language("East Hoenn", "l'Est d'Hoenn", "Hoenn Est")};
-        static const vector<string> conditions = {language("Snow", "Neige", "Neve"), language("Rain", "Pluie", "Pioggia"), language("Rain", "Pluie", "Pioggia"), language("Snow", "Neige", "Snow"), Helpers::PickGame(language("Extremely Harsh Sunlight", "Soleil ardent", "Luce solare estremamente intensa"), language("Heavy Rain", "Pluie diluvienne", "Pioggia battente"))};
+        static const vector<string> conditions = {language("Snow", "Neige", "Neve"), language("Rain", "Pluie", "Pioggia"), language("Rain", "Pluie", "Pioggia"), language("Snow", "Neige", "Neve"), Helpers::PickGame(language("Extremely Harsh Sunlight", "Soleil ardent", "Luce solare estremamente intensa"), language("Heavy Rain", "Pluie diluvienne", "Pioggia battente"))};
         KeyboardPlus keyboard;
 
         if (keyboard.SetKeyboard(entry->Name() + ":", true, options, weatherLocation) != -1) {
