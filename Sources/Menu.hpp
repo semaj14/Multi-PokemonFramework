@@ -16,7 +16,7 @@ void InitMenu(PluginMenu &menu) {
     string note = Color::Orange << language("Note", "Note", "Nota") << Color::White << ": ";
 
     MenuFolder *gts = new MenuFolder("Global Trade Station");
-    *gts += new MenuEntry(language("Configuration", "Configuration", "Criteri GTS"), Helpers::ChooseEntry(PSS::GlobalTradeStation::Configuration, Plaza::GlobalTradeStation::Configuration), Helpers::ChooseEntry(PSS::GlobalTradeStation::ConfigurationKB, Plaza::GlobalTradeStation::ConfigurationKB), note + language("settings for depositing Pokémon.", "paramètres pour déposer des Pokémon.", "impostazioni per il deposito dei Pokémon."));
+    *gts += new MenuEntry(language("Configuration", "Configuration", "Criteri GTS"), Helpers::ChooseEntry(PSS::GlobalTradeStation::Configuration, Plaza::GlobalTradeStation::Configuration), Helpers::ChooseEntry(PSS::GlobalTradeStation::ConfigurationKB, Plaza::GlobalTradeStation::ConfigurationKB), note + language("settings for depositing Pokémon.", "paramètres pour déposer des Pokémon.", "modifica i criteri per il deposito di un Pokémon nel GTS."));
     *gts += new MenuEntry(language("Bypass 1 Deposit", "Contourner un dépôt", "Deposita più Pokémon"), Helpers::ChooseEntry(PSS::GlobalTradeStation::BypassLimit, Plaza::GlobalTradeStation::BypassLimit), note + language("there will no longer be a limit as to how much you may deposit.", "il n'y aura plus de limite quant à la quantité que vous pouvez déposer.", "non ci sarà più un limite su quanti Pokémon puoi depositare nel GTS."));
 
     MenuFolder *plaza = new MenuFolder(language("Festival Plaza", "Place Festival", "Festiplaza"));
@@ -35,7 +35,7 @@ void InitMenu(PluginMenu &menu) {
     MenuFolder *pss = new MenuFolder("Player Search System");
     *pss += gts;
     MenuFolder *profile = new MenuFolder(language("Profile", "Profil", "Profilo"));
-    *profile += new MenuEntry(language("Icon", "Icône de profil", "Icona del profilo"), nullptr, PSS::Profile::Icons);
+    *profile += new MenuEntry(language("Icon", "Icône de profil", "Immagine per tutti"), nullptr, PSS::Profile::Icons);
     *profile += new MenuEntry(language("Nices", "Bravos", "WOW"), nullptr, PSS::Profile::Nices);
     *profile += new MenuEntry(language("Wishes", "Anniversaires", "Auguri"), nullptr, PSS::Profile::Wishes);
     *profile += new MenuEntry(language("Message", "Message", "Messaggio"), nullptr, PSS::Profile::Message);
@@ -51,13 +51,13 @@ void InitMenu(PluginMenu &menu) {
     *pss += opower;
     *pss += new MenuEntry(language("Shout-Out", "Salutation", "Firmallegra"), nullptr, PSS::ShoutOut);
     *pss += new MenuEntry(language("Clear Users", "Effacer les personnes", "Rimuovi passanti"), PSS::ClearUsers, PSS::ClearUsersKB, note + language("save the game and reload to apply the changes forever.", "enregistrez la partie et rechargez pour appliquer les changements de façon permanente.", "salvare il gioco e ricaricarlo per applicare le modifiche per sempre."));
-    *pss += new MenuEntry(language("Bypass Gift & Centre Icon", "Ignorer l'icône de cadeau et de centre", "Ignora le icone Regalo e Centro Pokémon"), PSS::BypassHackedIcons);
+    *pss += new MenuEntry(language("Bypass Gift & Centre Icon", "Ignorer l'icône de cadeau et de centre", "Ignora le immagini Regalo e Centro Pokémon"), PSS::BypassHackedIcons);
     menu += (group == Group::XY || group == Group::ORAS ? pss : plaza);
 
     MenuFolder *battle = new MenuFolder(language("Battle", "Combat", "Battaglia"));
     MenuFolder *primary = new MenuFolder(language("Primary", "Principal", "Primario"));
 
-    *primary += new MenuFolder(language("Active", "En combat", "In battaglia"), note + language("must be in a battle to use.", "doit être en combat pour être utilisé.", "devi essere in combattimento per utilizzare questi trucchi."), vector<MenuEntry*>({
+    *primary += new MenuFolder(language("Active", "En combat", "In battaglia"), note + language("must be in a battle to use.", "doit être en combat pour être utilisé.", "devi essere in battaglia per utilizzare questi trucchi."), vector<MenuEntry*>({
         new MenuEntry(language("Slot: ", "Emplacement: ", "Slot: ") << Color::Gray << "0", nullptr, Battle::Universal::SlotKB),
         new MenuEntry(language("Condition", "Condition", "Problemi di stato"), nullptr, Battle::Universal::Condition),
         new MenuEntry(language("Statistics", "Statistiques", "Statistiche"), Battle::Universal::Statistics, Battle::Universal::StatisticsKB),
@@ -68,7 +68,7 @@ void InitMenu(PluginMenu &menu) {
     }));
 
     *primary += EntryWithHotkey(new MenuEntry(language("Poké View", "Stats Pokémon", "Informazioni Pokémon avversario"), nullptr, Battle::Universal::PokeView, note + language("press the following hotkey(s) below to see the other information. Be aware that this is experiemental for now.", "appuyez sur la (les) touche(s) de raccourci ci-dessous pour voir les autres informations. Notez que ceci est expérimental pour le moment.", "premi il tasto di scelta rapida per visualizzare le altre informazioni. Tieni presente che per il momento si tratta di una funzione sperimentale.")), {Key::X, ""});
-    *primary += EntryWithHotkey(new MenuEntry(language("Access Bag", "Accéder au sac", "Accedi alla borsa"), Battle::Universal::AccessBag, note + language("hold the hotkey(s) below while pressing on an action when in a battle.", "maintenez la (les) touche(s) de raccourci ci-dessous tout en appuyant sur une action lorsque vous êtes en combat.", "Tieni premuto il tasto di scelta rapida mentre clicchi un bottone qualsiasi nel menu battaglia.")), {Key::R, ""});
+    *primary += EntryWithHotkey(new MenuEntry(language("Access Bag", "Accéder au sac", "Accedi alla borsa"), Battle::Universal::AccessBag, note + language("hold the hotkey(s) below while pressing on an action when in a battle.", "maintenez la (les) touche(s) de raccourci ci-dessous tout en appuyant sur une action lorsque vous êtes en combat.", "tieni premuto il tasto di scelta rapida mentre clicchi un bottone qualsiasi nel menu battaglia.")), {Key::R, ""});
 
     if (group == Group::XY || group == Group::ORAS)
         *primary += new MenuEntry(language("Bypass 1 Mega Restrict", "Débloquer 1 restriction Méga", "Rimuovi restrizione Megaevoluzione"), Battle::Gen6::Bypass1MegaRestrict);
@@ -173,7 +173,7 @@ void InitMenu(PluginMenu &menu) {
     *editor += new MenuFolder(language("Stats", "Stats", "Statistiche"), vector<MenuEntry*>({
         new MenuEntry(language("IVs", "IVs", "IV"), nullptr, Computer::Editor::IVs),
         new MenuEntry(language("EVs", "EVs", "EV"), nullptr, Computer::Editor::EVs, note + language("keep in mind that there will be restrictions as to how much you can set per Pokémon.", "gardez à l'esprit qu'il y aura des restrictions quant à la quantité que vous pouvez définir par Pokémon.", "Tieni presente che ci sono delle limitazione per quanto riguarda i punti che potrai impostare.")),
-        new MenuEntry(language("Contest", "Stats de concours", "Statistiche gare"), nullptr, Computer::Editor::Contest)
+        new MenuEntry(language("Contest", "Stats de concours", "Statistiche gara"), nullptr, Computer::Editor::Contest)
     }));
 
     *editor += new MenuFolder(language("Attacks", "Attaques", "Modifica mosse"), vector<MenuEntry*>({

@@ -106,7 +106,7 @@ namespace Battle {
         static u8 boostVal[7];
 
         void StatisticsKB(MenuEntry *entry) {
-            static const vector<string> choice = {language("Base", "Stats de base", "Punti Base"), "Boosts"}, baseChoices = {language("Attack", "Attaque", "Attacco"), language("Defense", "Défense", "Difesa"), language("Sp. Atk", "Attaque Sp.", "Attacco Speciale"), language("Sp. Def", "Défense Sp.", "Difesa Speciale"), language("Speed", "Vitesse", "Velocità")}, boostsChoices = {language("Attack", "Attaque", "Attacco"), language("Defense", "Défense", "Difesa"), language("Sp. Atk", "Attaque Sp.", "Attacco Speciale"), language("Sp. Def", "Défense Sp.", "Difesa Speciale"), language("Speed", "Vitesse", "Velocità"), language("Accuracy", "Précision", "Precisione"), language("Evasiveness", "Esquive", "Illusione")};
+            static const vector<string> choice = {language("Base", "Stats de base", "Punti Base"), language("Boosts", "Boosts", "Incremento")}, baseChoices = {language("Attack", "Attaque", "Attacco"), language("Defense", "Défense", "Difesa"), language("Sp. Atk", "Attaque Sp.", "Attacco Speciale"), language("Sp. Def", "Défense Sp.", "Difesa Speciale"), language("Speed", "Vitesse", "Velocità")}, boostsChoices = {language("Attack", "Attaque", "Attacco"), language("Defense", "Défense", "Difesa"), language("Sp. Atk", "Attaque Sp.", "Attacco Speciale"), language("Sp. Def", "Défense Sp.", "Difesa Speciale"), language("Speed", "Vitesse", "Velocità"), language("Accuracy", "Précision", "Precisione"), language("Evasiveness", "Esquive", "Illusione")};
             u16 getBaseVal;
             u8 getBoostVal;
 
