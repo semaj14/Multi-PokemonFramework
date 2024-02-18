@@ -2525,7 +2525,7 @@ namespace CTRPluginFramework {
 
                 case 382: // Kyogre
                 case 383: // Groudon
-                    options = Helpers::GetVersion<string>({language("Normal", "Normale", "Normale")}, { language("Normal", "Normale", "Normale"), language("Primal", "Primo-Résurgence", "Archeorisveglio")});                    
+                    options = Helpers::GetVersion<string>({language("Normal", "Normale", "Normale")}, {language("Normal", "Normale", "Normale"), language("Primal", "Primo-Résurgence", "Archeorisveglio")});                    
                     break;
 
                 case 386: // Deoxys
