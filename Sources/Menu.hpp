@@ -16,7 +16,7 @@ void InitMenu(PluginMenu &menu) {
     string note = Color::Orange << language("Note", "Note", "Nota") << Color::White << ": ";
 
     MenuFolder *gts = new MenuFolder("Global Trade Station");
-    *gts += new MenuEntry(language("Configuration", "Configuration", "Criteri GTS"), Helpers::ChooseEntry(PSS::GlobalTradeStation::Configuration, Plaza::GlobalTradeStation::Configuration), Helpers::ChooseEntry(PSS::GlobalTradeStation::ConfigurationKB, Plaza::GlobalTradeStation::ConfigurationKB), note + language("settings for depositing Pokémon.", "paramètres pour déposer des Pokémon.", "impostazioni per il deposito dei Pokémon."));
+    *gts += new MenuEntry(language("Configuration", "Configuration", "Criteri GTS"), Helpers::ChooseEntry(PSS::GlobalTradeStation::Configuration, Plaza::GlobalTradeStation::Configuration), Helpers::ChooseEntry(PSS::GlobalTradeStation::ConfigurationKB, Plaza::GlobalTradeStation::ConfigurationKB), note + language("settings for depositing Pokémon.", "paramètres pour déposer des Pokémon.", "modifica i criteri per il deposito di un Pokémon nel GTS."));
     *gts += new MenuEntry(language("Bypass 1 Deposit", "Contourner un dépôt", "Deposita più Pokémon"), Helpers::ChooseEntry(PSS::GlobalTradeStation::BypassLimit, Plaza::GlobalTradeStation::BypassLimit), note + language("there will no longer be a limit as to how much you may deposit.", "il n'y aura plus de limite quant à la quantité que vous pouvez déposer.", "non ci sarà più un limite su quanti Pokémon puoi depositare nel GTS."));
 
     MenuFolder *plaza = new MenuFolder(language("Festival Plaza", "Place Festival", "Festiplaza"));
@@ -35,12 +35,12 @@ void InitMenu(PluginMenu &menu) {
     MenuFolder *pss = new MenuFolder("Player Search System");
     *pss += gts;
     MenuFolder *profile = new MenuFolder(language("Profile", "Profil", "Profilo"));
-    *profile += new MenuEntry(language("Icon", "Icône de profil", "Icona del profilo"), nullptr, PSS::Profile::Icons);
+    *profile += new MenuEntry(language("Icon", "Icône de profil", "Immagine per tutti"), nullptr, PSS::Profile::Icons);
     *profile += new MenuEntry(language("Nices", "Bravos", "WOW"), nullptr, PSS::Profile::Nices);
     *profile += new MenuEntry(language("Wishes", "Anniversaires", "Auguri"), nullptr, PSS::Profile::Wishes);
     *profile += new MenuEntry(language("Message", "Message", "Messaggio"), nullptr, PSS::Profile::Message);
     *profile += new MenuEntry(language("History", "Historique d'activité", "Attività svolte"), nullptr, PSS::Profile::History);
-    *profile += new MenuEntry(language("Location", "Lieu", "Collegamenti"), nullptr, PSS::Profile::Location);
+    *profile += new MenuEntry(language("Location", "Lieu", "Residenza 1"), nullptr, PSS::Profile::Location);
     *profile += new MenuEntry("Links", nullptr, PSS::Profile::Links);
     *profile += new MenuEntry(language("Mini-Survey", "Mini-Enquête", "Mini-Sondaggi"), nullptr, PSS::Profile::MiniSurvey);
     *profile += new MenuEntry(language("People Met", "Personnes rencontrées", "Persone incontrate"), nullptr, PSS::Profile::Greets);
@@ -51,15 +51,15 @@ void InitMenu(PluginMenu &menu) {
     *pss += opower;
     *pss += new MenuEntry(language("Shout-Out", "Salutation", "Firmallegra"), nullptr, PSS::ShoutOut);
     *pss += new MenuEntry(language("Clear Users", "Effacer les personnes", "Rimuovi passanti"), PSS::ClearUsers, PSS::ClearUsersKB, note + language("save the game and reload to apply the changes forever.", "enregistrez la partie et rechargez pour appliquer les changements de façon permanente.", "salvare il gioco e ricaricarlo per applicare le modifiche per sempre."));
-    *pss += new MenuEntry(language("Bypass Gift & Centre Icon", "Ignorer l'icône de cadeau et de centre", "Ignora le icone Regalo e Centro Pokémon"), PSS::BypassHackedIcons);
+    *pss += new MenuEntry(language("Bypass Gift & Centre Icon", "Ignorer l'icône de cadeau et de centre", "Ignora le immagini Regalo e Centro Pokémon"), PSS::BypassHackedIcons);
     menu += (group == Group::XY || group == Group::ORAS ? pss : plaza);
 
     MenuFolder *battle = new MenuFolder(language("Battle", "Combat", "Battaglia"));
     MenuFolder *primary = new MenuFolder(language("Primary", "Principal", "Primario"));
 
-    *primary += new MenuFolder(language("Active", "En combat", "In battaglia"), note + language("must be in a battle to use.", "doit être en combat pour être utilisé.", "devi essere in combattimento per utilizzare questi trucchi."), vector<MenuEntry*>({
+    *primary += new MenuFolder(language("Active", "En combat", "In battaglia"), note + language("must be in a battle to use.", "doit être en combat pour être utilisé.", "devi essere in battaglia per utilizzare questi trucchi."), vector<MenuEntry*>({
         new MenuEntry(language("Slot: ", "Emplacement: ", "Slot: ") << Color::Gray << "0", nullptr, Battle::Universal::SlotKB),
-        new MenuEntry(language("Condition", "Condition", "Problemi di Stato"), nullptr, Battle::Universal::Condition),
+        new MenuEntry(language("Condition", "Condition", "Problemi di stato"), nullptr, Battle::Universal::Condition),
         new MenuEntry(language("Statistics", "Statistiques", "Statistiche"), Battle::Universal::Statistics, Battle::Universal::StatisticsKB),
         new MenuEntry(language("Invincibility", "Invincibilité", "Invincibilità"), Battle::Universal::Invincibility, Battle::Universal::InvincibilityKB),
         new MenuEntry(language("Item", "Objet tenu", "Strumento tenuto"), nullptr, Battle::Universal::Item),
@@ -68,13 +68,13 @@ void InitMenu(PluginMenu &menu) {
     }));
 
     *primary += EntryWithHotkey(new MenuEntry(language("Poké View", "Stats Pokémon", "Informazioni Pokémon avversario"), nullptr, Battle::Universal::PokeView, note + language("press the following hotkey(s) below to see the other information. Be aware that this is experiemental for now.", "appuyez sur la (les) touche(s) de raccourci ci-dessous pour voir les autres informations. Notez que ceci est expérimental pour le moment.", "premi il tasto di scelta rapida per visualizzare le altre informazioni. Tieni presente che per il momento si tratta di una funzione sperimentale.")), {Key::X, ""});
-    *primary += EntryWithHotkey(new MenuEntry(language("Access Bag", "Accéder au sac", "Accedi alla borsa"), Battle::Universal::AccessBag, note + language("hold the hotkey(s) below while pressing on an action when in a battle.", "maintenez la (les) touche(s) de raccourci ci-dessous tout en appuyant sur une action lorsque vous êtes en combat.", "Tieni premuto il tasto di scelta rapida mentre clicchi un bottone qualsiasi nel menu battaglia.")), {Key::R, ""});
+    *primary += EntryWithHotkey(new MenuEntry(language("Access Bag", "Accéder au sac", "Accedi alla borsa"), Battle::Universal::AccessBag, note + language("hold the hotkey(s) below while pressing on an action when in a battle.", "maintenez la (les) touche(s) de raccourci ci-dessous tout en appuyant sur une action lorsque vous êtes en combat.", "tieni premuto il tasto di scelta rapida mentre clicchi un bottone qualsiasi nel menu battaglia.")), {Key::R, ""});
 
     if (group == Group::XY || group == Group::ORAS)
         *primary += new MenuEntry(language("Bypass 1 Mega Restrict", "Débloquer 1 restriction Méga", "Rimuovi restrizione Megaevoluzione"), Battle::Gen6::Bypass1MegaRestrict);
 
     if (group == Group::SM || group == Group::USUM) {
-        *primary += new MenuEntry(language("Always Critical Hit", "Toujours un coup critique", "Colpo sempre Critico"), Battle::Gen7::AlwaysCriticalHit);
+        *primary += new MenuEntry(language("Always Critical Hit", "Toujours un coup critique", "Sempre Brutto colpo"), Battle::Gen7::AlwaysCriticalHit);
         *primary += new MenuEntry(language("Bypass 1 Mega Restrict.", "Débloquer 1 restriction Méga", "Rimuovi restrizione Megaevoluzione"), Battle::Gen7::Bypass1MegaRestrict);
         *primary += new MenuEntry(language("Infinite Z-Moves", "Z-Moves infinis", "Mossa Z infinite"), Battle::Gen7::InfiniteZMoves);
         *primary += EntryWithHotkey(new MenuEntry(language("Z-Moves w/o Crystal", "Z-Moves sans cristal", "Mosse Z senza Cristalli Z"), Battle::Gen7::ZMovesWithoutCrystal, note + language("activate before intiating a battle! When in battle, hold the hotkey(s) below while pressing on an action when in a battle.", "activez avant d'initier un combat ! En combat, maintenez la (les) touche(s) de raccourci ci-dessous tout en appuyant sur une action lorsque vous êtes en combat.", "attivare prima di iniziare una battaglia. Quando si è in battaglia, tieni premuto il tasto di scelta rapida sotto riportato mentre clicchi il tasto Lotta")), {Key::L, ""});
@@ -102,9 +102,9 @@ void InitMenu(PluginMenu &menu) {
     *other += new MenuEntry(language("Guaranteed Catch", "Capture garantie", "Cattura garantita"), Helpers::ChooseEntry(Battle::Gen6::GuaranteedCatch, Battle::Gen7::GuaranteedCatch));
 
     if (group == Group::SM || group == Group::USUM)
-        *other += new MenuEntry(language("Can Catch Trial", "Peut capturer le Pokémon d'épreuve", "Puoi catturare i Pokémon delle prove"), Battle::Gen7::CanCatchTrial);
+        *other += new MenuEntry(language("Can Catch Trial", "Peut capturer le Pokémon d'épreuve", "Cattura i Pokémon delle prove"), Battle::Gen7::CanCatchTrial);
 
-    *other += new MenuEntry(language("Catch Trainer's Pokémon", "Attraper les Pokémon du dresseur", "Catturare i Pokémon degli Allenatori"), Helpers::ChooseEntry(Battle::Gen6::CatchTrainersPokemon, Battle::Gen7::CatchTrainersPokemon));
+    *other += new MenuEntry(language("Catch Trainer's Pokémon", "Attraper les Pokémon du dresseur", "Cattura i Pokémon degli Allenatori"), Helpers::ChooseEntry(Battle::Gen6::CatchTrainersPokemon, Battle::Gen7::CatchTrainersPokemon));
     *battle += other;
     *battle += new MenuEntry(language("Music", "Musique", "Musica"), nullptr, Battle::MusicKB);
     menu += battle;
@@ -140,7 +140,7 @@ void InitMenu(PluginMenu &menu) {
     *editor += new MenuEntry(language("Setup", "Place du Pokémon", "Posizione del Pokémon"), nullptr, Computer::Editor::Initialize, note + language("this is to set up the Pokémon you would like to modify.", "ce paramètre permet de sélectionner le Pokémon que vous souhaitez modifier.", "questo serve per impostare il Pokémon che desideri modificare."));
 
     *editor += new MenuFolder(language("Main", "Principal", "Principale"), vector<MenuEntry*>({
-        new MenuEntry(language("Shiny", "Chromatique", "Cromatico?"), nullptr, Computer::Editor::Shinify),
+        new MenuEntry(language("Shiny", "Chromatique", "È cromatico?"), nullptr, Computer::Editor::Shinify),
         new MenuEntry(language("Species", "Espèce", "Specie"), nullptr, Computer::Editor::Species),
         new MenuEntry(language("Is Nicknamed", "Surnommer", "È soprannominato?"), nullptr, Computer::Editor::IsNicknamed),
         new MenuEntry(language("Nickname", "Surnom", "Soprannome"), nullptr, Computer::Editor::Nickname),
@@ -159,7 +159,7 @@ void InitMenu(PluginMenu &menu) {
         new MenuEntry(language("3DS Region", "Région 3DS", "Regione 3DS"), nullptr, Computer::Editor::ConsoleRegion)
     }));
 
-    *editor += new MenuFolder(language("Obtained", "Obtention", "Ottenuto"), vector<MenuEntry*>({
+    *editor += new MenuFolder(language("Obtained", "Obtention", "Ottenimento"), vector<MenuEntry*>({
         new MenuEntry(language("Origin Game", "Jeu d'origine", "Gioco di origine"), nullptr, Computer::Editor::OriginGame),
         new MenuEntry(language("Met Location", "Lieu de rencontre", "Provenienza"), nullptr, Computer::Editor::MetLocation),
         new MenuEntry(language("Ball", "Ball", "Poké Ball"), nullptr, Computer::Editor::Ball),
@@ -173,7 +173,7 @@ void InitMenu(PluginMenu &menu) {
     *editor += new MenuFolder(language("Stats", "Stats", "Statistiche"), vector<MenuEntry*>({
         new MenuEntry(language("IVs", "IVs", "IV"), nullptr, Computer::Editor::IVs),
         new MenuEntry(language("EVs", "EVs", "EV"), nullptr, Computer::Editor::EVs, note + language("keep in mind that there will be restrictions as to how much you can set per Pokémon.", "gardez à l'esprit qu'il y aura des restrictions quant à la quantité que vous pouvez définir par Pokémon.", "Tieni presente che ci sono delle limitazione per quanto riguarda i punti che potrai impostare.")),
-        new MenuEntry(language("Contest", "Stats de concours", "Statistiche gare"), nullptr, Computer::Editor::Contest)
+        new MenuEntry(language("Contest", "Stats de concours", "Statistiche gara"), nullptr, Computer::Editor::Contest)
     }));
 
     *editor += new MenuFolder(language("Attacks", "Attaques", "Modifica mosse"), vector<MenuEntry*>({
@@ -211,7 +211,7 @@ void InitMenu(PluginMenu &menu) {
             *etc += new MenuEntry(language("Model Swap", "Remplacement de modèle", "Cambia modello"), nullptr, Movement::Gen6::ORAS::ModelSwapKB);
 
         *etc += new MenuEntry(language("Action Music", "Musique d'action", "Musica di sottofondo"), Movement::Gen6::ActionMusic, Movement::Gen6::ActionMusicKB);
-        *etc += new MenuEntry(language("No Action Reset", "Réinitialisation sans action", "Nessun ripristino azione"), Movement::Gen6::NoActionReset);
+        *etc += new MenuEntry(language("No Action Reset", "Réinitialisation sans action", "Nessuna azione Azzeramento"), Movement::Gen6::NoActionReset);
         *etc += EntryWithHotkey(new MenuEntry(language("Teleportation", "Téléportation", "Teletrasporto"), Movement::Gen6::Teleportation, Movement::Gen6::TeleportationKB, note + language("hold the hotkey(s) below while moving.", "maintenez la ou les touches de raccourci ci-dessous enfoncées tout en vous déplaçant.", "premi il tasto di scelta rapida mentre entri in un edificio.")), {Key::L, ""});
         *etc += new MenuEntry(language("Unlock Locations", "Débloquer les lieux", "Sblocca tutte le zone"), nullptr, Movement::Gen6::UnlockLocations);
         *etc += new MenuEntry(language("Can Use Fly Anywhere", "Peut utiliser Vol n'importe où", "Puoi usare Volo ovunque"), Movement::Gen6::CanUseFlyAnywhere, note + language("you must click on a Pokémon's summary through the 'X' menu in game.", "vous devez cliquer sur le résumé d'un Pokémon via le menu 'X' dans le jeu.", "basta che clicchi il bottone Info di un qualsiasi Pokémon che si trova nella nella tua squadra."));

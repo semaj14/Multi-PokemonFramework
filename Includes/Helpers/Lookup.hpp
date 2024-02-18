@@ -2525,7 +2525,7 @@ namespace CTRPluginFramework {
 
                 case 382: // Kyogre
                 case 383: // Groudon
-                    options = Helpers::GetVersion<string>({language("Normal", "Normale", "Normale")}, {language("Normal", "Normale", "Normale"), language("Primal", "Primordiale", "Primordiale")});
+                    options = Helpers::GetVersion<string>({language("Normal", "Normale", "Normale")}, {language("Normal", "Normale", "Normale"), language("Primal", "Primo-Résurgence", "Archeorisveglio")});                    
                     break;
 
                 case 386: // Deoxys
@@ -2730,7 +2730,7 @@ namespace CTRPluginFramework {
 
                 case 382: // Kyogre
                 case 383: // Groudon
-                    options = {language("Normal", "Normale", "Normale"), language("Primal", "Primordiale", "Primordiale")};
+                    options = {language("Normal", "Normale", "Normale"), language("Primal", "Primo-Résurgence", "Archeorisveglio")};
                     break;
 
                 case 386: // Deoxys
@@ -2740,12 +2740,12 @@ namespace CTRPluginFramework {
                 case 412: // Burmy
                 case 413: // Wormadam
                 case 414: // Mothim
-                    options = {language("Plant", "Végétale", "Pianta"), language("Sandy", "Sableuse", "Sabbia"), language("Trash", "Déchet", "Scarti") };
+                    options = {language("Plant", "Végétale", "Pianta"), language("Sandy", "Sableuse", "Sabbia"), language("Trash", "Déchet", "Scarti")};
                     break;
 
                 case 422: // Shellos
                 case 423: // Gastrodon
-                    options = {language("East", "Est", "Mare Est"), language("West" , "Ouest", "Mare Ovest") };
+                    options = {language("East", "Est", "Mare Est"), language("West" , "Ouest", "Mare Ovest")};
                     break;
 
                 case 479: // Rotom
@@ -7510,10 +7510,10 @@ namespace CTRPluginFramework {
     namespace Italian {
         static const Locations allLocs6[97] = {
             {2, "Zona Misteriosa"},
-            {4, "Luogo remoto "},
+            {4, "Luogo Remoto"},
             {6, "Borgo Bozzetto"},
             {8, "Percorso 1"},
-            {9, "Vicolo Bozzetto "},
+            {9, "Vicolo Bozzetto"},
             {10, "Rio Acquerello"},
             {12, "Percorso 2"},
             {13, "Via Progresso"},
@@ -7522,7 +7522,7 @@ namespace CTRPluginFramework {
             {17, "Via Aperta"},
             {18, "Novartopoli"},
             {20, "Percorso 4"},
-            {21, "Fontana delle Perle"},
+            {21, "Viale Parterre"},
             {22, "Luminopoli"},
             {24, "Torre Prisma "},
             {26, "Laboratori Elisio"},
@@ -7604,7 +7604,7 @@ namespace CTRPluginFramework {
             {160, "Varco Lega Pokémon"},
             {162, "Stazione Luminopoli"},
             {164, "Stazione Batikopoli"},
-            {166, "Acquario"},
+            {166, "Acquario Petroglifari"},
             {168, "Grotta Ignota"}
         };
 
@@ -11033,9 +11033,9 @@ namespace CTRPluginFramework {
                 {205, "Recluta Team Idro (F)"},
                 {204, "Recluta Team Idro (M)"},
                 {441, "Tuta Idro"},
-                {177, "Tuta Idro (Brendan)"},
-                {175, "Tuta Idro (Vera)"},
-                {214, "Lyris (Team Idro)"},
+                {177, "Tuta Idro [Brendan]"},
+                {175, "Tuta Idro [Vera]"},
+                {214, "Lyris [Team Idro]"},
                 {201, "Ivan"},
                 {254, "Profumina"},
                 {428, "Bambola Azurill"},
@@ -11111,9 +11111,9 @@ namespace CTRPluginFramework {
                 {200, "Recluta Team Magma (F)"},
                 {199, "Recluta Team Magma (M)"},
                 {440, "Tuta Magma"},
-                {178, "Tuta Magma (Brendan)"},
-                {176, "Tuta Magma (Vera)"},
-                {213, "Lyris (Team Magma)"},
+                {178, "Tuta Magma [Brendan]"},
+                {176, "Tuta Magma [Vera]"},
+                {213, "Lyris [Team Magma]"},
                 {234, "Allevapokémon (M)"},
                 {229, "Nuotatore"},
                 {465, "Marill"},
